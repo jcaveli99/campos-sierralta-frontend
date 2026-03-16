@@ -12,7 +12,7 @@ import {
   CheckCircle2,
   ChevronRight
 } from "lucide-react";
-import * as XLSX from "xlsx";
+import * as XLSX from "xlsx-js-style";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
@@ -53,7 +53,74 @@ export default function HistorialOrdenes() {
   }, []);
 
   const exportarExcel = (id: string) => {
-    // Simulamos que recuperamos los datos del cálculo realizado en la orden de compra previa guardada.
+    // Intentar recuperar el Raw Data completo preservado
+    const fullRawData = localStorage.getItem("orden_compra_full_raw");
+    
+    if (fullRawData) {
+      const ws_data: any[][] = JSON.parse(fullRawData);
+      const ws = XLSX.utils.aoa_to_sheet(ws_data);
+      
+      // Estilo de bordes para todas las celdas
+      const borderStyle = {
+        top: { style: "thin" },
+        bottom: { style: "thin" },
+        left: { style: "thin" },
+        right: { style: "thin" }
+      };
+
+      const headerStyle = {
+        fill: { fgColor: { rgb: "FF8C00" } }, // Naranja (DarkOrange)
+        font: { color: { rgb: "FFFFFF" }, bold: true },
+        border: borderStyle,
+        alignment: { vertical: "center", horizontal: "center", wrapText: true }
+      };
+
+      const bodyStyle = {
+        border: borderStyle,
+        alignment: { vertical: "center", wrapText: true }
+      };
+
+      // Identificar el índice de la cabecera (usualmente donde está 'DESCRIPCION')
+      let headerIdx = -1;
+      ws_data.forEach((row, idx) => {
+        if (row && row.some(cell => String(cell).toUpperCase().includes("DESCRIPCION"))) {
+          headerIdx = idx;
+        }
+      });
+
+      // Aplicar estilos a todas las celdas
+      for (const cellId in ws) {
+        if (cellId[0] === '!') continue;
+        const cell = ws[cellId];
+        const rowIdx = parseInt(cellId.substring(1)) - 1;
+
+        if (rowIdx === headerIdx) {
+          cell.s = headerStyle;
+        } else {
+          cell.s = bodyStyle;
+        }
+      }
+      
+      // Auto-ajuste de columnas dinámico (ancho mínimo según contenido, con tope para wrap)
+      const colWidths = ws_data[0] ? ws_data[0].map((_, colIdx) => {
+        let maxLen = 0;
+        ws_data.forEach(row => {
+          const cellValue = row[colIdx] != null ? String(row[colIdx]) : "";
+          if (cellValue.length > maxLen) maxLen = cellValue.length;
+        });
+        // Limitamos el ancho para que el wrapText tenga sentido en descripciones largas
+        const finalWidth = Math.min(Math.max(maxLen + 2, 10), 40);
+        return { wch: finalWidth };
+      }) : [];
+      ws['!cols'] = colWidths;
+
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Orden_Compra");
+      XLSX.writeFile(wb, `${id}_Reporte_Premium.xlsx`);
+      return;
+    }
+
+    // Fallback: Lógica anterior si no hay raw data (para órdenes antiguas)
     const savedData = localStorage.getItem("orden_compra_actual");
     const productosCalculados = savedData ? JSON.parse(savedData) : [];
 
@@ -62,42 +129,20 @@ export default function HistorialOrdenes() {
       return;
     }
 
-    // El requisito exige "MANTENIENDO EXACTAMENTE el mismo formato de entrada inicial"
-    // Haremos las cabeceras estándar con todas las columnas
     const ws_data = [
       ["DESCRIPCION", "CANTIDAD", "UND. MEDIDA", "TIENDA A", "TIENDA B", "TIENDA C", "TOTAL SOLICITADO", "TOTAL CALCULADO COMPRA"]
     ];
 
     productosCalculados.forEach((prod: any) => {
       ws_data.push([
-        prod.nombre,
-        "", // Cantidad (dejado en blanco intencionalmente como el input)
-        prod.unidadVenta, 
-        "", // Tienda A
-        "", // Tienda B
-        "", // Tienda C
-        prod.cantidadSolicitada,
-        prod.cantidadSolicitada // Este sería el calculado
+        prod.nombre, "", prod.unidadVenta, "", "", "", prod.cantidadSolicitada, prod.cantidadSolicitada
       ]);
     });
 
     const ws = XLSX.utils.aoa_to_sheet(ws_data);
-    
-    // Aplicar algunos estilos básicos simulados
-    ws['!cols'] = [
-      { wch: 30 }, // DESCRIPCION
-      { wch: 10 }, // CANTIDAD
-      { wch: 15 }, // UND. MEDIDA
-      { wch: 10 }, // TIENDA A
-      { wch: 10 }, // TIENDA B
-      { wch: 10 }, // TIENDA C
-      { wch: 20 }, // TOTAL SOLICITADO
-      { wch: 25 }  // TOTAL COMPUTADO COMPRA
-    ];
-
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Orden_Compra");
-    XLSX.writeFile(wb, `${id}_OriginalFormat.xlsx`);
+    XLSX.writeFile(wb, `${id}_Export.xlsx`);
   };
 
   const exportarPDF = (id: string) => {

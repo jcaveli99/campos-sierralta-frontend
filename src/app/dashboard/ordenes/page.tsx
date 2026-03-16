@@ -26,6 +26,8 @@ export default function OrdenesCompra() {
   const [verificacionStock, setVerificacionStock] = useState<StockVerification[]>([]);
   const [showVerification, setShowVerification] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [rawExcelData, setRawExcelData] = useState<any[][]>([]);
+  const [headerRowIndex, setHeaderRowIndex] = useState(-1);
 
   // Simulación de stock total (acumulado de varios días)
   const simulatedTotalStock: { [key: string]: number } = {
@@ -77,6 +79,8 @@ export default function OrdenesCompra() {
             });
 
           setData(orders);
+          setRawExcelData(rawData);
+          setHeaderRowIndex(headerIdx);
         }
       } catch (error) {
         alert("Error al procesar el Excel.");
@@ -149,7 +153,36 @@ export default function OrdenesCompra() {
       return;
     }
 
-    // Simular guardado
+    // --- Lógica de Preservación de Formato Excel ---
+    const updatedRawData = [...rawExcelData];
+    if (headerRowIndex !== -1 && updatedRawData.length > 0) {
+      const colCalculoName = "TOTAL CALCULADO COMPRA";
+      const headerRow = [...updatedRawData[headerRowIndex]];
+      let colIdx = headerRow.findIndex(h => String(h).toUpperCase().includes("TOTAL CALCULADO COMPRA"));
+      
+      if (colIdx === -1) {
+        colIdx = headerRow.length;
+        headerRow[colIdx] = colCalculoName;
+      }
+      
+      updatedRawData[headerRowIndex] = headerRow;
+      
+      // Mapear resultados de verificación al Raw Data
+      for (let i = headerRowIndex + 1; i < updatedRawData.length; i++) {
+        const row = updatedRawData[i];
+        if (row && row[0]) {
+          const productDesc = String(row[0]).trim();
+          const result = verificacionStock.find(r => r.producto === productDesc);
+          if (result) {
+            updatedRawData[i] = [...row];
+            updatedRawData[i][colIdx] = result.compraRecomendada;
+          }
+        }
+      }
+      localStorage.setItem("orden_compra_full_raw", JSON.stringify(updatedRawData));
+    }
+
+    // Simular guardado (legacy format for other views if needed)
     localStorage.setItem("orden_compra_actual", JSON.stringify(productosAComprar));
     
     // Mostrar modal en lugar de redireccionar
