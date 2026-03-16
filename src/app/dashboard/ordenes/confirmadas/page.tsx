@@ -146,10 +146,9 @@ export default function HistorialOrdenes() {
   };
 
   const exportarPDF = (id: string) => {
-    const savedData = localStorage.getItem("orden_compra_actual");
-    const productosCalculados = savedData ? JSON.parse(savedData) : [];
-
-    const doc = new jsPDF('p', 'pt', 'a4'); // 'p' para Portrait (Vertical)
+    // Intentar recuperar el Raw Data completo preservado
+    const fullRawData = localStorage.getItem("orden_compra_full_raw");
+    const doc = new jsPDF('p', 'pt', 'a4');
     
     // Título y Encabezado
     doc.setFontSize(18);
@@ -164,25 +163,52 @@ export default function HistorialOrdenes() {
     doc.setLineWidth(1);
     doc.line(40, 95, 550, 95);
 
+    if (fullRawData) {
+      const ws_data: any[][] = JSON.parse(fullRawData);
+      
+      // Identificar cabecera
+      let headerIdx = ws_data.findIndex(row => 
+        row && row.some(cell => String(cell).toUpperCase().includes("DESCRIPCION"))
+      );
+      
+      if (headerIdx !== -1) {
+        const tableColumn = ws_data[headerIdx].map(h => String(h || ""));
+        const tableRows = ws_data.slice(headerIdx + 1);
+
+        (doc as any).autoTable({
+          head: [tableColumn],
+          body: tableRows,
+          startY: 110,
+          theme: 'grid',
+          styles: { fontSize: 7, font: 'helvetica', cellPadding: 3 },
+          headStyles: { 
+            fillColor: [255, 140, 0], // Naranja premium
+            textColor: 255, 
+            fontStyle: 'bold', 
+            halign: 'center' 
+          },
+          alternateRowStyles: { fillColor: [249, 250, 251] },
+        });
+
+        doc.save(`${id}_Reporte_Premium.pdf`);
+        return;
+      }
+    }
+
+    // Fallback: Lógica anterior si no hay raw data
+    const savedData = localStorage.getItem("orden_compra_actual");
+    const productosCalculados = savedData ? JSON.parse(savedData) : [];
+
     if (productosCalculados.length === 0) {
       doc.text("No hay datos de compra para mostrar.", 40, 115);
       doc.save(`${id}_Vertical.pdf`);
       return;
     }
 
-    // Mapeo para AutoTable Vertical Limpio y Ordenado
     const tableColumn = ["#", "Producto", "Unidad", "Total a Comprar (Calculado)"];
-    const tableRows: any[] = [];
-
-    productosCalculados.forEach((prod: any, index: number) => {
-      const rowData = [
-        index + 1,
-        prod.nombre,
-        prod.unidadVenta,
-        prod.cantidadSolicitada.toString()
-      ];
-      tableRows.push(rowData);
-    });
+    const tableRows = productosCalculados.map((prod: any, index: number) => [
+      index + 1, prod.nombre, prod.unidadVenta, prod.cantidadSolicitada.toString()
+    ]);
 
     (doc as any).autoTable({
       head: [tableColumn],
@@ -190,14 +216,8 @@ export default function HistorialOrdenes() {
       startY: 110,
       theme: 'grid',
       styles: { fontSize: 9, font: 'helvetica' },
-      headStyles: { fillColor: [29, 78, 216], textColor: 255, fontStyle: 'bold' },
-      alternateRowStyles: { fillColor: [249, 250, 251] },
-      columnStyles: {
-        0: { cellWidth: 30, halign: 'center' },
-        1: { cellWidth: 260 },
-        2: { cellWidth: 80, halign: 'center' },
-        3: { halign: 'center', fontStyle: 'bold', textColor: [29, 78, 216] }
-      }
+      headStyles: { fillColor: [255, 140, 0], textColor: 255, fontStyle: 'bold' },
+      alternateRowStyles: { fillColor: [249, 250, 251] }
     });
 
     doc.save(`${id}_Vertical.pdf`);
