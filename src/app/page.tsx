@@ -108,10 +108,10 @@ export default function Login() {
         <div style={{ marginTop: "var(--spacing-xl)", backgroundColor: "var(--secondary)", padding: "var(--spacing-md)", borderRadius: "var(--radius-sm)" }}>
           <p style={{ fontSize: "8px", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: "8px" }}>Usuarios de Prueba:</p>
           <div style={{ fontSize: "9px", color: "#666", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-             <div><strong>Dueño:</strong> dueno / admin123</div>
-             <div><strong>Supervisor:</strong> supervisor / super123</div>
-             <div><strong>Encargado:</strong> tienda / tienda123</div>
-             <div><strong>Trabajador:</strong> trabajador / mercado123</div>
+             <div><strong>Dueño:</strong> dueno@campos-sierralta.com / admin123</div>
+             <div><strong>Supervisor:</strong> supervisor@campos-sierralta.com / super123</div>
+             <div><strong>Encargado:</strong> tienda@campos-sierralta.com / tienda123</div>
+             <div><strong>Trabajador:</strong> trabajador@campos-sierralta.com / mercado123</div>
           </div>
         </div>
       </div>
