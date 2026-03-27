@@ -160,12 +160,13 @@ export default function Dashboard() {
       <h3 style={{ fontSize: "var(--font-base)", marginBottom: "var(--spacing-md)", fontWeight: 800, display: "flex", alignItems: "center", gap: "8px" }}>
         <Zap size={18} color="var(--primary)" /> Accesos Rápidos
       </h3>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px", marginBottom: "var(--spacing-xl)" }}>
+      <div className="quick-access-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px", marginBottom: "var(--spacing-xl)" }}>
         {currentData.shortcuts.map((shortcut: any, i: number) => {
           const Icon = shortcut.icon;
           return (
             <button 
               key={i}
+              className="quick-access-btn"
               onClick={() => router.push(shortcut.path)}
               style={{
                 display: "flex", alignItems: "center", gap: "10px",
@@ -178,11 +179,11 @@ export default function Dashboard() {
               onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,0,0,0.02)"; e.currentTarget.style.borderColor = "var(--border)"; }}
             >
               <div style={{ width: "4px", backgroundColor: shortcut.color, position: "absolute", left: 0, top: 0, bottom: 0 }} />
-              <div style={{ width: "32px", height: "32px", borderRadius: "6px", backgroundColor: shortcut.bg, color: shortcut.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginLeft: "4px" }}>
+              <div className="quick-icon-wrapper" style={{ width: "32px", height: "32px", borderRadius: "6px", backgroundColor: shortcut.bg, color: shortcut.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginLeft: "4px" }}>
                 <Icon size={18} />
               </div>
               <span style={{ fontSize: "var(--font-xs)", fontWeight: 800, color: "var(--text-main)", lineHeight: 1.2, flex: 1 }}>{shortcut.label}</span>
-              <Pointer size={14} color="var(--text-muted)" style={{ opacity: 0.6 }} />
+              <Pointer className="quick-pointer-icon" size={14} color="var(--text-muted)" style={{ opacity: 0.6 }} />
             </button>
           );
         })}

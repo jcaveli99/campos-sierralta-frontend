@@ -229,6 +229,31 @@ input:focus {
     gap: 4px !important;
   }
 
+  /* Force 2 columns on mobile for shortcuts */
+  .quick-access-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  .quick-access-btn {
+    padding: 8px 6px !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    height: auto !important;
+  }
+  .quick-access-btn .quick-icon-wrapper {
+    margin-left: 0 !important;
+    margin-bottom: 4px !important;
+  }
+  .quick-access-btn span {
+    font-size: 9px !important;
+    line-height: 1.1 !important;
+    width: 100% !important;
+  }
+  .quick-access-btn .quick-pointer-icon {
+    display: none !important; /* hide pointer icon on mobile to save space */
+  }
+
   /* Layout Overrides */
   .dashboard-layout {
     flex-direction: column !important;
@@ -281,7 +306,7 @@ input:focus {
   }
 
   .main-content {
-    padding: var(--spacing-sm) !important;
+    padding: 16px !important;
   }
   
   /* Responsive inputs and headers */
