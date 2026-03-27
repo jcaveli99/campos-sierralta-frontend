@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Package, RefreshCw, TrendingDown, History, Info, AlertTriangle, ShieldCheck } from "lucide-react";
+import { Package, RefreshCw, TrendingDown, History, Info, AlertTriangle, ShieldCheck, AlertCircle, Hand, ArrowRight } from "lucide-react";
 
 interface StockItem {
   id: string;
@@ -36,7 +36,7 @@ export default function Inventario() {
   };
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+    <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
       <header style={{ marginBottom: "var(--spacing-lg)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
           <h1 style={{ fontSize: "var(--font-lg)" }}>Control de Stock Acumulado (Total)</h1>
@@ -44,8 +44,8 @@ export default function Inventario() {
             Gestión de todos los sobrantes históricos y descuento automático de mermas.
           </p>
         </div>
-        <div style={{ display: "flex", gap: "var(--spacing-sm)" }}>
-          <button className="card" style={{ padding: "var(--spacing-sm) var(--spacing-md)", fontSize: "10px", display: "flex", alignItems: "center", gap: "4px" }}>
+        <div className="responsive-flex" style={{ display: "flex", gap: "var(--spacing-sm)" }}>
+          <button className="card" style={{ padding: "var(--spacing-sm) var(--spacing-md)", fontSize: "10px", display: "flex", alignItems: "center", gap: "4px", justifyContent: "center" }}>
             <History size={14} /> Ver Historial de Movimientos
           </button>
           <button className="btn-primary" style={{ display: "flex", alignItems: "center", gap: "var(--spacing-sm)" }}>
@@ -55,39 +55,29 @@ export default function Inventario() {
         </div>
       </header>
 
-      {/* Alerta de Stock Consolidado */}
-      <div style={{ 
-        padding: "var(--spacing-md)", 
-        backgroundColor: "#eff6ff", 
-        border: "1px solid #bfdbfe", 
-        borderRadius: "var(--radius-md)", 
-        marginBottom: "var(--spacing-lg)",
-        display: "flex",
-        alignItems: "center",
-        gap: "var(--spacing-md)"
-      }}>
-        <div style={{ padding: "var(--spacing-sm)", backgroundColor: "#3b82f6", borderRadius: "50%" }}>
-          <ShieldCheck size={20} color="white" />
-        </div>
-        <div>
-          <h4 style={{ color: "#1e3a8a", margin: 0, fontSize: "var(--font-sm)" }}>Lógica de Stock Multi-Día Activada</h4>
-          <p style={{ color: "#1e40af", fontSize: "var(--font-xs)", margin: 0 }}>
-            El sistema está sumando automáticamente todos los productos sobrantes registrados en días anteriores para evitar compras innecesarias.
-          </p>
-        </div>
+      {/* Tip Info Verde */}
+      <div style={{ padding: "var(--spacing-md)", backgroundColor: "rgba(22, 163, 74, 0.05)", borderRadius: "var(--radius-md)", border: "1px solid rgba(22, 163, 74, 0.2)", display: "flex", alignItems: "flex-start", gap: "var(--spacing-md)", marginBottom: "var(--spacing-lg)" }}>
+        <AlertCircle size={18} color="var(--success)" style={{ flexShrink: 0, marginTop: "2px" }} />
+        <p style={{ margin: 0, fontSize: "var(--font-xs)", color: "var(--success)" }}>
+          <strong>Importante:</strong> El stock suma automáticamente los sobrantes de ayer. Reporta cualquier producto dañado aquí mismo para descontarlo del stock total real.
+        </p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "2.5fr 1fr", gap: "var(--spacing-lg)" }}>
+      <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "2.5fr 1fr", gap: "var(--spacing-lg)" }}>
         {/* Tabla de Stock */}
         <div className="card" style={{ padding: 0 }}>
-          <table className="compact-table">
-            <thead>
+          <div className="mobile-scroll-hint">
+            <Hand size={14} /> <span>Desliza la tabla para ver más</span> <ArrowRight size={14} />
+          </div>
+          <div style={{ overflowX: "auto" }}>
+            <table className="compact-table" style={{ minWidth: "100%" }}>
+              <thead>
               <tr>
-                <th style={{ width: "250px" }}>Producto</th>
-                <th style={{ textAlign: "center" }}>Stock Total Acumulado</th>
-                <th style={{ textAlign: "center" }}>Sobrante Ayer</th>
-                <th style={{ textAlign: "center", color: "var(--error)" }}>Merma Hoy</th>
-                <th style={{ textAlign: "center" }}>Estado</th>
+                <th style={{ width: "250px", minWidth: "180px" }}>Producto</th>
+                <th style={{ textAlign: "center", minWidth: "140px" }}>Stock Acumulado</th>
+                <th style={{ textAlign: "center", minWidth: "100px" }}>Sobrante Ayer</th>
+                <th style={{ textAlign: "center", color: "var(--error)", minWidth: "90px" }}>Merma Hoy</th>
+                <th style={{ textAlign: "center", minWidth: "130px" }}>Estado</th>
               </tr>
             </thead>
             <tbody>
@@ -111,7 +101,8 @@ export default function Inventario() {
                 </tr>
               ))}
             </tbody>
-          </table>
+            </table>
+          </div>
         </div>
 
         {/* Panel de Registro de Merma Rápida */}

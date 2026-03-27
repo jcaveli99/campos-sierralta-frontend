@@ -190,7 +190,7 @@ export default function OrdenesCompra() {
   };
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", paddingBottom: "100px" }}>
+    <div style={{ maxWidth: "1200px", margin: "0 auto", paddingBottom: "100px", width: "100%" }}>
       <header style={{ marginBottom: "var(--spacing-lg)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
           <h1 style={{ fontSize: "var(--font-lg)" }}>Órdenes de Compra</h1>
@@ -205,6 +205,14 @@ export default function OrdenesCompra() {
           <input type="file" hidden accept=".xlsx, .xls" onChange={handleFileUpload} />
         </label>
       </header>
+
+      {/* Tip Info Verde */}
+      <div style={{ padding: "var(--spacing-md)", backgroundColor: "rgba(22, 163, 74, 0.05)", borderRadius: "var(--radius-md)", border: "1px solid rgba(22, 163, 74, 0.2)", display: "flex", alignItems: "center", gap: "var(--spacing-md)", marginBottom: "var(--spacing-md)" }}>
+        <AlertCircle size={18} color="var(--success)" />
+        <p style={{ margin: 0, fontSize: "var(--font-xs)", color: "var(--success)" }}>
+           <strong>Importante:</strong> Carga aquí el Excel con las ordenes de compra (ej. Rappi etc). El sistema calculará automáticamente cuánto debes comprar descontando tu stock en tiempo real.
+        </p>
+      </div>
 
       {fechaReporte && (
         <div style={{ marginBottom: "var(--spacing-md)", padding: "var(--spacing-sm)", backgroundColor: "var(--primary)", color: "white", borderRadius: "var(--radius-sm)", display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "var(--font-xs)", fontWeight: 600 }}>
@@ -242,12 +250,12 @@ export default function OrdenesCompra() {
             </table>
           </div>
 
-          <div style={{ padding: "var(--spacing-md)", backgroundColor: "var(--secondary)", display: "flex", justifyContent: "flex-end", gap: "var(--spacing-md)" }}>
-            <button className="btn-primary" style={{ backgroundColor: "#333" }} onClick={analizarStockAcumulado}>
+          <div className="responsive-flex" style={{ padding: "var(--spacing-md)", backgroundColor: "var(--secondary)", display: "flex", justifyContent: "flex-end", gap: "var(--spacing-md)" }}>
+            <button className="btn-primary" style={{ backgroundColor: "#333", display: "flex", alignItems: "center", justifyContent: "center" }} onClick={analizarStockAcumulado}>
               <Calculator size={14} style={{ marginRight: "var(--spacing-sm)" }} />
               Verificar vs Stock Total
             </button>
-            <button className="btn-primary" onClick={handleConfirmar}>
+            <button className="btn-primary" style={{ display: "flex", alignItems: "center", justifyContent: "center" }} onClick={handleConfirmar}>
               <CheckCircle2 size={14} style={{ marginRight: "var(--spacing-sm)" }} />
               Confirmar Pedido Consolidado
             </button>

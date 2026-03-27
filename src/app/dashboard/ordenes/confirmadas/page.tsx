@@ -10,7 +10,10 @@ import {
   Filter,
   Bell,
   CheckCircle2,
-  ChevronRight
+  ChevronRight,
+  AlertCircle,
+  Hand,
+  ArrowRight
 } from "lucide-react";
 import * as XLSX from "xlsx-js-style";
 import jsPDF from "jspdf";
@@ -224,7 +227,7 @@ export default function HistorialOrdenes() {
   };
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", paddingBottom: "100px" }}>
+    <div style={{ maxWidth: "1200px", margin: "0 auto", paddingBottom: "100px", width: "100%" }}>
       {/* NOTIFICACIÓN SIMULADA */}
       {showNotification && (
         <div style={{ 
@@ -265,52 +268,65 @@ export default function HistorialOrdenes() {
         </p>
       </header>
 
+      {/* Tip Info Verde */}
+      <div style={{ padding: "var(--spacing-md)", backgroundColor: "rgba(22, 163, 74, 0.05)", borderRadius: "var(--radius-md)", border: "1px solid rgba(22, 163, 74, 0.2)", display: "flex", alignItems: "center", gap: "var(--spacing-md)", marginBottom: "var(--spacing-xl)" }}>
+        <AlertCircle size={18} color="var(--success)" />
+        <p style={{ margin: 0, fontSize: "var(--font-xs)", color: "var(--success)" }}>
+           <strong>Importante:</strong> Aquí se almacenan las órdenes procesadas. Descarga el Excel para llevar al mercado, o el PDF Vertical para agilizar el armado en turno de noche.
+        </p>
+      </div>
+
       <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-        <table className="compact-table">
-          <thead>
-            <tr style={{ backgroundColor: "var(--secondary)" }}>
-              <th style={{ width: "150px" }}>Código OC</th>
-              <th>Fecha del Reporte</th>
-              <th style={{ textAlign: "center" }}>Prod.</th>
-              <th style={{ textAlign: "center" }}>Total Unid.</th>
-              <th>Generado Por</th>
-              <th style={{ textAlign: "center" }}>Estado</th>
-              <th style={{ width: "240px" }}>Descargas Disponibles</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ordenes.map((oc) => (
-              <tr key={oc.id}>
-                <td style={{ fontWeight: 700, color: "var(--primary)" }}>{oc.id}</td>
-                <td style={{ fontWeight: 600 }}>{oc.fecha}</td>
-                <td style={{ textAlign: "center" }}>{oc.itemsCount}</td>
-                <td style={{ textAlign: "center", fontWeight: 700 }}>{oc.totalUnidades}</td>
-                <td>{oc.creadoPor}</td>
-                <td style={{ textAlign: "center" }}>
-                   <span style={{ fontSize: "9px", padding: "2px 8px", borderRadius: "10px", background: "rgba(255, 69, 0, 0.1)", color: "var(--primary)", fontWeight: 700 }}>{oc.estado}</span>
-                </td>
-                <td>
-                  <div style={{ display: "flex", gap: "6px" }}>
-                    <button 
-                      onClick={() => exportarExcel(oc.id)}
-                      className="btn-primary"
-                      style={{ padding: "6px 12px", backgroundColor: "#1d6f42", fontSize: "9px", flex: 1 }}
-                    >
-                      <FileSpreadsheet size={12} style={{ marginRight: "4px" }} /> EXCEL
-                    </button>
-                    <button 
-                      onClick={() => exportarPDF(oc.id)}
-                      className="btn-primary"
-                      style={{ padding: "6px 12px", backgroundColor: "#c43e1c", fontSize: "9px", flex: 1 }}
-                    >
-                      <FileText size={12} style={{ marginRight: "4px" }} /> PDF VERTICAL
-                    </button>
-                  </div>
-                </td>
+        <div className="mobile-scroll-hint" style={{ marginTop: "12px", marginRight: "12px" }}>
+          <Hand size={14} /> <span>Desliza la tabla para ver más</span> <ArrowRight size={14} />
+        </div>
+        <div style={{ overflowX: "auto" }}>
+          <table className="compact-table" style={{ width: "100%" }}>
+            <thead>
+              <tr style={{ backgroundColor: "var(--secondary)" }}>
+                <th style={{ width: "150px" }}>Código OC</th>
+                <th>Fecha del Reporte</th>
+                <th style={{ textAlign: "center" }}>Prod.</th>
+                <th style={{ textAlign: "center" }}>Total Unid.</th>
+                <th>Generado Por</th>
+                <th style={{ textAlign: "center" }}>Estado</th>
+                <th style={{ width: "240px" }}>Descargas Disponibles</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {ordenes.map((oc) => (
+                <tr key={oc.id}>
+                  <td style={{ fontWeight: 700, color: "var(--primary)" }}>{oc.id}</td>
+                  <td style={{ fontWeight: 600 }}>{oc.fecha}</td>
+                  <td style={{ textAlign: "center" }}>{oc.itemsCount}</td>
+                  <td style={{ textAlign: "center", fontWeight: 700 }}>{oc.totalUnidades}</td>
+                  <td>{oc.creadoPor}</td>
+                  <td style={{ textAlign: "center" }}>
+                     <span style={{ fontSize: "9px", padding: "2px 8px", borderRadius: "10px", background: "rgba(255, 69, 0, 0.1)", color: "var(--primary)", fontWeight: 700 }}>{oc.estado}</span>
+                  </td>
+                  <td>
+                    <div style={{ display: "flex", gap: "6px" }}>
+                      <button 
+                        onClick={() => exportarExcel(oc.id)}
+                        className="btn-primary"
+                        style={{ padding: "6px 12px", backgroundColor: "#1d6f42", fontSize: "9px", flex: 1 }}
+                      >
+                        <FileSpreadsheet size={12} style={{ marginRight: "4px" }} /> EXCEL
+                      </button>
+                      <button 
+                        onClick={() => exportarPDF(oc.id)}
+                        className="btn-primary"
+                        style={{ padding: "6px 12px", backgroundColor: "#c43e1c", fontSize: "9px", flex: 1 }}
+                      >
+                        <FileText size={12} style={{ marginRight: "4px" }} /> PDF VERTICAL
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <style jsx>{`

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { 
   Camera, 
   Search,
@@ -10,7 +10,22 @@ import {
   Lock,
   X,
   Save,
-  Trash2
+  Trash2,
+  ShoppingBag,
+  ChevronRight,
+  DollarSign,
+  Package,
+  Truck,
+  AlertTriangle,
+  FileText,
+  RotateCcw,
+  TrendingDown,
+  ArrowLeftRight,
+  AlertCircle,
+  Upload,
+  Settings,
+  Hand,
+  ArrowRight
 } from "lucide-react";
 
 interface ProductRecord {
@@ -20,12 +35,11 @@ interface ProductRecord {
   unidadVenta: string; 
   unidadCompra: string;
   cantidadComprada: number; 
-  costoUnitario: number; // NUEVO: Costo por unidad de compra
-  montoTotal: number;    // Calculado
+  costoUnitario: number;
+  montoTotal: number;
   proveedor: string;
   fotos: string[];
   esAdicional: boolean;
-  // Acciones individuales
   merma: string;
   sobrante: string;
   devueltoProveedor: string;
@@ -44,15 +58,15 @@ export default function RegistroCompras() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState<string | null>(null);
-  const [fechaFiltro, setFechaFiltro] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [fechaFiltro] = useState<string>(new Date().toISOString().split("T")[0]);
 
-  // Modales y Controladores de Estado
   const [isLockedPhase, setIsLockedPhase] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [newAdicional, setNewAdicional] = useState({ nombre: "", cantidad: 0, unidadCompra: "KG", costoUnitario: 0, proveedor: "" });
-  
-  // Estado para los modales de acción (Sobrante, Merma, Devoluciones)
+  const [activePhotoModal, setActivePhotoModal] = useState<string | null>(null);
+  const [activeOptionsRow, setActiveOptionsRow] = useState<string | null>(null);
+
   const [activeActionModal, setActiveActionModal] = useState<{
     itemId: string;
     productName: string;
@@ -65,7 +79,6 @@ export default function RegistroCompras() {
     const currentRole = localStorage.getItem("user_role") || "trabajador";
     setRole(currentRole);
     
-    // Cargar Catálogo (Simulado)
     const savedData = localStorage.getItem("orden_compra_actual");
     if (savedData) {
       const parsed = JSON.parse(savedData);
@@ -79,35 +92,32 @@ export default function RegistroCompras() {
         proveedor: "",
         fotos: [],
         esAdicional: false,
-        merma: "",
-        sobrante: "",
-        devueltoProveedor: "",
-        devueltoCliente: ""
+        merma: "", sobrante: "", devueltoProveedor: "", devueltoCliente: ""
       }));
       setAllItems(formattedItems);
     } else {
-      // Data dummy si no hay orden
       setAllItems([
         { id: "1", nombre: "PLATANO", cantidadSolicitada: 50, unidadVenta: "KG", unidadCompra: "KG", cantidadComprada: 0, costoUnitario: 0, montoTotal: 0, proveedor: "", fotos: [], esAdicional: false, merma: "", sobrante: "", devueltoProveedor: "", devueltoCliente: "" },
-        { id: "2", nombre: "FRESA", cantidadSolicitada: 20, unidadVenta: "KG", unidadCompra: "KG", cantidadComprada: 0, costoUnitario: 0, montoTotal: 0, proveedor: "", fotos: [], esAdicional: false, merma: "", sobrante: "", devueltoProveedor: "", devueltoCliente: "" }
+        { id: "2", nombre: "FRESA", cantidadSolicitada: 20, unidadVenta: "KG", unidadCompra: "KG", cantidadComprada: 0, costoUnitario: 0, montoTotal: 0, proveedor: "", fotos: [], esAdicional: false, merma: "", sobrante: "", devueltoProveedor: "", devueltoCliente: "" },
+        { id: "3", nombre: "BRÓCOLI BANDEJA", cantidadSolicitada: 30, unidadVenta: "KG", unidadCompra: "KG", cantidadComprada: 0, costoUnitario: 0, montoTotal: 0, proveedor: "", fotos: [], esAdicional: false, merma: "", sobrante: "", devueltoProveedor: "", devueltoCliente: "" },
+        { id: "4", nombre: "TOMATE ESPECIAL", cantidadSolicitada: 25, unidadVenta: "KG", unidadCompra: "KG", cantidadComprada: 0, costoUnitario: 0, montoTotal: 0, proveedor: "", fotos: [], esAdicional: false, merma: "", sobrante: "", devueltoProveedor: "", devueltoCliente: "" },
       ]);
     }
     setLoading(false);
 
-    // Calcular Tiempo
     const checkTime = () => {
       const now = new Date();
       const limite = new Date();
-      limite.setHours(17, 0, 0, 0); // 5:00 PM
+      limite.setHours(17, 0, 0, 0);
       
       if (now > limite) {
         setIsLockedPhase(true);
-        setTimeRemaining("Tiempo Excedido (5:00 PM Límite)");
+        setTimeRemaining("Tiempo Excedido");
       } else {
         const diff = limite.getTime() - now.getTime();
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        setTimeRemaining(`Quedan ${hours}h ${minutes}m`);
+        setTimeRemaining(`${hours}h ${minutes}m`);
       }
     };
     checkTime();
@@ -119,8 +129,6 @@ export default function RegistroCompras() {
     setAllItems(allItems.map(item => {
       if (item.id !== id) return item;
       const updatedItem = { ...item, [field]: value };
-      
-      // Auto-calcular Monto Total
       if (field === "cantidadComprada" || field === "costoUnitario") {
         updatedItem.montoTotal = parseFloat((updatedItem.cantidadComprada * updatedItem.costoUnitario).toFixed(2));
       }
@@ -128,15 +136,28 @@ export default function RegistroCompras() {
     }));
   };
 
-  const addPhoto = (id: string) => {
-    const item = allItems.find(i => i.id === id);
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>, itemId: string) => {
+    const files = e.target.files;
+    if (!files) return;
+    const item = allItems.find(i => i.id === itemId);
     if (!item) return;
-    if (item.fotos.length >= 6) {
+    
+    const remainingSlots = 6 - item.fotos.length;
+    if (remainingSlots <= 0) {
       alert("Límite de 6 fotos alcanzado.");
       return;
     }
-    const newPhoto = `https://images.unsplash.com/photo-1590664095641-7fa05f689813?auto=format&fit=crop&w=150&q=80`;
-    updateItem(id, 'fotos', [...item.fotos, newPhoto]);
+
+    const newPhotos: string[] = [];
+    const filesToProcess = Array.from(files).slice(0, remainingSlots);
+
+    filesToProcess.forEach(file => {
+      const url = URL.createObjectURL(file);
+      newPhotos.push(url);
+    });
+
+    updateItem(itemId, 'fotos', [...item.fotos, ...newPhotos]);
+    e.target.value = "";
   };
 
   const removePhoto = (id: string, indexToRemove: number) => {
@@ -174,7 +195,6 @@ export default function RegistroCompras() {
       devueltoProveedor: "Devolución a Proveedor",
       devueltoCliente: "Devolución de Cliente"
     };
-    
     setActiveActionModal({
       itemId: item.id,
       productName: item.nombre,
@@ -197,7 +217,6 @@ export default function RegistroCompras() {
       alert("No has registrado ninguna cantidad comprada.");
       return;
     }
-    
     for (const item of itemsComprados) {
       if (item.fotos.length === 0) {
         alert(`Falta foto de boleta para: ${item.nombre}`);
@@ -208,7 +227,6 @@ export default function RegistroCompras() {
         return;
       }
     }
-    
     alert("¡Registros guardados exitosamente!");
   };
 
@@ -216,250 +234,335 @@ export default function RegistroCompras() {
     item.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const isAdminOverride = role === 'dueño' || role === 'supervisor';
+  const isAdminOverride = role === 'admin' || role === 'supervisor';
   const isFormDisabled = isLockedPhase && !isAdminOverride;
+
+  const totalGastado = allItems.reduce((s, i) => s + i.montoTotal, 0);
+
+
+  const fechaFormateada = new Date(fechaFiltro + "T12:00:00").toLocaleDateString("es-PE", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  const actionButtons = [
+    { key: 'devueltoProveedor' as const, label: 'Dev. Proveedor', icon: RotateCcw, color: '#c2410c', bg: 'rgba(194,65,12,0.08)' },
+    { key: 'merma' as const, label: 'Merma', icon: TrendingDown, color: '#b91c1c', bg: 'rgba(185,28,28,0.08)' },
+    { key: 'sobrante' as const, label: 'Sobrante', icon: Package, color: '#1d4ed8', bg: 'rgba(29,78,216,0.08)' },
+    { key: 'devueltoCliente' as const, label: 'Dev. Cliente', icon: ArrowLeftRight, color: '#047857', bg: 'rgba(4,120,87,0.08)' }
+  ];
 
   if (loading) return <div style={{ padding: "100px", textAlign: "center" }}>Cargando...</div>;
 
-  const headerStyle = { 
-    backgroundColor: "var(--secondary)", 
-    color: "var(--foreground)", 
-    padding: "var(--spacing-md)", 
-    textAlign: "center" as const, 
-    fontWeight: 600,
-    fontSize: "12px",
-    borderBottom: "2px solid var(--border)"
-  };
-
   return (
-    <div style={{ maxWidth: "1400px", margin: "0 auto", paddingBottom: "100px", fontFamily: "Arial, sans-serif" }}>
+    <div style={{ maxWidth: "1400px", margin: "0 auto", paddingBottom: "100px", width: "100%" }}>
       
-      {/* HEADER PRINCIPAL */}
-      <header style={{ marginBottom: "var(--spacing-xl)", display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderBottom: "1px solid var(--border)", paddingBottom: "var(--spacing-md)" }}>
-        <div>
-          <h1 style={{ fontSize: "var(--font-xl)", fontWeight: 800, margin: "0 0 var(--spacing-sm) 0" }}>Registro Diario de Compras</h1>
-          <p style={{ color: "var(--text-muted)", fontSize: "var(--font-sm)", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
-             <span style={{ width: "24px", height: "24px", borderRadius: "50%", backgroundColor: "var(--primary)", color: "white", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: "bold" }}>JP</span>
-             Juanito Pérez | Fecha asignada: <strong>{fechaFiltro}</strong>
-          </p>
+      {/* ── HEADER ── */}
+      <header style={{ marginBottom: "var(--spacing-xl)", borderBottom: "1px solid var(--border)", paddingBottom: "var(--spacing-md)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-sm)", color: "var(--primary)", fontWeight: 700, fontSize: "10px", marginBottom: "8px" }}>
+          <ShoppingBag size={14} /> REGISTRO <ChevronRight size={10} /> <span style={{ color: "var(--foreground)" }}>COMPRAS DEL DÍA</span>
         </div>
-
-        <div style={{ textAlign: "right" }}>
-          {isLockedPhase && isAdminOverride && (
-            <div style={{ color: "var(--primary)", fontWeight: 800, fontSize: "10px", marginBottom: "4px" }}>SOBREESCRITURA ADMINISTRADOR</div>
-          )}
-          <div style={{ padding: "8px 16px", borderRadius: "var(--radius-md)", backgroundColor: isLockedPhase ? "var(--error)" : "var(--primary)", color: "white", fontWeight: 800, fontSize: "14px", display: "inline-flex", alignItems: "center", gap: "8px", boxShadow: "var(--shadow-md)" }}>
-            <Clock size={16} /> 
-            {isLockedPhase ? "SISTEMA CERRADO" : timeRemaining}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div>
+            <h1 style={{ fontSize: "var(--font-xl)", fontWeight: 800, margin: "0 0 var(--spacing-sm) 0" }}>Registro Diario de Compras</h1>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "var(--text-muted)", fontSize: "var(--font-xs)" }}>
+              <span style={{ width: "28px", height: "28px", borderRadius: "50%", backgroundColor: "var(--primary)", color: "white", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: 800 }}>JP</span>
+              <span>Juanito Pérez</span>
+              <span style={{ width: "4px", height: "4px", borderRadius: "50%", backgroundColor: "var(--border)" }} />
+              <span style={{ fontWeight: 700, textTransform: "capitalize" }}>{fechaFormateada}</span>
+            </div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            {isLockedPhase && isAdminOverride && (
+              <div style={{ color: "var(--primary)", fontWeight: 800, fontSize: "9px", marginBottom: "4px", letterSpacing: "0.5px" }}>SOBREESCRITURA ADMIN</div>
+            )}
+            <div style={{ 
+              padding: "8px 20px", borderRadius: "var(--radius-md)", 
+              backgroundColor: isLockedPhase ? "#dc2626" : "var(--primary)", 
+              color: "white", fontWeight: 800, fontSize: "var(--font-xs)", 
+              display: "inline-flex", alignItems: "center", gap: "6px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
+            }}>
+              <Clock size={14} />
+              {isLockedPhase ? "CERRADO" : timeRemaining}
+            </div>
           </div>
         </div>
       </header>
 
-      {/* CONTROLES E INPUTS SUPERIORES */}
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "var(--spacing-xl)", opacity: isFormDisabled ? 0.6 : 1, pointerEvents: isFormDisabled ? "none" : "auto" }}>
-        <div style={{ position: "relative" }}>
-          <Search size={16} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} />
+      {/* Tip Info Verde */}
+      <div style={{ padding: "var(--spacing-md)", backgroundColor: "rgba(22, 163, 74, 0.05)", borderRadius: "var(--radius-md)", border: "1px solid rgba(22, 163, 74, 0.2)", display: "flex", alignItems: "center", gap: "var(--spacing-md)", marginBottom: "var(--spacing-xl)" }}>
+        <AlertCircle size={18} color="var(--success)" />
+        <p style={{ margin: 0, fontSize: "var(--font-xs)", color: "var(--success)" }}>
+          <strong>Importante:</strong> Registra las compras diarias y añade 'Productos Extra' si no están en tu lista. Las mermas y sobrantes se gestionan en las acciones de cada fila.
+        </p>
+      </div>
+
+      {/* ── CONTROLES SUPERIORES ── */}
+      <div className="responsive-flex" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "var(--spacing-xl)", opacity: isFormDisabled ? 0.5 : 1, pointerEvents: isFormDisabled ? "none" : "auto", gap: "var(--spacing-md)" }}>
+        <div style={{ position: "relative", width: "100%", maxWidth: "400px" }}>
+          <label style={{ fontSize: "var(--font-xs)", fontWeight: 700, display: "block", marginBottom: "6px", color: "#333" }}>
+            <Search size={12} style={{ marginRight: "4px", verticalAlign: "middle" }} />
+            Buscar Producto
+          </label>
           <input 
-            type="text" placeholder="Buscar producto de tu lista..." 
+            type="text" placeholder="Nombre del producto..." 
             value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ padding: "10px 10px 10px 35px", width: "300px", border: "2px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "14px" }}
+            style={{ padding: "10px 16px", width: "100%", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "var(--font-sm)" }}
           />
         </div>
         
-        <button className="btn-primary" onClick={() => setShowAddModal(true)} style={{ backgroundColor: "#0f766e" }}>
-          <Plus size={16} style={{ marginRight: "6px" }} /> ADICIONAR PRODUCTO EXTRA
+        <button 
+          className="responsive-full-width-btn"
+          onClick={() => setShowAddModal(true)} 
+          style={{ padding: "10px 24px", backgroundColor: "#0f766e", color: "white", border: "none", borderRadius: "var(--radius-md)", fontWeight: 800, fontSize: "var(--font-xs)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}
+        >
+          <Plus size={14} /> ADICIONAR PRODUCTO EXTRA
         </button>
       </div>
 
+      {/* ── ALERTA DE BLOQUEO ── */}
       {isFormDisabled && !isAdminOverride && (
-        <div style={{ backgroundColor: "#fef2f2", border: "1px solid #f87171", padding: "var(--spacing-lg)", borderRadius: "var(--radius-md)", marginBottom: "var(--spacing-xl)", textAlign: "center", color: "#b91c1c", fontWeight: 800 }}>
-          <Lock size={24} style={{ margin: "0 auto 10px" }} />
-          EL HORARIO DE REGISTRO HA FINALIZADO (5:00 PM). CONTACTA A TU SUPERVISOR.
+        <div style={{ backgroundColor: "#fef2f2", border: "1px solid #fca5a5", padding: "var(--spacing-lg)", borderRadius: "var(--radius-md)", marginBottom: "var(--spacing-xl)", display: "flex", alignItems: "center", gap: "var(--spacing-md)" }}>
+          <Lock size={20} color="#dc2626" />
+          <div>
+            <p style={{ margin: 0, fontWeight: 800, color: "#b91c1c", fontSize: "var(--font-sm)" }}>Horario de registro finalizado (5:00 PM)</p>
+            <p style={{ margin: "4px 0 0", color: "#dc2626", fontSize: "var(--font-xs)" }}>Contacta a tu supervisor para habilitar la edición fuera de horario.</p>
+          </div>
         </div>
       )}
 
-      {/* TABLA PRINCIPAL - DISEÑO REFINADO */}
-      <div className="card" style={{ padding: 0, overflowX: "auto", opacity: isFormDisabled && !isAdminOverride ? 0.6 : 1, pointerEvents: isFormDisabled && !isAdminOverride ? "none" : "auto" }}>
-        <table className="compact-table" style={{ width: "100%" }}>
-          <thead>
-            <tr>
-              <th style={{ ...headerStyle, textAlign: "left", width: "180px" }}>PRODUCTO</th>
-              <th style={{ ...headerStyle, width: "120px" }}>CANT. FÍSICA</th>
-              <th style={{ ...headerStyle, width: "120px" }}>UNIDAD / TIPO</th>
-              <th style={{ ...headerStyle, width: "130px" }}>COSTO UNIT.</th>
-              <th style={{ ...headerStyle, width: "150px" }}>TOTAL (S/)</th>
-              <th style={{ ...headerStyle, width: "160px" }}>PROVEEDOR</th>
-              <th style={{ ...headerStyle, width: "180px" }}>ACCIONES</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredItems.map(item => (
-              <tr key={item.id} style={{ borderBottom: "1px solid var(--border)", backgroundColor: item.esAdicional ? "#f0fdf4" : "transparent" }}>
-                {/* 1. PRODUCTO */}
-                <td style={{ padding: "var(--spacing-md)", fontWeight: 600 }}>
-                  <div style={{ fontSize: "14px" }}>{item.nombre}</div>
-                  {item.esAdicional && <div style={{ fontSize: "9px", padding: "2px 6px", borderRadius: "10px", backgroundColor: "#ccfbf1", color: "#0f766e", display: "inline-block", marginTop: "4px", fontWeight: 800 }}>ADICIONAL</div>}
-                </td>
-                
-                {/* 2. CANTIDAD DE COMPRA */}
-                <td style={{ textAlign: "center", padding: "var(--spacing-sm)" }}>
-                  <input 
-                    type="number" 
-                    step="0.1"
-                    placeholder="0.0"
-                    value={item.cantidadComprada || ""} 
-                    onChange={(e) => updateItem(item.id, "cantidadComprada", Number(e.target.value))} 
-                    style={{ width: "80px", padding: "8px", border: "1px solid var(--border)", borderRadius: "4px", textAlign: "center", fontSize: "14px", fontWeight: 700 }}
-                  />
-                </td>
-
-                {/* 3. PRESENTACION POR (SELECT) */}
-                <td style={{ textAlign: "center", padding: "var(--spacing-sm)" }}>
-                  <select 
-                    value={item.unidadCompra} 
-                    onChange={(e) => updateItem(item.id, "unidadCompra", e.target.value)} 
-                    style={{ width: "100px", padding: "8px", border: "1px solid var(--border)", borderRadius: "4px", fontSize: "12px", backgroundColor: "white" }}
-                  >
-                    <option value="" disabled>Seleccionar</option>
-                    <option value="KG">KILOS (KG)</option>
-                    <option value="GRAMOS">GRAMOS</option>
-                    <option value="CAJAS">CAJAS</option>
-                    <option value="ATADOS">ATADOS</option>
-                    <option value="PAQUETES">PAQUETES</option>
-                    <option value="UNIDAD">UNIDAD</option>
-                  </select>
-                </td>
-
-                {/* 4. COSTO UNITARIO */}
-                <td style={{ textAlign: "center", padding: "var(--spacing-sm)" }}>
-                  <div style={{ position: "relative", width: "100px", margin: "0 auto" }}>
-                    <span style={{ position: "absolute", left: "8px", top: "50%", transform: "translateY(-50%)", fontSize: "12px", color: "var(--text-muted)", fontWeight: 700 }}>S/</span>
+      {/* ── TABLA DE PRODUCTOS ── */}
+      <div className="card" style={{ padding: 0, overflow: "hidden", opacity: isFormDisabled && !isAdminOverride ? 0.5 : 1, pointerEvents: isFormDisabled && !isAdminOverride ? "none" : "auto" }}>
+        <div style={{ padding: "var(--spacing-md) var(--spacing-lg)", backgroundColor: "var(--secondary)", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h3 style={{ margin: 0, fontSize: "var(--font-base)", fontWeight: 800 }}>
+            <ShoppingBag size={16} style={{ marginRight: "8px", verticalAlign: "middle", color: "var(--primary)" }} />
+            Productos del Día
+          </h3>
+          <span style={{ fontSize: "10px", fontWeight: 700, color: "var(--text-muted)", backgroundColor: "white", padding: "4px 12px", borderRadius: "20px", border: "1px solid var(--border)" }}>
+            {filteredItems.length} productos
+          </span>
+        </div>
+        
+        <div className="mobile-scroll-hint" style={{ marginTop: "8px" }}>
+          <Hand size={14} /> <span>Desliza la tabla para ver más</span> <ArrowRight size={14} />
+        </div>
+        <div style={{ overflowX: "auto" }}>
+          <table className="compact-table" style={{ width: "100%" }}>
+            <thead>
+              <tr style={{ backgroundColor: "#f8f9fa" }}>
+                <th style={{ width: "40px", textAlign: "center" }}>#</th>
+                <th style={{ width: "160px", minWidth: "160px", maxWidth: "160px" }}>Producto</th>
+                <th style={{ textAlign: "center", width: "110px" }}>Cant. Física</th>
+                <th style={{ textAlign: "center", width: "120px" }}>Unidad</th>
+                <th style={{ textAlign: "center", width: "120px" }}>Costo Unit.</th>
+                <th style={{ textAlign: "center", width: "120px", backgroundColor: "rgba(255,69,0,0.06)" }}>Total (S/)</th>
+                <th style={{ textAlign: "center", width: "170px" }}>Proveedor</th>
+                <th style={{ textAlign: "center", width: "100px" }}>Boleta</th>
+                <th style={{ textAlign: "center", width: "110px" }}>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredItems.map((item, idx) => (
+                <tr key={item.id} style={{ transition: "background 0.15s", backgroundColor: item.esAdicional ? "rgba(16,185,129,0.04)" : "transparent" }}>
+                  {/* # */}
+                  <td style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "11px" }}>{idx + 1}</td>
+                  
+                  {/* PRODUCTO */}
+                  <td style={{ padding: "var(--spacing-md)" }}>
+                    <div style={{ fontWeight: 700, fontSize: "var(--font-sm)" }}>{item.nombre}</div>
+                    {item.esAdicional && (
+                      <span style={{ fontSize: "9px", padding: "2px 8px", borderRadius: "10px", backgroundColor: "rgba(16,185,129,0.12)", color: "#047857", fontWeight: 800, marginTop: "4px", display: "inline-block" }}>ADICIONAL</span>
+                    )}
+                    {item.cantidadSolicitada > 0 && (
+                      <div style={{ fontSize: "10px", color: "var(--text-muted)", marginTop: "2px" }}>Solicitado: {item.cantidadSolicitada} {item.unidadVenta}</div>
+                    )}
+                  </td>
+                  
+                  {/* CANTIDAD */}
+                  <td style={{ textAlign: "center" }}>
                     <input 
-                      type="number" 
-                      step="0.01" 
-                      placeholder="0.00"
-                      value={item.costoUnitario || ""} 
-                      onChange={(e) => updateItem(item.id, "costoUnitario", Number(e.target.value))} 
-                      style={{ width: "100%", padding: "8px 8px 8px 25px", border: "1px solid var(--border)", borderRadius: "4px", fontWeight: 600, fontSize: "14px" }}
+                      type="number" step="0.1" placeholder="0.0"
+                      value={item.cantidadComprada || ""} 
+                      onChange={(e) => updateItem(item.id, "cantidadComprada", Number(e.target.value))} 
+                      style={{ width: "80px", padding: "8px", border: "2px solid var(--border)", borderRadius: "var(--radius-md)", textAlign: "center", fontSize: "var(--font-sm)", fontWeight: 700, transition: "border-color 0.2s" }}
+                      onFocus={(e) => e.target.style.borderColor = "var(--primary)"}
+                      onBlur={(e) => e.target.style.borderColor = "var(--border)"}
                     />
-                  </div>
-                </td>
+                  </td>
 
-                {/* 5. MONTO TOTAL (AUTOMATICO) */}
-                <td style={{ textAlign: "center", padding: "var(--spacing-sm)" }}>
-                  <div style={{ backgroundColor: "#f3f4f6", padding: "8px", borderRadius: "4px", display: "inline-flex", flexDirection: "column", alignItems: "center", border: "1px solid var(--border)", minWidth: "90px" }}>
-                    <span style={{ fontSize: "18px", fontWeight: 800, color: "var(--primary)" }}>
+                  {/* UNIDAD */}
+                  <td style={{ textAlign: "center" }}>
+                    <select 
+                      value={item.unidadCompra} 
+                      onChange={(e) => updateItem(item.id, "unidadCompra", e.target.value)} 
+                      style={{ padding: "8px 6px", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "var(--font-xs)", fontWeight: 600, backgroundColor: "white", cursor: "pointer" }}
+                    >
+                      <option value="KG">KILOS (KG)</option>
+                      <option value="GRAMOS">GRAMOS</option>
+                      <option value="CAJAS">CAJAS</option>
+                      <option value="ATADOS">ATADOS</option>
+                      <option value="PAQUETES">PAQUETES</option>
+                      <option value="UNIDAD">UNIDAD</option>
+                    </select>
+                  </td>
+
+                  {/* COSTO UNITARIO */}
+                  <td style={{ textAlign: "center" }}>
+                    <div style={{ position: "relative", width: "90px", margin: "0 auto" }}>
+                      <span style={{ position: "absolute", left: "8px", top: "50%", transform: "translateY(-50%)", fontSize: "11px", color: "var(--text-muted)", fontWeight: 700 }}>S/</span>
+                      <input 
+                        type="number" step="0.01" placeholder="0.00"
+                        value={item.costoUnitario || ""} 
+                        onChange={(e) => updateItem(item.id, "costoUnitario", Number(e.target.value))} 
+                        style={{ width: "100%", padding: "8px 8px 8px 24px", border: "2px solid var(--border)", borderRadius: "var(--radius-md)", fontWeight: 700, fontSize: "var(--font-sm)", transition: "border-color 0.2s" }}
+                        onFocus={(e) => e.target.style.borderColor = "var(--primary)"}
+                        onBlur={(e) => e.target.style.borderColor = "var(--border)"}
+                      />
+                    </div>
+                  </td>
+
+                  {/* TOTAL */}
+                  <td style={{ textAlign: "center", backgroundColor: "rgba(255,69,0,0.04)" }}>
+                    <span style={{ fontSize: "var(--font-base)", fontWeight: 800, color: item.montoTotal > 0 ? "var(--primary)" : "var(--text-muted)" }}>
                       S/ {item.montoTotal.toFixed(2)}
                     </span>
-                  </div>
-                </td>
+                  </td>
 
-                {/* 6. PROVEEDOR */}
-                <td style={{ textAlign: "center", padding: "var(--spacing-sm)" }}>
-                  <select 
-                    value={item.proveedor} 
-                    onChange={(e) => updateItem(item.id, "proveedor", e.target.value)} 
-                    style={{ width: "140px", padding: "8px", border: "1px solid var(--border)", borderRadius: "4px", fontSize: "11px", backgroundColor: "white" }}
-                  >
-                    <option value="">-- Seleccionar --</option>
-                    {PROVEEDORES_SIMULADOS.map(prov => (
-                      <option key={prov.id} value={prov.id}>{prov.nombre}</option>
-                    ))}
-                  </select>
-                </td>
+                  {/* PROVEEDOR */}
+                  <td style={{ textAlign: "center" }}>
+                    <select 
+                      value={item.proveedor} 
+                      onChange={(e) => updateItem(item.id, "proveedor", e.target.value)} 
+                      style={{ width: "150px", padding: "8px 6px", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "var(--font-xs)", fontWeight: 600, backgroundColor: "white", cursor: "pointer" }}
+                    >
+                      <option value="">— Seleccionar —</option>
+                      {PROVEEDORES_SIMULADOS.map(prov => (
+                        <option key={prov.id} value={prov.id}>{prov.nombre}</option>
+                      ))}
+                    </select>
+                  </td>
 
-                {/* 7. ACCIONES APILADAS */}
-                <td style={{ padding: "var(--spacing-sm)" }}>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", width: "100%" }}>
-                    
-                    {/* Botón Subir Foto */}
-                    <div style={{ position: "relative", width: "100%" }}>
-                      <button 
-                        onClick={() => addPhoto(item.id)}
-                        style={{ width: "100%", padding: "6px 8px", backgroundColor: item.fotos.length > 0 ? "#16a34a" : "white", color: item.fotos.length > 0 ? "white" : "var(--primary)", border: `1px solid ${item.fotos.length > 0 ? "#16a34a" : "var(--primary)"}`, borderRadius: "4px", fontWeight: 700, fontSize: "10px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "4px", transition: "all 0.2s" }}
-                      >
-                        <Camera size={12} /> {item.fotos.length > 0 ? `FOTOS (${item.fotos.length})` : "SUBIR BOLETA"}
-                      </button>
-                      {item.fotos.length > 0 && (
-                        <div style={{ display: "flex", gap: "4px", marginTop: "4px", flexWrap: "wrap", justifyContent: "center" }}>
-                          {item.fotos.map((f, i) => (
-                            <div key={i} style={{ position: "relative", width: "22px", height: "22px", borderRadius: "4px", overflow: "hidden", border: "1px solid var(--border)" }}>
-                              <img src={f} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                              <button onClick={() => removePhoto(item.id, i)} style={{ position: "absolute", top: -5, right: -5, background: "rgba(239, 68, 68, 0.9)", color: "white", border: "none", borderRadius: "50%", width: "14px", height: "14px", fontSize: "8px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>x</button>
-                            </div>
-                          ))}
-                        </div>
+                  {/* BOLETA / FOTO */}
+                  <td style={{ textAlign: "center" }}>
+                    <button 
+                      onClick={() => setActivePhotoModal(item.id)}
+                      style={{ 
+                        padding: "6px 14px", 
+                        backgroundColor: item.fotos.length > 0 ? "rgba(22,163,74,0.12)" : "rgba(255,69,0,0.08)", 
+                        color: item.fotos.length > 0 ? "#16a34a" : "var(--primary)", 
+                        border: `1.5px solid ${item.fotos.length > 0 ? "#16a34a" : "var(--primary)"}`, 
+                        borderRadius: "20px", fontWeight: 800, fontSize: "10px", 
+                        cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px", 
+                        transition: "all 0.2s" 
+                      }}
+                    >
+                      {item.fotos.length > 0 ? (
+                        <><CheckCircle2 size={11} /> {item.fotos.length} foto{item.fotos.length > 1 ? "s" : ""}</>
+                      ) : (
+                        <><Upload size={11} /> Boletas</>
                       )}
-                    </div>
+                    </button>
+                  </td>
 
-                    <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                      {[
-                        { key: 'devueltoProveedor', label: 'Dev. Proveedor', color: '#c2410c' },
-                        { key: 'merma', label: 'Notificar Merma', color: '#b91c1c' },
-                        { key: 'sobrante', label: 'Reg. Sobrante', color: '#1d4ed8' },
-                        { key: 'devueltoCliente', label: 'Dev. de Cliente', color: '#047857' }
-                      ].map((action) => {
-                         const hasValue = item[action.key as keyof ProductRecord];
-                         return (
-                          <button 
-                            key={action.key}
-                            onClick={() => openActionModal(item, action.key as any)}
-                            style={{ 
-                              width: "100%", padding: "4px 8px", 
-                              backgroundColor: hasValue ? `${action.color}15` : "#f9fafb", 
-                              color: hasValue ? action.color : "var(--text-muted)", 
-                              border: `1px solid ${hasValue ? action.color : "var(--border)"}`, 
-                              borderRadius: "4px", fontWeight: 700, fontSize: "9px", 
-                              cursor: "pointer", textAlign: "left",
-                              display: "flex", justifyContent: "space-between", alignItems: "center"
-                            }}
-                          >
-                            {action.label}
-                            {hasValue && <CheckCircle2 size={10} />}
-                          </button>
-                         )
-                      })}
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {filteredItems.length === 0 && (
-              <tr>
-                <td colSpan={7} style={{ textAlign: "center", padding: "40px 20px", color: "var(--text-muted)", fontSize: "14px" }}>
-                  No se encontraron productos en tu lista.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+                  {/* ACCIONES */}
+                  <td style={{ textAlign: "center" }}>
+                    <button
+                      onClick={() => setActiveOptionsRow(item.id)}
+                      style={{
+                        padding: "8px 12px",
+                        backgroundColor: "#f3f4f6",
+                        color: "#374151",
+                        border: "1px solid var(--border)",
+                        borderRadius: "6px",
+                        fontWeight: 800,
+                        fontSize: "10px",
+                        cursor: "pointer",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        transition: "backgroundColor 0.15s"
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#e5e7eb"}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#f3f4f6"}
+                    >
+                      <Settings size={12} /> Gestionar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {filteredItems.length === 0 && (
+                <tr>
+                  <td colSpan={9} style={{ textAlign: "center", padding: "60px 20px" }}>
+                    <Search size={36} style={{ margin: "0 auto 10px", display: "block", opacity: 0.1 }} />
+                    <p style={{ color: "var(--text-muted)", fontSize: "var(--font-sm)", margin: 0 }}>No se encontraron productos en tu lista.</p>
+                  </td>
+                </tr>
+              )}
+              {/* Fila TOTAL */}
+              {filteredItems.length > 0 && (
+                <tr style={{ backgroundColor: "#111", color: "white" }}>
+                  <td colSpan={5} style={{ textAlign: "right", fontWeight: 800, fontSize: "var(--font-sm)", padding: "var(--spacing-md) var(--spacing-lg)", border: "none" }}>
+                    TOTAL GENERAL
+                  </td>
+                  <td style={{ textAlign: "center", fontWeight: 800, fontSize: "var(--font-lg)", border: "none", color: "#ff6b35" }}>
+                    S/ {totalGastado.toFixed(2)}
+                  </td>
+                  <td colSpan={3} style={{ border: "none" }} />
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <div style={{ marginTop: "30px", textAlign: "right", opacity: isFormDisabled && !isAdminOverride ? 0 : 1 }}>
-        <button onClick={validarYGuardar} style={{ backgroundColor: "#ea580c", color: "white", border: "none", padding: "15px 40px", borderRadius: "30px", fontSize: "16px", fontWeight: "bold", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "10px" }}>
-          <Save size={20} /> GUARDAR REGISTROS DEL DÍA
+      {/* ── BOTÓN GUARDAR ── */}
+      <div style={{ marginTop: "var(--spacing-xl)", display: "flex", justifyContent: "flex-end", opacity: isFormDisabled && !isAdminOverride ? 0 : 1 }}>
+        <button 
+          onClick={validarYGuardar} 
+          style={{ 
+            backgroundColor: "var(--primary)", color: "white", border: "none", 
+            padding: "14px 40px", borderRadius: "var(--radius-md)", 
+            fontSize: "var(--font-sm)", fontWeight: 800, cursor: "pointer", 
+            display: "inline-flex", alignItems: "center", gap: "8px",
+            boxShadow: "0 4px 14px rgba(255,69,0,0.3)",
+            transition: "transform 0.15s, box-shadow 0.15s"
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 6px 20px rgba(255,69,0,0.4)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 14px rgba(255,69,0,0.3)"; }}
+        >
+          <Save size={16} /> GUARDAR REGISTROS DEL DÍA
         </button>
       </div>
 
-      {/* --- MODALES --- */}
+      {/* ══════ MODALES ══════ */}
 
-      {/* 1. Modal Añadir Producto Adicional */}
+      {/* Modal Añadir Producto Adicional */}
       {showAddModal && (
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.6)", zIndex: 9999, display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div style={{ backgroundColor: "white", padding: "20px", width: "450px", borderRadius: "8px" }}>
-            <h3 style={{ margin: "0 0 15px 0", color: "#114f2f", fontWeight: "bold" }}>Añadir Producto Fuera de Orden</h3>
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", backdropFilter: "blur(3px)", zIndex: 9999, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div className="card" style={{ padding: "var(--spacing-xl)", width: "480px", borderTop: "4px solid #0f766e", animation: "slideDown 0.2s ease-out" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-lg)" }}>
+              <h3 style={{ margin: 0, fontWeight: 800, fontSize: "var(--font-lg)", display: "flex", alignItems: "center", gap: "8px" }}>
+                <Plus size={18} color="#0f766e" /> Añadir Producto Extra
+              </h3>
+              <button onClick={() => setShowAddModal(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)" }}><X size={20} /></button>
+            </div>
             
-            <label style={{ fontSize: "12px", fontWeight: "bold", display: "block", marginBottom: "5px" }}>Nombre del Producto</label>
-            <input type="text" value={newAdicional.nombre} onChange={e => setNewAdicional({...newAdicional, nombre: e.target.value})} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", marginBottom: "15px", borderRadius: "4px" }} />
+            <div style={{ marginBottom: "var(--spacing-lg)" }}>
+              <label style={{ fontSize: "var(--font-xs)", fontWeight: 700, display: "block", marginBottom: "6px" }}>Nombre del Producto</label>
+              <input type="text" value={newAdicional.nombre} onChange={e => setNewAdicional({...newAdicional, nombre: e.target.value})} placeholder="Ej. MANGO KENT" style={{ width: "100%", padding: "10px 16px", border: "2px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "var(--font-sm)", fontWeight: 600 }} />
+            </div>
             
-            <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
-              <div style={{ flex: 1 }}>
-                <label style={{ fontSize: "12px", fontWeight: "bold", display: "block", marginBottom: "5px" }}>Cantidad</label>
-                <input type="number" value={newAdicional.cantidad || ""} onChange={e => setNewAdicional({...newAdicional, cantidad: Number(e.target.value)})} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }} />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--spacing-md)", marginBottom: "var(--spacing-lg)" }}>
+              <div>
+                <label style={{ fontSize: "var(--font-xs)", fontWeight: 700, display: "block", marginBottom: "6px" }}>Cantidad</label>
+                <input type="number" value={newAdicional.cantidad || ""} onChange={e => setNewAdicional({...newAdicional, cantidad: Number(e.target.value)})} style={{ width: "100%", padding: "10px 16px", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "var(--font-sm)", fontWeight: 600 }} />
               </div>
-              <div style={{ flex: 1 }}>
-                <label style={{ fontSize: "12px", fontWeight: "bold", display: "block", marginBottom: "5px" }}>Unidad</label>
-                <select value={newAdicional.unidadCompra} onChange={e => setNewAdicional({...newAdicional, unidadCompra: e.target.value})} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}>
+              <div>
+                <label style={{ fontSize: "var(--font-xs)", fontWeight: 700, display: "block", marginBottom: "6px" }}>Unidad</label>
+                <select value={newAdicional.unidadCompra} onChange={e => setNewAdicional({...newAdicional, unidadCompra: e.target.value})} style={{ width: "100%", padding: "10px", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "var(--font-sm)", fontWeight: 600, backgroundColor: "white" }}>
                   <option value="KG">KG</option>
                   <option value="GRAMOS">GRAMOS</option>
                   <option value="CAJAS">CAJAS</option>
@@ -469,45 +572,47 @@ export default function RegistroCompras() {
               </div>
             </div>
 
-            <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
-              <div style={{ flex: 1 }}>
-                <label style={{ fontSize: "12px", fontWeight: "bold", display: "block", marginBottom: "5px" }}>Costo Unitario (S/)</label>
-                <input type="number" step="0.01" value={newAdicional.costoUnitario || ""} onChange={e => setNewAdicional({...newAdicional, costoUnitario: Number(e.target.value)})} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }} />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--spacing-md)", marginBottom: "var(--spacing-xl)" }}>
+              <div>
+                <label style={{ fontSize: "var(--font-xs)", fontWeight: 700, display: "block", marginBottom: "6px" }}>Costo Unitario (S/)</label>
+                <input type="number" step="0.01" value={newAdicional.costoUnitario || ""} onChange={e => setNewAdicional({...newAdicional, costoUnitario: Number(e.target.value)})} style={{ width: "100%", padding: "10px 16px", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "var(--font-sm)", fontWeight: 600 }} />
               </div>
-              <div style={{ flex: 1 }}>
-                <label style={{ fontSize: "12px", fontWeight: "bold", display: "block", marginBottom: "5px" }}>Proveedor</label>
-                <select value={newAdicional.proveedor} onChange={e => setNewAdicional({...newAdicional, proveedor: e.target.value})} style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}>
-                  <option value="">-- Seleccione --</option>
+              <div>
+                <label style={{ fontSize: "var(--font-xs)", fontWeight: 700, display: "block", marginBottom: "6px" }}>Proveedor</label>
+                <select value={newAdicional.proveedor} onChange={e => setNewAdicional({...newAdicional, proveedor: e.target.value})} style={{ width: "100%", padding: "10px", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "var(--font-sm)", fontWeight: 600, backgroundColor: "white" }}>
+                  <option value="">— Seleccione —</option>
                   {PROVEEDORES_SIMULADOS.map(p => <option key={p.id} value={p.id}>{p.nombre}</option>)}
                 </select>
               </div>
             </div>
             
-            <div style={{ display: "flex", gap: "10px" }}>
-              <button onClick={() => setShowAddModal(false)} style={{ flex: 1, padding: "12px", border: "1px solid #ccc", background: "white", cursor: "pointer", fontWeight: "bold" }}>CANCELAR</button>
-              <button onClick={agregarAdicional} style={{ flex: 1, padding: "12px", backgroundColor: "#114f2f", color: "white", border: "none", cursor: "pointer", fontWeight: "bold" }}>AÑADIR A TABLA</button>
+            <div style={{ display: "flex", gap: "var(--spacing-md)" }}>
+              <button onClick={() => setShowAddModal(false)} style={{ flex: 1, padding: "12px", border: "1px solid var(--border)", background: "white", cursor: "pointer", fontWeight: 700, fontSize: "var(--font-xs)", borderRadius: "var(--radius-md)" }}>CANCELAR</button>
+              <button onClick={agregarAdicional} style={{ flex: 1, padding: "12px", backgroundColor: "#0f766e", color: "white", border: "none", cursor: "pointer", fontWeight: 800, fontSize: "var(--font-xs)", borderRadius: "var(--radius-md)", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+                <Plus size={14} /> AÑADIR A TABLA
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* 2. Modal de Acciones Específicas (Merma, Sobrante, etc) */}
+      {/* Modal de Acciones (Merma, Sobrante, etc) */}
       {activeActionModal && (
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.6)", zIndex: 10000, display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div className="card" style={{ padding: "var(--spacing-xl)", width: "400px", borderTop: "4px solid var(--primary)", animation: "slideDown 0.2s ease-out" }}>
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", backdropFilter: "blur(3px)", zIndex: 10000, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div className="card" style={{ padding: "var(--spacing-xl)", width: "440px", borderTop: "4px solid var(--primary)", animation: "slideDown 0.2s ease-out" }}>
             
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-md)" }}>
-              <h3 style={{ margin: 0, color: "var(--foreground)", fontWeight: 800, fontSize: "18px" }}>{activeActionModal.title}</h3>
-              <X size={20} style={{ cursor: "pointer", color: "var(--text-muted)" }} onClick={() => setActiveActionModal(null)} />
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-lg)" }}>
+              <h3 style={{ margin: 0, fontWeight: 800, fontSize: "var(--font-lg)" }}>{activeActionModal.title}</h3>
+              <button onClick={() => setActiveActionModal(null)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)" }}><X size={20} /></button>
             </div>
             
-            <div style={{ backgroundColor: "var(--secondary)", border: "1px solid var(--border)", padding: "10px", borderRadius: "var(--radius-sm)", marginBottom: "var(--spacing-lg)", display: "flex", alignItems: "center", gap: "8px" }}>
-              <strong style={{ fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase" }}>Producto:</strong>
-              <span style={{ fontSize: "14px", fontWeight: 800, color: "var(--primary)" }}>{activeActionModal.productName}</span>
+            <div style={{ backgroundColor: "var(--secondary)", border: "1px solid var(--border)", padding: "10px var(--spacing-md)", borderRadius: "var(--radius-md)", marginBottom: "var(--spacing-lg)", display: "flex", alignItems: "center", gap: "8px" }}>
+              <span style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>Producto:</span>
+              <span style={{ fontSize: "var(--font-sm)", fontWeight: 800, color: "var(--primary)" }}>{activeActionModal.productName}</span>
             </div>
 
-            <label style={{ fontSize: "12px", fontWeight: 700, display: "block", marginBottom: "8px" }}>
-              Ingrese la cantidad o notas detalladas de la incidencia:
+            <label style={{ fontSize: "var(--font-xs)", fontWeight: 700, display: "block", marginBottom: "8px" }}>
+              Cantidad o notas detalladas de la incidencia:
             </label>
             <textarea 
               autoFocus
@@ -515,19 +620,140 @@ export default function RegistroCompras() {
               placeholder="Ej. 2 kg en mal estado devueltos hoy..."
               value={activeActionModal.currentValue}
               onChange={(e) => setActiveActionModal({...activeActionModal, currentValue: e.target.value})}
-              style={{ width: "100%", padding: "12px", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", resize: "none", marginBottom: "var(--spacing-xl)", fontSize: "14px", backgroundColor: "#fafafa" }}
+              style={{ width: "100%", padding: "12px", border: "2px solid var(--border)", borderRadius: "var(--radius-md)", resize: "none", marginBottom: "var(--spacing-xl)", fontSize: "var(--font-sm)", backgroundColor: "#fafafa", transition: "border-color 0.2s" }}
+              onFocus={(e) => e.target.style.borderColor = "var(--primary)"}
+              onBlur={(e) => e.target.style.borderColor = "var(--border)"}
             />
 
-            <div style={{ display: "flex", gap: "10px" }}>
-              <button className="btn-secondary" onClick={() => setActiveActionModal(null)} style={{ flex: 1, padding: "12px", justifyContent: "center" }}>CANCELAR</button>
-              <button className="btn-primary" onClick={saveActionModal} style={{ flex: 1, padding: "12px", justifyContent: "center", backgroundColor: "var(--primary)" }}>
-                <CheckCircle2 size={16} style={{ marginRight: "4px" }} /> GUARDAR
+            <div style={{ display: "flex", gap: "var(--spacing-md)" }}>
+              <button onClick={() => setActiveActionModal(null)} style={{ flex: 1, padding: "12px", border: "1px solid var(--border)", background: "white", cursor: "pointer", fontWeight: 700, fontSize: "var(--font-xs)", borderRadius: "var(--radius-md)" }}>CANCELAR</button>
+              <button onClick={saveActionModal} style={{ flex: 1, padding: "12px", backgroundColor: "var(--primary)", color: "white", border: "none", cursor: "pointer", fontWeight: 800, fontSize: "var(--font-xs)", borderRadius: "var(--radius-md)", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+                <CheckCircle2 size={14} /> GUARDAR
               </button>
             </div>
-
           </div>
         </div>
       )}
+
+      {/* Modal de Boletas / Fotos */}
+      {activePhotoModal && (() => {
+        const item = allItems.find(i => i.id === activePhotoModal);
+        if (!item) return null;
+        return (
+          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)", zIndex: 10000, display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div className="card" style={{ padding: "var(--spacing-xl)", width: "500px", maxWidth: "90vw", borderTop: "4px solid #16a34a", animation: "slideDown 0.2s ease-out", display: "flex", flexDirection: "column", maxHeight: "85vh" }}>
+              
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-lg)" }}>
+                <h3 style={{ margin: 0, fontWeight: 800, fontSize: "var(--font-lg)", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <Upload size={18} color="#16a34a" /> Boletas de {item.nombre}
+                </h3>
+                <button onClick={() => setActivePhotoModal(null)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)" }}><X size={20} /></button>
+              </div>
+
+              <div style={{ backgroundColor: "var(--secondary)", border: "1px dashed var(--border)", borderRadius: "var(--radius-md)", padding: "var(--spacing-xl)", textAlign: "center", marginBottom: "var(--spacing-lg)", position: "relative" }}>
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  multiple 
+                  onChange={(e) => handlePhotoUpload(e, item.id)}
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0, cursor: "pointer" }}
+                />
+                <Camera size={24} style={{ opacity: 0.5, marginBottom: "8px" }} />
+                <p style={{ margin: 0, fontSize: "var(--font-sm)", fontWeight: 700, color: "var(--text-muted)" }}>
+                  Toca aquí para seleccionar o tomar fotos
+                </p>
+                <p style={{ margin: "4px 0 0", fontSize: "10px", color: "var(--text-muted)" }}>
+                  {item.fotos.length} de 6 fotos subidas
+                </p>
+              </div>
+
+              <div style={{ overflowY: "auto", flex: 1, paddingRight: "4px" }}>
+                {item.fotos.length > 0 ? (
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "var(--spacing-md)" }}>
+                    {item.fotos.map((f, i) => (
+                      <div key={i} style={{ position: "relative", borderRadius: "var(--radius-md)", overflow: "hidden", border: "1px solid var(--border)", aspectRatio: "1" }}>
+                        <img src={f} alt={`Boleta ${i+1}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        <button 
+                          onClick={() => removePhoto(item.id, i)} 
+                          style={{ position: "absolute", top: 6, right: 6, background: "rgba(239,68,68,0.9)", color: "white", border: "none", borderRadius: "50%", width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div style={{ padding: "40px 0", textAlign: "center", opacity: 0.4 }}>
+                    <p style={{ margin: 0, fontSize: "var(--font-sm)", fontWeight: 600 }}>No hay boletas subidas aún</p>
+                  </div>
+                )}
+              </div>
+
+              <div style={{ marginTop: "var(--spacing-lg)", paddingTop: "var(--spacing-md)", borderTop: "1px solid var(--border)" }}>
+                <button onClick={() => setActivePhotoModal(null)} style={{ width: "100%", padding: "12px", border: "1px solid var(--border)", background: "white", cursor: "pointer", fontWeight: 700, fontSize: "var(--font-xs)", borderRadius: "var(--radius-md)", color: "var(--text-main)" }}>
+                  CERRAR VENTANA
+                </button>
+              </div>
+
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* Modal Seleccionar Acción (Merma, Sobrante, Dev) */}
+      {activeOptionsRow && (() => {
+        const item = allItems.find(i => i.id === activeOptionsRow);
+        if (!item) return null;
+        return (
+          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", backdropFilter: "blur(3px)", zIndex: 9999, display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div className="card" style={{ padding: "var(--spacing-xl)", width: "380px", borderTop: "4px solid #374151", animation: "slideDown 0.2s ease-out" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-md)" }}>
+                <h3 style={{ margin: 0, fontWeight: 800, fontSize: "var(--font-lg)", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <Settings size={18} color="#374151" /> Gestionar Producto
+                </h3>
+                <button onClick={() => setActiveOptionsRow(null)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)" }}><X size={20} /></button>
+              </div>
+              
+              <div style={{ backgroundColor: "var(--secondary)", padding: "12px", borderRadius: "var(--radius-md)", marginBottom: "var(--spacing-lg)", textAlign: "center", border: "1px solid var(--border)" }}>
+                <div style={{ fontSize: "var(--font-xs)", color: "var(--text-muted)", fontWeight: 700, marginBottom: "4px" }}>PRODUCTO SELECCIONADO</div>
+                <div style={{ fontSize: "var(--font-base)", fontWeight: 800, color: "var(--primary)" }}>{item.nombre}</div>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                {actionButtons.map((action) => {
+                  const hasValue = item[action.key as keyof ProductRecord];
+                  const Icon = action.icon;
+                  return (
+                    <button 
+                      key={action.key}
+                      onClick={() => {
+                        setActiveOptionsRow(null);
+                        openActionModal(item, action.key);
+                      }}
+                      style={{ 
+                        padding: "12px 16px", 
+                        backgroundColor: hasValue ? action.bg : "white", 
+                        color: hasValue ? action.color : "var(--text-main)", 
+                        border: `1px solid ${hasValue ? action.color + "40" : "var(--border)"}`, 
+                        borderRadius: "var(--radius-md)", fontWeight: 700, fontSize: "var(--font-sm)", 
+                        cursor: "pointer",
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                        transition: "all 0.15s"
+                      }}
+                    >
+                      <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <Icon size={16} color={hasValue ? action.color : "var(--text-muted)"} />
+                        {action.label}
+                      </span>
+                      {hasValue && <CheckCircle2 size={16} color={action.color} />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       <style jsx>{`
         @keyframes slideDown {

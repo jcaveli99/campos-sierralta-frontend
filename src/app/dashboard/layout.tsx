@@ -11,7 +11,12 @@ import {
   Camera,
   FileText,
   User as UserIcon,
-  ChevronDown
+  ChevronDown,
+  BarChart3,
+  ClipboardList,
+  Wallet,
+  Menu,
+  X
 } from "lucide-react";
 
 export default function DashboardLayout({
@@ -22,11 +27,17 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const [role, setRole] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setRole(localStorage.getItem("user_role"));
     setUserName(localStorage.getItem("user_name"));
   }, []);
+
+  // Cerrar menú móvil automáticamente al navegar
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   // Definición de ítems de navegación según el ROL
   const allNavItems = [
@@ -35,29 +46,60 @@ export default function DashboardLayout({
     { name: "Historial de Órdenes", icon: FileText, path: "/dashboard/ordenes/confirmadas", roles: ["admin", "supervisor", "encargado"] },
     { name: "Registro de Mercado", icon: Camera, path: "/dashboard/compras", roles: ["admin", "supervisor", "trabajador"] },
     { name: "Inventario / Stock", icon: Package, path: "/dashboard/inventario", roles: ["admin", "supervisor", "encargado", "trabajador"] },
+    { name: "Reporte General", icon: BarChart3, path: "/dashboard/reportes", roles: ["admin"] },
+    { name: "Reporte x Proveedor", icon: ClipboardList, path: "/dashboard/reportes/proveedor", roles: ["admin"] },
+    { name: "Vista Pagos", icon: Wallet, path: "/dashboard/pagos", roles: ["admin"] },
   ];
 
   const visibleNavItems = allNavItems.filter(item => role && item.roles.includes(role));
 
   return (
-    <div style={{ display: "flex", height: "100vh", backgroundColor: "var(--background)" }}>
-      {/* Sidebar Compacto */}
-      <aside style={{ 
-        width: "220px", 
-        borderRight: "1px solid var(--border)", 
-        display: "flex", 
-        flexDirection: "column",
-        padding: "var(--spacing-md)"
-      }}>
-        <div style={{ marginBottom: "var(--spacing-xl)" }}>
-          <h3 style={{ color: "var(--primary)", fontSize: "var(--font-base)", letterSpacing: "1px", margin: 0 }}>
-            CAMPOS SIERRALTA
-          </h3>
-          <p style={{ fontSize: "10px", color: "var(--text-muted)", margin: 0 }}>Gestión Fullstack</p>
-        </div>
+    <div className="dashboard-layout" style={{ display: "flex", height: "100vh", backgroundColor: "var(--background)", flexDirection: "column" }}>
+      
+      {/* 📱 MOBILE HEADER (Extra Navbar solo en celular) */}
+      <div className="mobile-header" style={{ display: "none", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", borderBottom: "1px solid var(--border)", backgroundColor: "white", zIndex: 1000, boxShadow: "0 2px 10px rgba(0,0,0,0.05)" }}>
+        <Link href="/dashboard" style={{ textDecoration: "none" }}>
+          <h3 style={{ margin: 0, fontSize: "var(--font-base)", color: "var(--primary)", letterSpacing: "1px" }}>CAMPOS SIERRALTA</h3>
+          <p style={{ margin: 0, fontSize: "10px", color: "var(--text-muted)" }}>{role || "Gestión"}</p>
+        </Link>
+        <button onClick={() => setIsMobileMenuOpen(true)} style={{ background: "none", border: "none", color: "var(--foreground)", padding: "4px" }}>
+          <Menu size={24} />
+        </button>
+      </div>
+
+      <div style={{ display: "flex", flex: 1, overflow: "hidden", position: "relative" }}>
+        
+        {/* Overlay oscuro móvil cuando el Drawer está abierto */}
+        <div 
+          className={`mobile-overlay ${isMobileMenuOpen ? 'open' : ''}`}
+          onClick={() => setIsMobileMenuOpen(false)}
+          style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.5)", zIndex: 9998, display: "none" }}
+        />
+
+        {/* 💻 DESKTOP SIDEBAR + 📱 MOBILE DRAWER */}
+        <aside className={`sidebar ${isMobileMenuOpen ? 'open' : ''}`} style={{ 
+          width: "220px", 
+          borderRight: "1px solid var(--border)", 
+          display: "flex", 
+          flexDirection: "column",
+          padding: "var(--spacing-md)",
+          flexShrink: 0
+        }}>
+          
+          <div className="mobile-only" style={{ display: "none", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--spacing-lg)", paddingBottom: "var(--spacing-sm)", borderBottom: "1px solid var(--border)" }}>
+            <h3 style={{ margin: 0, fontSize: "var(--font-lg)", color: "var(--primary)" }}>Menú</h3>
+            <button onClick={() => setIsMobileMenuOpen(false)} style={{ background: "none", border: "none" }}><X size={24} /></button>
+          </div>
+
+          <Link href="/dashboard" className="sidebar-header desktop-only" style={{ marginBottom: "var(--spacing-xl)", textDecoration: "none", display: "block" }}>
+            <h3 style={{ color: "var(--primary)", fontSize: "var(--font-base)", letterSpacing: "1px", margin: 0 }}>
+              CAMPOS SIERRALTA
+            </h3>
+            <p style={{ fontSize: "10px", color: "var(--text-muted)", margin: 0 }}>Gestión Fullstack</p>
+          </Link>
 
         {/* Perfil de Usuario en Sidebar */}
-        <div style={{ 
+        <div className="sidebar-profile" style={{ 
           marginBottom: "var(--spacing-xl)", 
           padding: "var(--spacing-sm)", 
           backgroundColor: "#fafafa", 
@@ -76,7 +118,7 @@ export default function DashboardLayout({
           </div>
         </div>
 
-        <nav style={{ flex: 1, display: "flex", flexDirection: "column", gap: "var(--spacing-xs)" }}>
+        <nav className="sidebar-nav" style={{ flex: 1, display: "flex", flexDirection: "column", gap: "var(--spacing-xs)" }}>
           {visibleNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.path;
@@ -126,10 +168,10 @@ export default function DashboardLayout({
         </button>
       </aside>
 
-      {/* Main Content */}
-      <main style={{ flex: 1, overflowY: "auto", padding: "var(--spacing-lg)" }}>
-        {children}
-      </main>
+        <main className="main-content" style={{ flex: 1, overflowY: "auto", padding: "var(--spacing-lg)", minWidth: 0 }}>
+          {children}
+        </main>
+      </div>
     </div>
   );
 }
