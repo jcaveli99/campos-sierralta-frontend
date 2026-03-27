@@ -22,7 +22,8 @@ export default function Login() {
       { email: "trabajador@campos-sierralta.com", pass: "mercado123", role: "trabajador", name: "Trabajador Mercado" },
     ];
 
-    const user = users.find(u => u.email === email && u.pass === password);
+    const cleanUsername = email.replace("@campos-sierralta.com", "").trim().toLowerCase();
+    const user = users.find(u => u.email === `${cleanUsername}@campos-sierralta.com` && u.pass === password);
 
     if (user) {
       localStorage.setItem("user_role", user.role);
@@ -86,25 +87,53 @@ export default function Login() {
 
         <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <label style={{ fontSize: "13px", fontWeight: 700, color: "#4b5563", paddingLeft: "4px" }}>Correo Electrónico</label>
-            <div style={{ position: "relative" }}>
-              <User size={18} style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", color: "#9ca3af" }} />
+            <label style={{ fontSize: "13px", fontWeight: 700, color: "#4b5563", paddingLeft: "4px" }}>Usuario</label>
+            <div 
+              style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                backgroundColor: "#f9fafb", 
+                border: "2px solid transparent", 
+                borderRadius: "14px", 
+                transition: "all 0.2s", 
+                boxShadow: "inset 0 1px 2px rgba(0,0,0,0.02)",
+                overflow: "hidden"
+              }}
+              onFocus={(e) => { e.currentTarget.style.border = "2px solid rgba(255,69,0,0.3)"; e.currentTarget.style.backgroundColor = "#fff"; }}
+              onBlur={(e) => { e.currentTarget.style.border = "2px solid transparent"; e.currentTarget.style.backgroundColor = "#f9fafb"; }}
+            >
+              <div style={{ paddingLeft: "16px", paddingRight: "8px", display: "flex", alignItems: "center" }}>
+                <User size={18} color="#9ca3af" />
+              </div>
               <input 
-                type="email" 
-                placeholder="ej: dueno@campos-sierralta.com" 
+                type="text" 
+                placeholder="ej: dueno" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 style={{ 
-                  width: "100%", padding: "14px 16px 14px 44px", 
-                  backgroundColor: "#f9fafb", border: "2px solid transparent", 
-                  borderRadius: "14px", fontSize: "14px", color: "#111",
-                  transition: "all 0.2s", outline: "none",
-                  boxShadow: "inset 0 1px 2px rgba(0,0,0,0.02)"
+                  flex: 1, 
+                  padding: "14px 0px", 
+                  backgroundColor: "transparent", 
+                  border: "none", 
+                  fontSize: "14px", 
+                  color: "#111",
+                  outline: "none",
+                  minWidth: "50px"
                 }}
-                onFocus={(e) => { e.currentTarget.style.border = "2px solid rgba(255,69,0,0.3)"; e.currentTarget.style.backgroundColor = "#fff"; }}
-                onBlur={(e) => { e.currentTarget.style.border = "2px solid transparent"; e.currentTarget.style.backgroundColor = "#f9fafb"; }}
                 required
               />
+              <div style={{ 
+                padding: "14px 16px 14px 8px", 
+                backgroundColor: "transparent", 
+                color: "var(--text-muted)", 
+                fontSize: "13px", 
+                fontWeight: 600,
+                borderLeft: "1px dashed #e5e7eb",
+                userSelect: "none",
+                whiteSpace: "nowrap"
+              }}>
+                @campos-sierralta.com
+              </div>
             </div>
           </div>
 
@@ -172,10 +201,10 @@ export default function Login() {
         <div style={{ marginTop: "32px", backgroundColor: "#f3f4f6", padding: "16px", borderRadius: "16px", border: "1px dashed #d1d5db" }}>
           <p style={{ fontSize: "10px", fontWeight: 800, color: "#6b7280", textTransform: "uppercase", marginBottom: "12px", textAlign: "center", letterSpacing: "0.5px" }}>Credenciales Demo</p>
           <div style={{ fontSize: "10px", color: "#4b5563", display: "flex", flexDirection: "column", gap: "8px" }}>
-             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Dueño:</strong> <span>dueno@campos-sierralta.com / admin123</span></div>
-             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Supervisor:</strong> <span>supervisor@campos-sierralta.com / super123</span></div>
-             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Encargado:</strong> <span>tienda@campos-sierralta.com / tienda123</span></div>
-             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Personal:</strong> <span>trabajador@campos-sierralta.com / mercado123</span></div>
+             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Dueño:</strong> <span>dueno / admin123</span></div>
+             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Supervisor:</strong> <span>supervisor / super123</span></div>
+             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Encargado:</strong> <span>tienda / tienda123</span></div>
+             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Personal:</strong> <span>trabajador / mercado123</span></div>
           </div>
         </div>
       </div>
