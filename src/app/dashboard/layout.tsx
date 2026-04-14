@@ -46,8 +46,8 @@ export default function DashboardLayout({
     { name: "Historial de Órdenes", icon: FileText, path: "/dashboard/ordenes/confirmadas", roles: ["admin", "supervisor", "encargado"] },
     { name: "Registro de Mercado", icon: Camera, path: "/dashboard/compras", roles: ["admin", "supervisor", "trabajador"] },
     { name: "Inventario / Stock", icon: Package, path: "/dashboard/inventario", roles: ["admin", "supervisor", "encargado", "trabajador"] },
-    { name: "Reporte General", icon: BarChart3, path: "/dashboard/reportes", roles: ["admin"] },
-    { name: "Reporte x Proveedor", icon: ClipboardList, path: "/dashboard/reportes/proveedor", roles: ["admin"] },
+    { name: "Reporte General", icon: BarChart3, path: "/dashboard/reportes", roles: ["admin", "encargado"] },
+    { name: "Reporte x Proveedor", icon: ClipboardList, path: "/dashboard/reportes/proveedor", roles: ["admin", "encargado"] },
     { name: "Vista Pagos", icon: Wallet, path: "/dashboard/pagos", roles: ["admin"] },
   ];
 

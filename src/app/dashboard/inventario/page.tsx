@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Package, RefreshCw, TrendingDown, History, Info, AlertTriangle, ShieldCheck, AlertCircle, Hand, ArrowRight } from "lucide-react";
 
 interface StockItem {
@@ -13,16 +13,44 @@ interface StockItem {
   ultimaActualizacion: string;
 }
 
+const defaultStock: StockItem[] = [
+  { id: "1", producto: "Platano seda", unidad: "unid", stockAcumulado: 45, sobranteAyer: 10, mermaHoy: 0, ultimaActualizacion: "2026-03-10 21:00" },
+  { id: "2", producto: "Fresa", unidad: "taper", stockAcumulado: 22, sobranteAyer: 5, mermaHoy: 0, ultimaActualizacion: "2026-03-10 20:30" },
+  { id: "3", producto: "Aguaymanto", unidad: "taper", stockAcumulado: 15, sobranteAyer: 2, mermaHoy: 0, ultimaActualizacion: "2026-03-10 19:45" },
+  { id: "4", producto: "Brócoli", unidad: "bandeja", stockAcumulado: 30, sobranteAyer: 8, mermaHoy: 0, ultimaActualizacion: "2026-03-10 18:00" },
+  { id: "5", producto: "Cebolla roja", unidad: "kg", stockAcumulado: 20, sobranteAyer: 15, mermaHoy: 0, ultimaActualizacion: "2026-03-10 18:00" },
+  { id: "6", producto: "Ají amarillo", unidad: "kg", stockAcumulado: 25, sobranteAyer: 5, mermaHoy: 0, ultimaActualizacion: "2026-03-10 18:00" },
+];
+
 export default function Inventario() {
-  const [stock, setStock] = useState<StockItem[]>([
-    { id: "1", producto: "Platano seda", unidad: "unidad", stockAcumulado: 45, sobranteAyer: 10, mermaHoy: 0, ultimaActualizacion: "2026-03-10 21:00" },
-    { id: "2", producto: "Fresa - taper x 500g", unidad: "taper", stockAcumulado: 22, sobranteAyer: 5, mermaHoy: 0, ultimaActualizacion: "2026-03-10 20:30" },
-    { id: "3", producto: "Aguaymanto - taper x 250 g", unidad: "taper", stockAcumulado: 15, sobranteAyer: 2, mermaHoy: 0, ultimaActualizacion: "2026-03-10 19:45" },
-    { id: "4", producto: "Brócoli - bandeja x 250 g", unidad: "bandeja", stockAcumulado: 30, sobranteAyer: 8, mermaHoy: 0, ultimaActualizacion: "2026-03-10 18:00" },
-  ]);
+  const [stock, setStock] = useState<StockItem[]>([]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    // Para la demostración: forzamos que se muestren estos datos específicos si la estructura difiere o no encontramos lo esperado
+    const saved = localStorage.getItem("global_inventory_stock");
+    let currentStock = defaultStock;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Si no tiene aji amarillo, forzamos la recarga de default (simulacion)
+        if (!parsed.some((s: StockItem) => s.producto.includes("amarillo"))) {
+           localStorage.setItem("global_inventory_stock", JSON.stringify(defaultStock));
+        } else {
+           currentStock = parsed;
+        }
+      } catch(e) {
+        localStorage.setItem("global_inventory_stock", JSON.stringify(defaultStock));
+      }
+    } else {
+      localStorage.setItem("global_inventory_stock", JSON.stringify(defaultStock));
+    }
+    setStock(currentStock);
+  }, []);
 
   const registrarMerma = (id: string, cant: number) => {
-    setStock(stock.map(item => {
+    const updated = stock.map(item => {
       if (item.id === id) {
         return {
           ...item,
@@ -32,8 +60,14 @@ export default function Inventario() {
         };
       }
       return item;
-    }));
+    });
+    setStock(updated);
+    localStorage.setItem("global_inventory_stock", JSON.stringify(updated));
   };
+
+  const stockVisible = stock.filter(item => item.sobranteAyer > 0);
+
+  if (!mounted) return null;
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
@@ -73,22 +107,22 @@ export default function Inventario() {
             <table className="compact-table" style={{ minWidth: "100%" }}>
               <thead>
               <tr>
-                <th style={{ width: "250px", minWidth: "180px" }}>Producto</th>
-                <th style={{ textAlign: "center", minWidth: "140px" }}>Stock Acumulado</th>
-                <th style={{ textAlign: "center", minWidth: "100px" }}>Sobrante Ayer</th>
-                <th style={{ textAlign: "center", color: "var(--error)", minWidth: "90px" }}>Merma Hoy</th>
+                <th style={{ width: "250px", minWidth: "180px" }}>Producto o Denominación</th>
+                <th style={{ textAlign: "center", minWidth: "100px" }}>Sobrante de ayer</th>
+                <th style={{ textAlign: "center", minWidth: "140px" }}>Stock acumulado</th>
+                <th style={{ textAlign: "center", color: "var(--error)", minWidth: "90px" }}>Merma de hoy</th>
                 <th style={{ textAlign: "center", minWidth: "130px" }}>Estado</th>
               </tr>
             </thead>
             <tbody>
-              {stock.map((item) => (
+              {stockVisible.map((item) => (
                 <tr key={item.id}>
                   <td style={{ fontWeight: 600 }}>{item.producto}</td>
+                  <td style={{ textAlign: "center", fontStyle: "italic", color: "var(--text-muted)", fontWeight: 500 }}>
+                    {item.sobranteAyer} {item.unidad}
+                  </td>
                   <td style={{ textAlign: "center", fontWeight: 800, color: "var(--primary)", backgroundColor: "rgba(255, 69, 0, 0.05)", fontSize: "var(--font-base)" }}>
                     {item.stockAcumulado} {item.unidad}
-                  </td>
-                  <td style={{ textAlign: "center", fontStyle: "italic", color: "var(--text-muted)" }}>
-                    {item.sobranteAyer}
                   </td>
                   <td style={{ textAlign: "center", fontWeight: 600, color: "var(--error)" }}>
                     {item.mermaHoy > 0 ? `-${item.mermaHoy}` : "0"}

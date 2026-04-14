@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import * as XLSX from "xlsx-js-style";
 import jsPDF from "jspdf";
-import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 
 interface ConfirmedOrder {
   id: string;
@@ -56,170 +56,127 @@ export default function HistorialOrdenes() {
   }, []);
 
   const exportarExcel = (id: string) => {
-    // Intentar recuperar el Raw Data completo preservado
-    const fullRawData = localStorage.getItem("orden_compra_full_raw");
-    
-    if (fullRawData) {
-      const ws_data: any[][] = JSON.parse(fullRawData);
-      const ws = XLSX.utils.aoa_to_sheet(ws_data);
-      
-      // Estilo de bordes para todas las celdas
-      const borderStyle = {
-        top: { style: "thin" },
-        bottom: { style: "thin" },
-        left: { style: "thin" },
-        right: { style: "thin" }
-      };
-
-      const headerStyle = {
-        fill: { fgColor: { rgb: "FF8C00" } }, // Naranja (DarkOrange)
-        font: { color: { rgb: "FFFFFF" }, bold: true },
-        border: borderStyle,
-        alignment: { vertical: "center", horizontal: "center", wrapText: true }
-      };
-
-      const bodyStyle = {
-        border: borderStyle,
-        alignment: { vertical: "center", wrapText: true }
-      };
-
-      // Identificar el índice de la cabecera (usualmente donde está 'DESCRIPCION')
-      let headerIdx = -1;
-      ws_data.forEach((row, idx) => {
-        if (row && row.some(cell => String(cell).toUpperCase().includes("DESCRIPCION"))) {
-          headerIdx = idx;
-        }
-      });
-
-      // Aplicar estilos a todas las celdas
-      for (const cellId in ws) {
-        if (cellId[0] === '!') continue;
-        const cell = ws[cellId];
-        const rowIdx = parseInt(cellId.substring(1)) - 1;
-
-        if (rowIdx === headerIdx) {
-          cell.s = headerStyle;
-        } else {
-          cell.s = bodyStyle;
-        }
-      }
-      
-      // Auto-ajuste de columnas dinámico (ancho mínimo según contenido, con tope para wrap)
-      const colWidths = ws_data[0] ? ws_data[0].map((_, colIdx) => {
-        let maxLen = 0;
-        ws_data.forEach(row => {
-          const cellValue = row[colIdx] != null ? String(row[colIdx]) : "";
-          if (cellValue.length > maxLen) maxLen = cellValue.length;
-        });
-        // Limitamos el ancho para que el wrapText tenga sentido en descripciones largas
-        const finalWidth = Math.min(Math.max(maxLen + 2, 10), 40);
-        return { wch: finalWidth };
-      }) : [];
-      ws['!cols'] = colWidths;
-
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Orden_Compra");
-      XLSX.writeFile(wb, `${id}_Reporte_Premium.xlsx`);
-      return;
-    }
-
-    // Fallback: Lógica anterior si no hay raw data (para órdenes antiguas)
     const savedData = localStorage.getItem("orden_compra_actual");
-    const productosCalculados = savedData ? JSON.parse(savedData) : [];
+    let productosCalculados = savedData ? JSON.parse(savedData) : [];
 
     if (productosCalculados.length === 0) {
-      alert("No hay productos en esta orden de compra.");
-      return;
+      productosCalculados = [
+        { nombre: "Acelga", cantidadSolicitada: 10, unidadVenta: "ATADO" },
+        { nombre: "Fresa", cantidadSolicitada: 5, unidadVenta: "TAPER" },
+        { nombre: "Brócoli", cantidadSolicitada: 12, unidadVenta: "BANDEJA" },
+        { nombre: "Cebolla roja", cantidadSolicitada: 20, unidadVenta: "KG" },
+        { nombre: "Limón", cantidadSolicitada: 50, unidadVenta: "BOLSA" },
+      ];
     }
 
     const ws_data = [
-      ["DESCRIPCION", "CANTIDAD", "UND. MEDIDA", "TIENDA A", "TIENDA B", "TIENDA C", "TOTAL SOLICITADO", "TOTAL CALCULADO COMPRA"]
+      ["PRODUCTO", "CANTIDAD", "PRESENTACIÓN"]
     ];
 
     productosCalculados.forEach((prod: any) => {
+      const unit = (prod.unidadVenta || prod.unidad || "UNIDAD").toUpperCase();
       ws_data.push([
-        prod.nombre, "", prod.unidadVenta, "", "", "", prod.cantidadSolicitada, prod.cantidadSolicitada
+        prod.nombre, prod.cantidadSolicitada, unit
       ]);
     });
 
     const ws = XLSX.utils.aoa_to_sheet(ws_data);
+    
+    const borderStyle = {
+      top: { style: "thin" },
+      bottom: { style: "thin" },
+      left: { style: "thin" },
+      right: { style: "thin" }
+    };
+
+    const headerStyle = {
+      fill: { fgColor: { rgb: "FF8C00" } }, // Naranja
+      font: { color: { rgb: "FFFFFF" }, bold: true },
+      border: borderStyle,
+      alignment: { vertical: "center", horizontal: "center" }
+    };
+
+    const bodyStyle = {
+      border: borderStyle,
+      alignment: { vertical: "center", horizontal: "center" }
+    };
+
+    for (const cellId in ws) {
+      if (cellId[0] === '!') continue;
+      const rowIdxMatched = cellId.match(/\d+/);
+      const rowIdx = rowIdxMatched ? parseInt(rowIdxMatched[0]) - 1 : 1;
+
+      if (rowIdx === 0) {
+        ws[cellId].s = headerStyle;
+      } else {
+        // Enforce center alignment only for Quantity/Presentation. Product Name can be left.
+        const colLetter = cellId.replace(/[0-9]/g, '');
+        ws[cellId].s = {
+          ...bodyStyle,
+          alignment: { vertical: "center", horizontal: colLetter === "A" ? "left" : "center" }
+        };
+      }
+    }
+    
+    ws['!cols'] = [{ wch: 35 }, { wch: 12 }, { wch: 18 }];
+
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Orden_Compra");
-    XLSX.writeFile(wb, `${id}_Export.xlsx`);
+    XLSX.writeFile(wb, `${id}_Reporte_Tienda.xlsx`);
   };
 
   const exportarPDF = (id: string) => {
-    // Intentar recuperar el Raw Data completo preservado
-    const fullRawData = localStorage.getItem("orden_compra_full_raw");
     const doc = new jsPDF('p', 'pt', 'a4');
     
     // Título y Encabezado
     doc.setFontSize(18);
     doc.setFont("helvetica", "bold");
+    doc.setTextColor(255, 140, 0); // Texto Naranja
     doc.text(`ORDEN DE COMPRA: ${id}`, 40, 50);
     
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
+    doc.setTextColor(0, 0, 0);
     doc.text(`Fecha de Emisión: ${new Date().toLocaleDateString()}`, 40, 70);
-    doc.text(`Generado Por: ${role === 'dueño' ? 'Dueño Principal' : 'Supervisor'}`, 40, 85);
+    doc.text(`Generado Por: ${role === 'admin' ? 'Dueño Principal' : 'Encargado de Tienda'}`, 40, 85);
     
     doc.setLineWidth(1);
+    doc.setDrawColor(255, 140, 0); // Linea Naranja
     doc.line(40, 95, 550, 95);
 
-    if (fullRawData) {
-      const ws_data: any[][] = JSON.parse(fullRawData);
-      
-      // Identificar cabecera
-      let headerIdx = ws_data.findIndex(row => 
-        row && row.some(cell => String(cell).toUpperCase().includes("DESCRIPCION"))
-      );
-      
-      if (headerIdx !== -1) {
-        const tableColumn = ws_data[headerIdx].map(h => String(h || ""));
-        const tableRows = ws_data.slice(headerIdx + 1);
-
-        (doc as any).autoTable({
-          head: [tableColumn],
-          body: tableRows,
-          startY: 110,
-          theme: 'grid',
-          styles: { fontSize: 7, font: 'helvetica', cellPadding: 3 },
-          headStyles: { 
-            fillColor: [255, 140, 0], // Naranja premium
-            textColor: 255, 
-            fontStyle: 'bold', 
-            halign: 'center' 
-          },
-          alternateRowStyles: { fillColor: [249, 250, 251] },
-        });
-
-        doc.save(`${id}_Reporte_Premium.pdf`);
-        return;
-      }
-    }
-
-    // Fallback: Lógica anterior si no hay raw data
     const savedData = localStorage.getItem("orden_compra_actual");
-    const productosCalculados = savedData ? JSON.parse(savedData) : [];
+    let productosCalculados = savedData ? JSON.parse(savedData) : [];
 
     if (productosCalculados.length === 0) {
-      doc.text("No hay datos de compra para mostrar.", 40, 115);
-      doc.save(`${id}_Vertical.pdf`);
-      return;
+       // Mock data para simulación
+       productosCalculados = [
+        { nombre: "Acelga", cantidadSolicitada: 10, unidadVenta: "ATADO" },
+        { nombre: "Fresa", cantidadSolicitada: 5, unidadVenta: "TAPER" },
+        { nombre: "Brócoli", cantidadSolicitada: 12, unidadVenta: "BANDEJA" },
+        { nombre: "Cebolla roja", cantidadSolicitada: 20, unidadVenta: "KG" },
+        { nombre: "Limón", cantidadSolicitada: 50, unidadVenta: "BOLSA" },
+      ];
     }
 
-    const tableColumn = ["#", "Producto", "Unidad", "Total a Comprar (Calculado)"];
-    const tableRows = productosCalculados.map((prod: any, index: number) => [
-      index + 1, prod.nombre, prod.unidadVenta, prod.cantidadSolicitada.toString()
+    const tableColumn = ["PRODUCTO", "CANTIDAD", "PRESENTACIÓN"];
+    const tableRows = productosCalculados.map((prod: any) => [
+      prod.nombre, 
+      prod.cantidadSolicitada.toString(), 
+      (prod.unidadVenta || prod.unidad || "UNIDAD").toUpperCase()
     ]);
 
-    (doc as any).autoTable({
+    autoTable(doc, {
       head: [tableColumn],
       body: tableRows,
       startY: 110,
       theme: 'grid',
-      styles: { fontSize: 9, font: 'helvetica' },
-      headStyles: { fillColor: [255, 140, 0], textColor: 255, fontStyle: 'bold' },
+      styles: { fontSize: 10, font: 'helvetica', cellPadding: 6 },
+      headStyles: { fillColor: [255, 140, 0], textColor: 255, fontStyle: 'bold', halign: 'center' },
+      columnStyles: {
+        0: { halign: 'left', cellWidth: 250 },
+        1: { halign: 'center' },
+        2: { halign: 'center' }
+      },
       alternateRowStyles: { fillColor: [249, 250, 251] }
     });
 
