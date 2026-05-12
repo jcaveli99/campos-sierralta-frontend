@@ -124,7 +124,7 @@ export default function HistorialOrdenes() {
 
     autoTable(doc, {
       head: [tableColumn], body: tableRows, startY: 100, theme: 'grid',
-      styles: { fontSize: 7, cellPadding: 2, rowHeight: 10 },
+      styles: { fontSize: 7, cellPadding: 2 },
       headStyles: { fillColor: [255, 140, 0], textColor: 255, halign: 'center' },
       columnStyles: { 
         0: { cellWidth: 300 }, 
