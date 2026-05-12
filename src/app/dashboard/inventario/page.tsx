@@ -372,14 +372,12 @@ export default function Inventario() {
         <div style={{ padding: "16px", backgroundColor: "white", border: "1px solid var(--border)", borderRadius: "8px", marginBottom: "24px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
              <h3 style={{ margin: 0, fontSize: "12px", color: "var(--primary)", display: "flex", alignItems: "center", gap: "6px" }}><UserCircle size={16}/> SELECCIONE TRABAJADOR PARA AUDITORÍA</h3>
-             {role !== 'encargado' && (
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <span style={{ fontSize: "10px", fontWeight: 700, color: "var(--text-muted)" }}>DAR PRÓRROGA A {selectedWorkerView.toUpperCase()}:</span>
-                  <button onClick={()=>grantTime(15)} style={{ backgroundColor: "#16a34a", color: "white", border: "none", borderRadius: "4px", padding: "4px 8px", fontSize: "10px", cursor: "pointer", fontWeight: "bold" }}>+15m</button>
-                  <button onClick={()=>grantTime(30)} style={{ backgroundColor: "#16a34a", color: "white", border: "none", borderRadius: "4px", padding: "4px 8px", fontSize: "10px", cursor: "pointer", fontWeight: "bold" }}>+30m</button>
-                  <button onClick={()=>grantTime(60)} style={{ backgroundColor: "#16a34a", color: "white", border: "none", borderRadius: "4px", padding: "4px 8px", fontSize: "10px", cursor: "pointer", fontWeight: "bold" }}>+1H</button>
-                </div>
-             )}
+                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                   <span style={{ fontSize: "10px", fontWeight: 700, color: "var(--text-muted)" }}>DAR PRÓRROGA A {selectedWorkerView.toUpperCase()}:</span>
+                   <button onClick={()=>grantTime(15)} style={{ backgroundColor: "#16a34a", color: "white", border: "none", borderRadius: "4px", padding: "4px 8px", fontSize: "10px", cursor: "pointer", fontWeight: "bold" }}>+15m</button>
+                   <button onClick={()=>grantTime(30)} style={{ backgroundColor: "#16a34a", color: "white", border: "none", borderRadius: "4px", padding: "4px 8px", fontSize: "10px", cursor: "pointer", fontWeight: "bold" }}>+30m</button>
+                   <button onClick={()=>grantTime(60)} style={{ backgroundColor: "#16a34a", color: "white", border: "none", borderRadius: "4px", padding: "4px 8px", fontSize: "10px", cursor: "pointer", fontWeight: "bold" }}>+1H</button>
+                 </div>
           </div>
           <div style={{ display: "flex", gap: "8px", overflowX: "auto", paddingBottom: "4px" }}>
             {WORKERS.map(w => (

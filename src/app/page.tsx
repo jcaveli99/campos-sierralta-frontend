@@ -76,7 +76,7 @@ export default function Login() {
         <div style={{ textAlign: "center", marginBottom: "36px" }}>
           <div style={{ marginTop: "-30px", marginBottom: "4px", display: "flex", justifyContent: "center" }}>
             <img 
-              src="/ChatGPT Image 5 may 2026, 08_14_04 p.m..png" 
+              src="/logo.png" 
               alt="Logo Campos Sierralta" 
               style={{ 
                 width: "300px", 
