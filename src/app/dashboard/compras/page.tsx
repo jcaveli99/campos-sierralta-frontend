@@ -23,6 +23,8 @@ import {
 
 
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backent-sierralta.onrender.com';
+
 interface ProductRecord {
   id: string;
   nombre: string;
@@ -80,7 +82,7 @@ export default function RegistroCompras() {
   const [unidadesCompra, setUnidadesCompra] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch('https://backent-sierralta.onrender.com/unidades')
+    fetch(`${API_URL}/unidades`)
       .then(res => res.json())
       .then(data => setUnidadesCompra(data.map((u: any) => u.nombre)))
       .catch(console.error);
@@ -104,8 +106,8 @@ export default function RegistroCompras() {
     const fetchBackendData = async () => {
       try {
         const [resCompras, resAsignaciones] = await Promise.all([
-          fetch(`https://backent-sierralta.onrender.com/compras?fecha=${fechaFiltro}`),
-          fetch('https://backent-sierralta.onrender.com/usuarios/asignaciones')
+          fetch(`${API_URL}/compras?fecha=${fechaFiltro}`),
+          fetch(`${API_URL}/usuarios/asignaciones`)
         ]);
         
         const serverData = await resCompras.json();
@@ -157,7 +159,7 @@ export default function RegistroCompras() {
            
            // Para el trabajador: mantener sus cambios locales, solo añadir nuevos
            const merged = [...prev];
-           baseItems.forEach(bItem => {
+           baseItems.forEach((bItem: any) => {
               if (!merged.find(p => p.nombre === bItem.nombre)) {
                  merged.push(bItem);
               }
@@ -249,13 +251,18 @@ export default function RegistroCompras() {
     }];
 
     try {
-      await fetch('https://backent-sierralta.onrender.com/compras/sync', { 
+      const res = await fetch(`${API_URL}/compras/sync`, { 
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload) 
       });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(`Error del servidor: ${err.message || 'Error desconocido'}`);
+      }
     } catch(e) {
       console.error("Error auto-saving item", e);
+      alert("Error de conexión al guardar el item.");
     }
   };
 
@@ -417,12 +424,17 @@ export default function RegistroCompras() {
     
     // Sync to Server
     try {
-       await fetch('https://backent-sierralta.onrender.com/compras/sync', { 
+       const res = await fetch(`${API_URL}/compras/sync`, { 
          method: 'POST', 
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify(payload) 
        });
-       alert(`Información guardada. Cualquier dato incompleto será reportado naranja al administrador.`);
+       if (!res.ok) {
+         const err = await res.json();
+         alert(`Error del servidor: ${err.message || 'Error desconocido'}`);
+       } else {
+         alert(`Información guardada. Cualquier dato incompleto será reportado naranja al administrador.`);
+       }
     } catch(e) {
        console.error("Error al guardar", e);
        alert("Error de conexión al guardar.");

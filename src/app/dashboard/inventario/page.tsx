@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { Package, TrendingDown, History, AlertCircle, Save, Lock, Clock, UserCircle, CheckCircle2, Trash2 } from "lucide-react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backent-sierralta.onrender.com';
+
 interface InventoryRecord {
   id: string; // Puede ser el nombre corto
   producto: string;
@@ -63,7 +65,7 @@ export default function Inventario() {
   const [unidades, setUnidades] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch('https://backent-sierralta.onrender.com/unidades')
+    fetch(`${API_URL}/unidades`)
       .then(res => res.json())
       .then(data => setUnidades(data.map((u: any) => u.nombre)))
       .catch(console.error);
@@ -135,8 +137,8 @@ export default function Inventario() {
   const cargarDatosDia = async (dateStr: string, activeTgt: string) => {
     try {
       const [resInv, resAsignaciones] = await Promise.all([
-        fetch(`https://backent-sierralta.onrender.com/inventario?fecha=${dateStr}`),
-        fetch('https://backent-sierralta.onrender.com/usuarios/asignaciones')
+        fetch(`${API_URL}/inventario?fecha=${dateStr}`),
+        fetch(`${API_URL}/usuarios/asignaciones`)
       ]);
       
       const serverData = await resInv.json();
@@ -177,7 +179,7 @@ export default function Inventario() {
            if (prev.length === 0) return masterData;
            
            const merged = [...prev];
-           masterData.forEach(mItem => {
+           masterData.forEach((mItem: any) => {
               if (!merged.find(p => p.producto === mItem.producto)) {
                  merged.push(mItem);
               }
@@ -277,13 +279,18 @@ export default function Inventario() {
     }];
 
     try {
-      await fetch('https://backent-sierralta.onrender.com/inventario/sync', { 
+      const res = await fetch(`${API_URL}/inventario/sync`, { 
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload) 
       });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(`Error del servidor: ${err.message || 'Error desconocido'}`);
+      }
     } catch(e) {
       console.error("Error auto-saving inventory", e);
+      alert("Error de conexión al guardar el item.");
     }
   };
 
@@ -309,12 +316,17 @@ export default function Inventario() {
     }));
 
     try {
-       await fetch('https://backent-sierralta.onrender.com/inventario/sync', { 
+       const res = await fetch(`${API_URL}/inventario/sync`, { 
          method: 'POST', 
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify(payload) 
        });
-       alert(`Inventario del ${fechaFiltro} guardado exitosamente.`);
+       if (!res.ok) {
+         const err = await res.json();
+         alert(`Error del servidor: ${err.message || 'Error desconocido'}`);
+       } else {
+         alert(`Inventario del ${fechaFiltro} guardado exitosamente.`);
+       }
     } catch(e) {
        console.error("Error al guardar", e);
        alert("Error de conexión al guardar.");

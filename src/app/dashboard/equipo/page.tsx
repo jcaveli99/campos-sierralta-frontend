@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { Users, Clock, Package, Check, Save, UserCheck, Timer } from "lucide-react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backent-sierralta.onrender.com';
+
 // Trabajadores requeridos
 const WORKERS = ['Daniel', 'Jesus', 'Alex', 'Yamilet', 'Victor', 'Abraham', 'Fabricio'];
 
@@ -26,7 +28,7 @@ export default function EquipoConfig() {
     // Cargar asignaciones reales desde PostgreSQL
     const fetchAsignaciones = async () => {
       try {
-        const res = await fetch('https://backent-sierralta.onrender.com/usuarios/asignaciones');
+        const res = await fetch(`${API_URL}/usuarios/asignaciones`);
         const data = await res.json();
         if (data && Object.keys(data).length > 0) {
           setAssignments(data);
@@ -50,7 +52,7 @@ export default function EquipoConfig() {
 
   const saveAssignments = async () => {
     try {
-      await fetch('https://backent-sierralta.onrender.com/usuarios/asignaciones', {
+      await fetch(`${API_URL}/usuarios/asignaciones`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(assignments)

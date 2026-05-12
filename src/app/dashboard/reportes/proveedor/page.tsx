@@ -17,6 +17,8 @@ import {
   ArrowRight
 } from "lucide-react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backent-sierralta.onrender.com';
+
 interface CompraRegistro {
   id: string;
   fecha: string;
@@ -65,7 +67,7 @@ export default function ReporteProveedor() {
 
     try {
       const results = await Promise.all(
-        dates.map(fecha => fetch(`https://backent-sierralta.onrender.com/compras?fecha=${fecha}`).then(res => res.json()))
+        dates.map(fecha => fetch(`${API_URL}/compras?fecha=${fecha}`).then(res => res.json()))
       );
 
       results.forEach((serverData, idx) => {
