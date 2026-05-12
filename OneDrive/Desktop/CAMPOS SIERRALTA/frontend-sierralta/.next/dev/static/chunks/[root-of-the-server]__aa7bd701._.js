@@ -27,45 +27,35 @@ function Login() {
     const [showPassword, setShowPassword] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
-    const handleLogin = (e)=>{
+    const handleLogin = async (e)=>{
         e.preventDefault();
-        // Simulación de Usuarios por Rol
-        const users = [
-            {
-                email: "dueno@campos-sierralta.com",
-                pass: "admin123",
-                role: "admin",
-                name: "Dueño Principal"
-            },
-            {
-                email: "supervisor@campos-sierralta.com",
-                pass: "super123",
-                role: "supervisor",
-                name: "Supervisor General"
-            },
-            {
-                email: "tienda@campos-sierralta.com",
-                pass: "tienda123",
-                role: "encargado",
-                name: "Encargado de Tienda"
-            },
-            {
-                email: "trabajador@campos-sierralta.com",
-                pass: "mercado123",
-                role: "trabajador",
-                name: "Trabajador Mercado"
+        setError("");
+        const cleanUsername = email.replace("@campos-sierralta.com", "").trim();
+        // Capitalize first letter to match database seed
+        const formattedUsername = cleanUsername.charAt(0).toUpperCase() + cleanUsername.slice(1).toLowerCase();
+        try {
+            const res = await fetch("http://localhost:4000/usuarios/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nombre: formattedUsername,
+                    pass: password
+                })
+            });
+            const data = await res.json();
+            if (data.success && data.user) {
+                localStorage.setItem("user_id", data.user.id.toString());
+                localStorage.setItem("user_role", data.user.rol);
+                localStorage.setItem("user_name", data.user.nombre);
+                window.location.href = "/dashboard";
+            } else {
+                setError("Credenciales incorrectas. Verifique su usuario y contraseña.");
             }
-        ];
-        const cleanUsername = email.replace("@campos-sierralta.com", "").trim().toLowerCase();
-        const user = users.find((u)=>u.email === `${cleanUsername}@campos-sierralta.com` && u.pass === password);
-        if (user) {
-            localStorage.setItem("user_role", user.role);
-            localStorage.setItem("user_name", user.name);
-            // Forzar una navegación completa (hard-reload) en producción 
-            // para evitar que Next.js caché el viejo estado y se bloquee.
-            window.location.href = "/dashboard";
-        } else {
-            setError("Credenciales incorrectas. Pruebe con los usuarios de simulación.");
+        } catch (error) {
+            console.error(error);
+            setError("Error al conectar con el servidor. ¿Está encendido el backend?");
         }
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -74,7 +64,9 @@ function Login() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)",
+            backgroundImage: "linear-gradient(rgba(150, 150, 150, 0.6), rgba(150, 150, 150, 0.6)), url('/imagesfrutas.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
             padding: "24px",
             position: "relative",
             overflow: "hidden"
@@ -94,7 +86,7 @@ function Login() {
                 }
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 51,
+                lineNumber: 59,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -111,7 +103,7 @@ function Login() {
                 }
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 52,
+                lineNumber: 60,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -136,75 +128,50 @@ function Login() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 style: {
-                                    width: "72px",
-                                    height: "72px",
-                                    background: "linear-gradient(135deg, var(--primary) 0%, #ff7b3a 100%)",
-                                    borderRadius: "22px",
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    marginBottom: "20px",
-                                    boxShadow: "0 12px 24px rgba(255, 69, 0, 0.3)",
-                                    transform: "rotate(-5deg)",
-                                    transition: "transform 0.3s ease"
+                                    marginTop: "-30px",
+                                    marginBottom: "4px",
+                                    display: "flex",
+                                    justifyContent: "center"
                                 },
-                                onMouseEnter: (e)=>e.currentTarget.style.transform = "rotate(0deg) scale(1.05)",
-                                onMouseLeave: (e)=>e.currentTarget.style.transform = "rotate(-5deg)",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                    src: "/ChatGPT Image 5 may 2026, 08_14_04 p.m..png",
+                                    alt: "Logo Campos Sierralta",
                                     style: {
-                                        transform: "rotate(5deg)"
+                                        width: "300px",
+                                        height: "auto",
+                                        objectFit: "contain",
+                                        transition: "transform 0.3s ease"
                                     },
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ShieldCheck, {
-                                        color: "white",
-                                        size: 34,
-                                        strokeWidth: 2.5
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 81,
-                                        columnNumber: 15
-                                    }, this)
+                                    onMouseEnter: (e)=>e.currentTarget.style.transform = "scale(1.05)",
+                                    onMouseLeave: (e)=>e.currentTarget.style.transform = "scale(1)"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 80,
+                                    lineNumber: 76,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 67,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                style: {
-                                    fontSize: "24px",
-                                    fontWeight: 800,
-                                    color: "#111",
-                                    letterSpacing: "-0.5px",
-                                    margin: "0 0 4px 0"
-                                },
-                                children: "CAMPOS SIERRALTA"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 84,
+                                lineNumber: 75,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 style: {
-                                    fontSize: "11px",
-                                    color: "var(--text-muted)",
-                                    fontWeight: 700,
+                                    fontSize: "13px",
+                                    color: "#111",
+                                    fontWeight: 900,
                                     letterSpacing: "1.5px",
-                                    margin: 0
+                                    margin: "-45px 0 0 0"
                                 },
-                                children: "GESTIÓN OPERATIVA"
+                                children: "GESTIÓN DE COMPRAS E INVENTARIO"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 85,
+                                lineNumber: 89,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 66,
+                        lineNumber: 74,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -232,7 +199,7 @@ function Login() {
                                         children: "Usuario"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 90,
+                                        lineNumber: 94,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -267,22 +234,22 @@ function Login() {
                                                     color: "#9ca3af"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 106,
+                                                    lineNumber: 110,
                                                     columnNumber: 17
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 105,
+                                                lineNumber: 109,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                 type: "text",
-                                                placeholder: "ej: dueno",
+                                                placeholder: "Nombre de usuario",
                                                 value: email,
                                                 onChange: (e)=>setEmail(e.target.value),
                                                 style: {
                                                     flex: 1,
-                                                    padding: "14px 0px",
+                                                    padding: "14px 16px",
                                                     backgroundColor: "transparent",
                                                     border: "none",
                                                     fontSize: "14px",
@@ -293,36 +260,19 @@ function Login() {
                                                 required: true
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 108,
-                                                columnNumber: 15
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                style: {
-                                                    padding: "14px 16px 14px 8px",
-                                                    backgroundColor: "transparent",
-                                                    color: "var(--text-muted)",
-                                                    fontSize: "13px",
-                                                    fontWeight: 600,
-                                                    borderLeft: "1px dashed #e5e7eb",
-                                                    userSelect: "none",
-                                                    whiteSpace: "nowrap"
-                                                },
-                                                children: "@campos-sierralta.com"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 125,
+                                                lineNumber: 112,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 91,
+                                        lineNumber: 95,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 89,
+                                lineNumber: 93,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -342,7 +292,7 @@ function Login() {
                                         children: "Contraseña"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 141,
+                                        lineNumber: 133,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -361,7 +311,7 @@ function Login() {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 143,
+                                                lineNumber: 135,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -392,7 +342,7 @@ function Login() {
                                                 required: true
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 144,
+                                                lineNumber: 136,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -413,30 +363,30 @@ function Login() {
                                                     size: 18
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 165,
+                                                    lineNumber: 157,
                                                     columnNumber: 33
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Eye, {
                                                     size: 18
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 165,
+                                                    lineNumber: 157,
                                                     columnNumber: 56
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 160,
+                                                lineNumber: 152,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 142,
+                                        lineNumber: 134,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 140,
+                                lineNumber: 132,
                                 columnNumber: 11
                             }, this),
                             error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -457,12 +407,12 @@ function Login() {
                                     children: error
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 172,
+                                    lineNumber: 164,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 171,
+                                lineNumber: 163,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -501,13 +451,13 @@ function Login() {
                                 children: "Ingresar al Sistema"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 176,
+                                lineNumber: 168,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 88,
+                        lineNumber: 92,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -532,7 +482,7 @@ function Login() {
                                 children: "Credenciales Demo"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 202,
+                                lineNumber: 194,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -557,21 +507,21 @@ function Login() {
                                                 children: "Dueño:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 204,
+                                                lineNumber: 196,
                                                 columnNumber: 80
                                             }, this),
                                             " ",
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                children: "dueno / admin123"
+                                                children: "edmundo / admin123"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 204,
+                                                lineNumber: 196,
                                                 columnNumber: 130
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 204,
+                                        lineNumber: 196,
                                         columnNumber: 14
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -587,21 +537,21 @@ function Login() {
                                                 children: "Supervisor:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 205,
+                                                lineNumber: 197,
                                                 columnNumber: 80
                                             }, this),
                                             " ",
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                children: "supervisor / super123"
+                                                children: "angel / super123"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 205,
+                                                lineNumber: 197,
                                                 columnNumber: 135
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 205,
+                                        lineNumber: 197,
                                         columnNumber: 14
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -617,21 +567,21 @@ function Login() {
                                                 children: "Encargado:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 206,
+                                                lineNumber: 198,
                                                 columnNumber: 80
                                             }, this),
                                             " ",
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                children: "tienda / tienda123"
+                                                children: "alex / tienda123"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 206,
+                                                lineNumber: 198,
                                                 columnNumber: 134
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 206,
+                                        lineNumber: 198,
                                         columnNumber: 14
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -647,45 +597,45 @@ function Login() {
                                                 children: "Personal:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 207,
+                                                lineNumber: 199,
                                                 columnNumber: 80
                                             }, this),
                                             " ",
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$CAMPOS__SIERRALTA$2f$frontend$2d$sierralta$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                children: "trabajador / mercado123"
+                                                children: "fabrizzio / fb123 (daniel/da123, jesus/js123)"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 207,
+                                                lineNumber: 199,
                                                 columnNumber: 133
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 207,
+                                        lineNumber: 199,
                                         columnNumber: 14
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 203,
+                                lineNumber: 195,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 201,
+                        lineNumber: 193,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 54,
+                lineNumber: 62,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/page.tsx",
-        lineNumber: 40,
+        lineNumber: 46,
         columnNumber: 5
     }, this);
 }

@@ -11,28 +11,34 @@ export default function Login() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Simulación de Usuarios por Rol
-    const users = [
-      { email: "dueno@campos-sierralta.com", pass: "admin123", role: "admin", name: "Dueño Principal" },
-      { email: "supervisor@campos-sierralta.com", pass: "super123", role: "supervisor", name: "Supervisor General" },
-      { email: "tienda@campos-sierralta.com", pass: "tienda123", role: "encargado", name: "Encargado de Tienda" },
-      { email: "trabajador@campos-sierralta.com", pass: "mercado123", role: "trabajador", name: "Trabajador Mercado" },
-    ];
+    setError("");
 
-    const cleanUsername = email.replace("@campos-sierralta.com", "").trim().toLowerCase();
-    const user = users.find(u => u.email === `${cleanUsername}@campos-sierralta.com` && u.pass === password);
+    const cleanUsername = email.replace("@campos-sierralta.com", "").trim();
+    // Capitalize first letter to match database seed
+    const formattedUsername = cleanUsername.charAt(0).toUpperCase() + cleanUsername.slice(1).toLowerCase();
 
-    if (user) {
-      localStorage.setItem("user_role", user.role);
-      localStorage.setItem("user_name", user.name);
-      // Forzar una navegación completa (hard-reload) en producción 
-      // para evitar que Next.js caché el viejo estado y se bloquee.
-      window.location.href = "/dashboard";
-    } else {
-      setError("Credenciales incorrectas. Pruebe con los usuarios de simulación.");
+    try {
+      const res = await fetch("http://localhost:4000/usuarios/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre: formattedUsername, pass: password }),
+      });
+
+      const data = await res.json();
+
+      if (data.success && data.user) {
+        localStorage.setItem("user_id", data.user.id.toString());
+        localStorage.setItem("user_role", data.user.rol);
+        localStorage.setItem("user_name", data.user.nombre);
+        window.location.href = "/dashboard";
+      } else {
+        setError("Credenciales incorrectas. Verifique su usuario y contraseña.");
+      }
+    } catch (error) {
+      console.error(error);
+      setError("Error al conectar con el servidor. ¿Está encendido el backend?");
     }
   };
 
@@ -42,7 +48,9 @@ export default function Login() {
       display: "flex", 
       alignItems: "center", 
       justifyContent: "center",
-      background: "linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)",
+      backgroundImage: "linear-gradient(rgba(150, 150, 150, 0.6), rgba(150, 150, 150, 0.6)), url('/imagesfrutas.jpg')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
       padding: "24px",
       position: "relative",
       overflow: "hidden"
@@ -64,25 +72,21 @@ export default function Login() {
         position: "relative"
       }}>
         <div style={{ textAlign: "center", marginBottom: "36px" }}>
-          <div style={{ 
-            width: "72px", height: "72px", 
-            background: "linear-gradient(135deg, var(--primary) 0%, #ff7b3a 100%)", 
-            borderRadius: "22px", 
-            display: "inline-flex", alignItems: "center", justifyContent: "center",
-            marginBottom: "20px",
-            boxShadow: "0 12px 24px rgba(255, 69, 0, 0.3)",
-            transform: "rotate(-5deg)",
-            transition: "transform 0.3s ease"
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = "rotate(0deg) scale(1.05)"}
-          onMouseLeave={(e) => e.currentTarget.style.transform = "rotate(-5deg)"}
-          >
-            <div style={{ transform: "rotate(5deg)" }}>
-              <ShieldCheck color="white" size={34} strokeWidth={2.5} />
-            </div>
+          <div style={{ marginTop: "-30px", marginBottom: "4px", display: "flex", justifyContent: "center" }}>
+            <img 
+              src="/ChatGPT Image 5 may 2026, 08_14_04 p.m..png" 
+              alt="Logo Campos Sierralta" 
+              style={{ 
+                width: "300px", 
+                height: "auto", 
+                objectFit: "contain",
+                transition: "transform 0.3s ease"
+              }} 
+              onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+              onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+            />
           </div>
-          <h1 style={{ fontSize: "24px", fontWeight: 800, color: "#111", letterSpacing: "-0.5px", margin: "0 0 4px 0" }}>CAMPOS SIERRALTA</h1>
-          <p style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 700, letterSpacing: "1.5px", margin: 0 }}>GESTIÓN OPERATIVA</p>
+          <p style={{ fontSize: "13px", color: "#111", fontWeight: 900, letterSpacing: "1.5px", margin: "-45px 0 0 0" }}>GESTIÓN DE COMPRAS E INVENTARIO</p>
         </div>
 
         <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
@@ -107,12 +111,12 @@ export default function Login() {
               </div>
               <input 
                 type="text" 
-                placeholder="ej: dueno" 
+                placeholder="Nombre de usuario" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 style={{ 
                   flex: 1, 
-                  padding: "14px 0px", 
+                  padding: "14px 16px", 
                   backgroundColor: "transparent", 
                   border: "none", 
                   fontSize: "14px", 
@@ -122,18 +126,6 @@ export default function Login() {
                 }}
                 required
               />
-              <div style={{ 
-                padding: "14px 16px 14px 8px", 
-                backgroundColor: "transparent", 
-                color: "var(--text-muted)", 
-                fontSize: "13px", 
-                fontWeight: 600,
-                borderLeft: "1px dashed #e5e7eb",
-                userSelect: "none",
-                whiteSpace: "nowrap"
-              }}>
-                @campos-sierralta.com
-              </div>
             </div>
           </div>
 
@@ -201,10 +193,10 @@ export default function Login() {
         <div style={{ marginTop: "32px", backgroundColor: "#f3f4f6", padding: "16px", borderRadius: "16px", border: "1px dashed #d1d5db" }}>
           <p style={{ fontSize: "10px", fontWeight: 800, color: "#6b7280", textTransform: "uppercase", marginBottom: "12px", textAlign: "center", letterSpacing: "0.5px" }}>Credenciales Demo</p>
           <div style={{ fontSize: "10px", color: "#4b5563", display: "flex", flexDirection: "column", gap: "8px" }}>
-             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Dueño:</strong> <span>dueno / admin123</span></div>
-             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Supervisor:</strong> <span>supervisor / super123</span></div>
-             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Encargado:</strong> <span>tienda / tienda123</span></div>
-             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Personal:</strong> <span>trabajador / mercado123</span></div>
+             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Dueño:</strong> <span>edmundo / admin123</span></div>
+             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Supervisor:</strong> <span>angel / super123</span></div>
+             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Encargado:</strong> <span>alex / tienda123</span></div>
+             <div style={{ display: "flex", justifyContent: "space-between" }}><strong style={{ color: "#111" }}>Personal:</strong> <span>fabrizzio / fb123 (daniel/da123, jesus/js123)</span></div>
           </div>
         </div>
       </div>

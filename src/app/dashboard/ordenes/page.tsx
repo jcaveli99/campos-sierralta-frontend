@@ -5,7 +5,7 @@ import * as XLSX from "xlsx";
 import { 
   Upload, FileSpreadsheet, Calculator, CheckCircle2, 
   AlertCircle, ShoppingBag, PackageCheck, Info, History, 
-  X, Plus, Layers, Trash2, FileText
+  X, Plus, Layers, Trash2, FileText, ArrowRight
 } from "lucide-react";
 
 // ═══════════════════════════════════════════════
@@ -44,21 +44,9 @@ interface StockVerification {
   estado: "DESCONTADO" | "COMPRA_TOTAL" | "STOCK_SUFICIENTE";
 }
 
-// ═══════════════════════════════════════════════
-// UTILIDAD: Limpiar nombre de producto
-// ═══════════════════════════════════════════════
-
 function limpiarNombreProducto(desc: string): string {
-  return desc
-    // Remover guiones seguidos de presentación
-    .replace(/\s*[-–]\s*(bandeja|taper|malla|bolsa|caja|atado|paquete|sachet|frasco|botella|lata|sobre|display)\b/gi, '')
-    // Remover "x 250 g", "x unidad", "x 1 kg", "x100g", etc.
-    .replace(/\s*x\s*\d+\s*(g|gr|kg|ml|l|lt|cc|oz|unidad|unidades|und|un)?\b/gi, '')
-    // Remover "x unidad" suelto
-    .replace(/\s*x\s*(unidad|unidades|und|atado|atados|paquete|paquetes)\b/gi, '')
-    // Limpiar espacios dobles
-    .replace(/\s+/g, ' ')
-    .trim();
+  if (!desc) return "";
+  return desc.trim(); // Solo quitamos espacios, respetando mayúsculas/minúsculas
 }
 
 // ═══════════════════════════════════════════════
@@ -66,50 +54,94 @@ function limpiarNombreProducto(desc: string): string {
 // ═══════════════════════════════════════════════
 
 export default function OrdenesCompra() {
-  // Multi-Excel state
+  const [role, setRole] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
   const [excelSets, setExcelSets] = useState<ExcelDataSet[]>([]);
   const [loading, setLoading] = useState(false);
-
-  // Consolidated summary
   const [consolidatedData, setConsolidatedData] = useState<ConsolidatedRow[]>([]);
   const [showConsolidated, setShowConsolidated] = useState(false);
-
-  // Stock verification
   const [verificacionStock, setVerificacionStock] = useState<StockVerification[]>([]);
   const [showVerification, setShowVerification] = useState(false);
-
-  // Confirmation modal
   const [showModal, setShowModal] = useState(false);
+  const [globalStock, setGlobalStock] = useState<any[]>([]);
 
-  // Ref for hidden file input (add more button)
   const addMoreRef = useRef<HTMLInputElement>(null);
 
-  // Usaremos el stock global compartido con Inventario
-  const [globalStock, setGlobalStock] = useState<any[]>([]);
-  useEffect(() => {
-    const saved = localStorage.getItem("global_inventory_stock");
-    let initialGlobalStock = [];
-    if (saved) {
-      try {
-        initialGlobalStock = JSON.parse(saved);
-      } catch(e) {}
-    }
-    // Para simulacion: asegurarnos que tenemos los datos de prueba listos
-    if (initialGlobalStock.length === 0 || !initialGlobalStock.some((s:any) => s.producto.includes("amarillo"))) {
-      initialGlobalStock = [
-        { id: "1", producto: "Platano seda", unidad: "unid", stockAcumulado: 45, sobranteAyer: 10, mermaHoy: 0, ultimaActualizacion: "2026-03-10 21:00" },
-        { id: "2", producto: "Fresa", unidad: "taper", stockAcumulado: 22, sobranteAyer: 5, mermaHoy: 0, ultimaActualizacion: "2026-03-10 20:30" },
-        { id: "3", producto: "Aguaymanto", unidad: "taper", stockAcumulado: 15, sobranteAyer: 2, mermaHoy: 0, ultimaActualizacion: "2026-03-10 19:45" },
-        { id: "4", producto: "Brócoli", unidad: "bandeja", stockAcumulado: 30, sobranteAyer: 8, mermaHoy: 0, ultimaActualizacion: "2026-03-10 18:00" },
-        { id: "5", producto: "Cebolla roja", unidad: "kg", stockAcumulado: 20, sobranteAyer: 15, mermaHoy: 0, ultimaActualizacion: "2026-03-10 18:00" },
-        { id: "6", producto: "Ají amarillo", unidad: "kg", stockAcumulado: 25, sobranteAyer: 5, mermaHoy: 0, ultimaActualizacion: "2026-03-10 18:00" },
-      ];
-      localStorage.setItem("global_inventory_stock", JSON.stringify(initialGlobalStock));
-    }
-    setGlobalStock(initialGlobalStock);
-  }, []);
+  // ── SISTEMA DE SINCRONIZACIÓN (Simulación Real-Time) ──
+  const syncData = async (dataToPush?: any) => {
+    try {
+      if (dataToPush && (role === 'admin' || role === 'supervisor')) {
+        await fetch('/api/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dataToPush)
+        });
+      }
+      
+      const res = await fetch('/api/sync');
+      const db = await res.json();
+      
+      // 1. Cargar stock agregado de trabajadores desde la DB compartida
+      const today = new Date().toISOString().split("T")[0];
+      const workers = ['Daniel', 'Jesus', 'Alex', 'Yamilet', 'Victor', 'Abraham', 'Fabricio'];
+      const aggregated: Record<string, { producto: string, stock: number, unidad: string }> = {};
 
-  // ── PROCESAR EXCEL ──
+      workers.forEach(w => {
+        const key = `inventario_dia_${today}_${w}`;
+        const data = db[key]; // Leer de la DB compartida
+        if (data) {
+          try {
+            const records = typeof data === 'string' ? JSON.parse(data) : data;
+            records.forEach((r: any) => {
+              const prodKey = r.producto.toUpperCase().trim();
+              if (!aggregated[prodKey]) {
+                aggregated[prodKey] = { producto: r.producto, stock: 0, unidad: r.unidad };
+              }
+              aggregated[prodKey].stock += (r.stockActual || 0);
+            });
+          } catch(e) {}
+        }
+      });
+      setGlobalStock(Object.values(aggregated));
+
+      // 2. Cargar órdenes compartidas (Solo si el estado local está vacío para no interrumpir al que está subiendo)
+      if (db.shared_excel_sets && excelSets.length === 0) {
+        setExcelSets(db.shared_excel_sets);
+      }
+      if (db.shared_consolidated_data && consolidatedData.length === 0) {
+        setConsolidatedData(db.shared_consolidated_data);
+        setShowConsolidated(true);
+      }
+      if (db.shared_verificacion_stock && verificacionStock.length === 0) {
+        setVerificacionStock(db.shared_verificacion_stock);
+        setShowVerification(true);
+      }
+    } catch (e) {
+      console.error("Sync error:", e);
+    }
+  };
+
+  useEffect(() => {
+    const rawRole = localStorage.getItem("user_role")?.toLowerCase() || "";
+    // Mapeo flexible de roles
+    let normalizedRole = "trabajador";
+    if (rawRole.includes("admin") || rawRole.includes("due") || rawRole.includes("jefe")) {
+      normalizedRole = "admin";
+    } else if (rawRole.includes("super")) {
+      normalizedRole = "supervisor";
+    } else if (rawRole.includes("enca")) {
+      normalizedRole = "encargado";
+    }
+    
+    const currentName = localStorage.getItem("user_name") || "Usuario";
+    setRole(normalizedRole);
+    setUserName(currentName);
+
+    syncData();
+    const interval = setInterval(() => syncData(), 3000); 
+    return () => clearInterval(interval);
+  }, []); 
+
   const processExcelFile = (file: File) => {
     return new Promise<ExcelDataSet | null>((resolve) => {
       const reader = new FileReader();
@@ -138,11 +170,7 @@ export default function OrdenesCompra() {
 
             if (headerIdx !== -1) {
               const headerRow = rawData[headerIdx] as string[];
-              validHeaders = headerRow.map((h, i) => {
-                if (h && String(h).trim() !== "") return String(h).trim();
-                return `COL_${i}`;
-              });
-
+              validHeaders = headerRow.map((h, i) => (h && String(h).trim() !== "") ? String(h).trim() : `COL_${i}`);
               orders = rawData.slice(headerIdx + 1)
                 .filter(row => row.length > 0 && row[0] && String(row[0]).trim() !== "")
                 .map(row => {
@@ -158,26 +186,13 @@ export default function OrdenesCompra() {
                   };
                 });
             } else {
-              // No hay fila de cabecera estándar detectada. 
-              // Buscamos la primera fila que parezca contener datos (String, Número).
               let firstDataIdx = rawData.findIndex(row => 
                 row.length >= 1 && typeof row[0] === 'string' && row[0].trim() !== "" && !isNaN(Number(row[row.length - 1]))
               );
-
-              if (firstDataIdx === -1) {
-                firstDataIdx = 1;
-              }
-
-              // Sintetizar headers
+              if (firstDataIdx === -1) firstDataIdx = 1;
               const maxCols = Math.max(1, ...rawData.slice(firstDataIdx).map(r => r.length));
-              validHeaders = Array.from({ length: maxCols }, (_, i) => {
-                if (i === 0) return "DESCRIPCION";
-                if (i === maxCols - 1) return "TOTAL";
-                return `COL_${i}`;
-              });
-
+              validHeaders = Array.from({ length: maxCols }, (_, i) => i === 0 ? "DESCRIPCION" : (i === maxCols - 1 ? "TOTAL" : `COL_${i}`));
               headerIdx = Math.max(0, firstDataIdx - 1);
-
               orders = rawData.slice(firstDataIdx)
                 .filter(row => row.length > 0 && row[0] && String(row[0]).trim() !== "")
                 .map(row => {
@@ -215,13 +230,10 @@ export default function OrdenesCompra() {
     });
   };
 
-  // ── UPLOAD HANDLER (soporta múltiples archivos simultáneos) ──
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
-
     setLoading(true);
-    // Reset consolidado y stock si suben nuevos archivos
     setShowConsolidated(false);
     setConsolidatedData([]);
     setShowVerification(false);
@@ -232,633 +244,324 @@ export default function OrdenesCompra() {
       const result = await processExcelFile(files[i]);
       if (result) newSets.push(result);
     }
-
-    setExcelSets(prev => [...prev, ...newSets]);
+    const nextSets = [...excelSets, ...newSets];
+    setExcelSets(nextSets);
+    syncData({ shared_excel_sets: nextSets });
     setLoading(false);
-    e.target.value = ""; // Reset input
+    e.target.value = ""; 
   };
 
-  // ── ELIMINAR UN EXCEL ──
   const removeExcel = (id: string) => {
-    setExcelSets(prev => prev.filter(s => s.id !== id));
-    // Reset consolidado si eliminaron un Excel
+    setExcelSets(prev => {
+      const next = prev.filter(s => s.id !== id);
+      syncData({ 
+        shared_excel_sets: next,
+        shared_consolidated_data: [],
+        shared_verificacion_stock: []
+      });
+      return next;
+    });
     setShowConsolidated(false);
     setConsolidatedData([]);
     setShowVerification(false);
     setVerificacionStock([]);
   };
 
-  // ── CALCULAR SUMA CONSOLIDADA ──
   const calcularSumaTotal = () => {
     if (excelSets.length === 0) return;
-
-    const productMap = new Map<string, ConsolidatedRow>();
+    // Mapa: Key en MAYÚSCULAS -> { Datos Consolidados }
+    const productMap = new Map<string, ConsolidatedRow & { nombreDisplay?: string, nombreOriginalRappi?: string }>();
 
     excelSets.forEach(excelSet => {
+      const isRappi = excelSet.fileName.toLowerCase().includes("rappi");
       excelSet.data.forEach(order => {
-        const nombreLimpio = order.descripcionLimpia;
-        // Buscar la columna TOTAL o de cantidad aproximada
+        const nombreOriginal = order.descripcion;
+        const keyAgrupacion = nombreOriginal.trim().toUpperCase(); // Key interna para sumar
+        
         const totalCol = excelSet.headers.find(h => {
           const upper = h.toUpperCase();
           return upper === "TOTAL" || upper === "TOTALES" || upper === "CANT" || upper === "CANTIDAD";
         });
-        
         let cantidad = 0;
-        if (totalCol) {
-          cantidad = Number(order.valores[totalCol]) || 0;
-        } else {
-          // Si no hay ninguna columna explícita, probamos con la última columna que tenga números
-          const lastCol = excelSet.headers[excelSet.headers.length - 1];
-          cantidad = Number(order.valores[lastCol]) || 0;
-        }
+        if (totalCol) cantidad = Number(order.valores[totalCol]) || 0;
+        else cantidad = Number(order.valores[excelSet.headers[excelSet.headers.length - 1]]) || 0;
 
-        if (!productMap.has(nombreLimpio)) {
-          productMap.set(nombreLimpio, {
-            producto: nombreLimpio,
-            cantidadesPorExcel: [],
-            total: 0
+        if (!productMap.has(keyAgrupacion)) {
+          productMap.set(keyAgrupacion, { 
+            producto: keyAgrupacion, 
+            cantidadesPorExcel: [], 
+            total: 0,
+            nombreDisplay: nombreOriginal // Guardar el primero que encontremos
           });
         }
+        
+        const row = productMap.get(keyAgrupacion)!;
+        
+        // Priorizar el nombre LITERAL de Rappi (respetando sus mayúsculas/minúsculas)
+        if (isRappi && !row.nombreOriginalRappi) {
+          row.nombreOriginalRappi = nombreOriginal;
+        }
 
-        const row = productMap.get(nombreLimpio)!;
-
-        // Verificar si ya existe entrada para este Excel (mismo producto aparece 2 veces en 1 Excel)
         const existingExcelEntry = row.cantidadesPorExcel.find(c => c.excelId === excelSet.id);
-        if (existingExcelEntry) {
-          existingExcelEntry.cantidad += cantidad;
-        } else {
-          row.cantidadesPorExcel.push({
-            excelId: excelSet.id,
-            fileName: excelSet.fileName,
-            cantidad: cantidad
-          });
-        }
+        if (existingExcelEntry) existingExcelEntry.cantidad += cantidad;
+        else row.cantidadesPorExcel.push({ excelId: excelSet.id, fileName: excelSet.fileName, cantidad: cantidad });
       });
     });
 
-    // Calcular totales
     const consolidated: ConsolidatedRow[] = [];
     productMap.forEach(row => {
       row.total = row.cantidadesPorExcel.reduce((sum, c) => sum + c.cantidad, 0);
-      consolidated.push(row);
+      
+      // EL NOMBRE FINAL DEBE SER EL ORIGINAL (CON SUS MAYÚSCULAS)
+      const finalRow = {
+        ...row,
+        producto: row.nombreOriginalRappi || row.nombreDisplay || row.producto
+      };
+      consolidated.push(finalRow);
     });
-
-    // Ordenar alfabéticamente
     consolidated.sort((a, b) => a.producto.localeCompare(b.producto));
-
     setConsolidatedData(consolidated);
     setShowConsolidated(true);
-
-    // Scroll suave hacia la tabla consolidada
-    setTimeout(() => {
-      document.getElementById("tabla-consolidada")?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    syncData({ 
+      shared_excel_sets: excelSets,
+      shared_consolidated_data: consolidated 
+    });
+    setTimeout(() => document.getElementById("tabla-consolidada")?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
   };
 
-  // ── VERIFICAR VS STOCK (ahora usa la tabla consolidada) ──
   const analizarStockAcumulado = () => {
     if (consolidatedData.length === 0) {
       alert("Primero presione 'Calcular Suma Total' para consolidar los datos de todos los Excel.");
       return;
     }
-
     const results: StockVerification[] = consolidatedData.map(row => {
       const pedidoTotal = row.total;
-      
       const productEnStock = globalStock.find(s => {
         const p1 = s.producto.toLowerCase().replace(/['"]/g, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         const p2 = row.producto.toLowerCase().replace(/['"]/g, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         return p1.includes(p2) || p2.includes(p1);
       });
-
-      const stockAcumulado = productEnStock ? productEnStock.stockAcumulado : 0;
+      const stockAcumulado = productEnStock ? productEnStock.stock : 0;
       const unidad = productEnStock ? productEnStock.unidad : "und";
-
       let compraRecomendada = pedidoTotal - stockAcumulado;
       let stockProyectado = stockAcumulado - pedidoTotal;
       let estado: StockVerification["estado"] = "COMPRA_TOTAL";
-
       if (stockAcumulado > 0) {
-        if (compraRecomendada <= 0) {
-          compraRecomendada = 0;
-          estado = "STOCK_SUFICIENTE";
-        } else {
-          stockProyectado = 0;
-          estado = "DESCONTADO";
-        }
-      } else {
-        stockProyectado = 0;
-      }
-
-      return {
-        producto: row.producto,
-        unidad,
-        pedidoTotal,
-        stockAcumulado,
-        compraRecomendada,
-        stockProyectado: Math.max(0, stockProyectado),
-        estado
-      };
+        if (compraRecomendada <= 0) { compraRecomendada = 0; estado = "STOCK_SUFICIENTE"; }
+        else { stockProyectado = 0; estado = "DESCONTADO"; }
+      } else { stockProyectado = 0; }
+      return { producto: row.producto, unidad, pedidoTotal, stockAcumulado, compraRecomendada, stockProyectado: Math.max(0, stockProyectado), estado };
     });
-
     setVerificacionStock(results);
     setShowVerification(true);
-
-    setTimeout(() => {
-      document.getElementById("tabla-stock")?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    syncData({ 
+      shared_verificacion_stock: results 
+    });
+    setTimeout(() => document.getElementById("tabla-stock")?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
   };
 
-  // ── CONFIRMAR PEDIDO ──
-  const handleConfirmar = () => {
+  const handleConfirmar = async () => {
     if (verificacionStock.length === 0) {
       alert("Primero presione 'Verificar vs Stock Total' para calcular las cantidades reales.");
       return;
     }
+    const productosAComprar = verificacionStock.map(row => ({
+      id: Math.random().toString(36).substr(2, 9),
+      nombre: row.producto,
+      cantidadSolicitada: row.pedidoTotal, // El pedido original del Excel
+      stockTienda: row.stockAcumulado,     // El stock que había
+      compraReal: row.compraRecomendada,   // Lo que realmente hay que comprar
+      unidadVenta: row.unidad || "Unid"
+    }));
 
-    const productosAComprar = verificacionStock
-      .filter(row => row.compraRecomendada > 0)
-      .map(row => ({
-        id: Math.random().toString(36).substr(2, 9),
-        nombre: row.producto,
-        cantidadSolicitada: row.compraRecomendada,
-        unidadVenta: "Unidades"
-      }));
+    // Preparar entrada de historial para simulación compartida
+    const res = await fetch('/api/sync');
+    const db = await res.json();
+    const historial = db.orden_compra_historial || [];
+    
+    const newEntry = {
+      id: `OC-${new Date().toISOString().replace(/[-:T]/g, '').slice(0, 12)}`,
+      fecha: new Date().toLocaleString(),
+      excelFiles: excelSets.map(s => s.fileName),
+      itemsCount: verificacionStock.length,
+      totalUnidades: verificacionStock.reduce((sum, r) => sum + r.compraRecomendada, 0),
+      creadoPor: userName || "Dueño Principal",
+      items: productosAComprar, 
+      estado: "EN_MERCADO"
+    };
 
-    if (productosAComprar.length === 0) {
-      alert("El stock acumulado cubre todos los pedidos. ¡No es necesario comprar nada hoy!");
-      return;
-    }
-
-    // Preservar raw data del primer Excel (para compatibilidad con confirmadas)
-    if (excelSets.length > 0) {
-      const firstSet = excelSets[0];
-      const updatedRawData = [...firstSet.rawExcelData];
-      if (firstSet.headerRowIndex !== -1 && updatedRawData.length > 0) {
-        const colCalculoName = "TOTAL CALCULADO COMPRA";
-        const headerRow = [...updatedRawData[firstSet.headerRowIndex]];
-        let colIdx = headerRow.findIndex(h => String(h).toUpperCase().includes("TOTAL CALCULADO COMPRA"));
-
-        if (colIdx === -1) {
-          colIdx = headerRow.length;
-          headerRow[colIdx] = colCalculoName;
-        }
-
-        updatedRawData[firstSet.headerRowIndex] = headerRow;
-
-        for (let i = firstSet.headerRowIndex + 1; i < updatedRawData.length; i++) {
-          const row = updatedRawData[i];
-          if (row && row[0]) {
-            const productDesc = limpiarNombreProducto(String(row[0]).trim());
-            const result = verificacionStock.find(r => r.producto === productDesc);
-            if (result) {
-              updatedRawData[i] = [...row];
-              updatedRawData[i][colIdx] = result.compraRecomendada;
-            }
-          }
-        }
-        localStorage.setItem("orden_compra_full_raw", JSON.stringify(updatedRawData));
-      }
-    }
+    const updatedHistorial = [newEntry, ...historial];
+    
+    // Limpiar estados compartidos después de finalizar
+    await syncData({ 
+      orden_compra_historial: updatedHistorial,
+      shared_excel_sets: [],
+      shared_consolidated_data: [],
+      shared_verificacion_stock: []
+    });
 
     localStorage.setItem("orden_compra_actual", JSON.stringify(productosAComprar));
     setShowModal(true);
   };
 
-  // ═══════════════════════════════════════════════
-  // RENDER
-  // ═══════════════════════════════════════════════
-
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", paddingBottom: "100px", width: "100%" }}>
-
-      {/* ── HEADER ── */}
       <header style={{ marginBottom: "var(--spacing-lg)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
           <h1 style={{ fontSize: "var(--font-lg)" }}>Órdenes de Compra</h1>
           <p style={{ color: "var(--text-muted)", fontSize: "var(--font-xs)" }}>
-            Carga múltiples Excel, consolida productos y calcula la compra real descontando stock.
+            {role === 'encargado' ? "Visualiza la orden consolidada y descarga el pedido final." : "Carga múltiples Excel, consolida y resta el stock de tienda."}
           </p>
         </div>
-
-        <label className="btn-primary" style={{ display: "flex", alignItems: "center", gap: "var(--spacing-sm)", cursor: "pointer", whiteSpace: "nowrap" }}>
-          <Upload size={14} />
-          Cargar Excel
-          <input type="file" hidden accept=".xlsx, .xls" multiple onChange={handleFileUpload} />
-        </label>
+        {(role === 'admin' || role === 'supervisor') && (
+          <label className="btn-primary" style={{ display: "flex", alignItems: "center", gap: "var(--spacing-sm)", cursor: "pointer" }}>
+            <Upload size={14} /> Cargar Excel
+            <input type="file" hidden accept=".xlsx, .xls" multiple onChange={handleFileUpload} />
+          </label>
+        )}
       </header>
 
-      {/* ── TIP INFO VERDE ── */}
       <div style={{ padding: "var(--spacing-md)", backgroundColor: "rgba(22, 163, 74, 0.05)", borderRadius: "var(--radius-md)", border: "1px solid rgba(22, 163, 74, 0.2)", display: "flex", alignItems: "center", gap: "var(--spacing-md)", marginBottom: "var(--spacing-xl)" }}>
-        <AlertCircle size={18} color="var(--success)" style={{ flexShrink: 0 }} />
+        <AlertCircle size={18} color="var(--success)" />
         <p style={{ margin: 0, fontSize: "var(--font-xs)", color: "var(--success)" }}>
-          <strong>Importante:</strong> Puedes subir uno o varios Excel de órdenes de compra (Rappi, etc). Cada Excel se mostrará en su propia tabla. Luego presiona &quot;Calcular Suma Total&quot; para consolidar y finalmente &quot;Verificar vs Stock Total&quot;.
+          <strong>Importante:</strong> {role === 'encargado' ? "Pedido final restando el stock de tienda." : "Sube los Excel de Rappi y Tienda Campos para consolidar."}
         </p>
       </div>
 
-      {/* ── BADGE: Cantidad de Excel subidos ── */}
-      {excelSets.length > 0 && (
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-md)", marginBottom: "var(--spacing-lg)", flexWrap: "wrap" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "6px", padding: "6px 16px", backgroundColor: "var(--primary)", color: "white", borderRadius: "20px", fontSize: "var(--font-xs)", fontWeight: 800 }}>
-            <Layers size={14} />
-            {excelSets.length} Excel{excelSets.length > 1 ? "es" : ""} cargado{excelSets.length > 1 ? "s" : ""}
-          </div>
-          {excelSets.map(s => (
-            <span key={s.id} style={{ fontSize: "10px", fontWeight: 700, color: "var(--text-muted)", backgroundColor: "var(--secondary)", padding: "4px 10px", borderRadius: "12px", border: "1px solid var(--border)" }}>
-              {s.fileName}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {/* ═══════════════════════════════════════════════ */}
-      {/* ── TABLAS POR CADA EXCEL SUBIDO ──             */}
-      {/* ═══════════════════════════════════════════════ */}
       {excelSets.map((excelSet, setIndex) => (
         <div key={excelSet.id} className="card" style={{ padding: 0, overflow: "hidden", marginBottom: "var(--spacing-xl)" }}>
-
-          {/* Header de la tabla del Excel */}
-          <div style={{
-            padding: "var(--spacing-md) var(--spacing-lg)",
-            backgroundColor: "var(--secondary)",
-            borderBottom: "1px solid var(--border)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}>
+          <div style={{ padding: "var(--spacing-md) var(--spacing-lg)", backgroundColor: "var(--secondary)", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-sm)" }}>
-              <div style={{ width: "28px", height: "28px", borderRadius: "6px", backgroundColor: "var(--primary)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: 800 }}>
-                {setIndex + 1}
-              </div>
+              <div style={{ width: "24px", height: "24px", borderRadius: "50%", backgroundColor: "var(--primary)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: 800 }}>{setIndex + 1}</div>
               <div>
-                <h3 style={{ margin: 0, fontSize: "var(--font-sm)", fontWeight: 800, display: "flex", alignItems: "center", gap: "6px" }}>
-                  <FileText size={14} color="var(--primary)" />
-                  {excelSet.fileName}
-                </h3>
-                <p style={{ margin: 0, fontSize: "10px", color: "var(--text-muted)", fontWeight: 600 }}>
-                  {excelSet.fechaReporte} — {excelSet.data.length} productos
-                </p>
+                <h3 style={{ margin: 0, fontSize: "var(--font-sm)", fontWeight: 800 }}>{excelSet.fileName}</h3>
+                <p style={{ margin: 0, fontSize: "10px", color: "var(--text-muted)" }}>{excelSet.data.length} productos</p>
               </div>
             </div>
-            <button
-              onClick={() => removeExcel(excelSet.id)}
-              style={{
-                background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)",
-                borderRadius: "6px", padding: "6px 12px", display: "flex", alignItems: "center",
-                gap: "4px", fontSize: "10px", fontWeight: 700, color: "#dc2626", cursor: "pointer",
-                transition: "all 0.15s"
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(239,68,68,0.15)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(239,68,68,0.08)"; }}
-            >
-              <Trash2 size={12} /> Quitar
-            </button>
+            <button onClick={() => removeExcel(excelSet.id)} style={{ background: "none", border: "none", color: "#dc2626", cursor: "pointer" }}><Trash2 size={16} /></button>
           </div>
-
-          {/* Tabla con los datos del Excel */}
-          <div style={{ overflowX: "auto", maxHeight: "50vh" }}>
-            <table className="compact-table" style={{ minWidth: "100%" }}>
-              <thead style={{ position: "sticky", top: 0, zIndex: 10 }}>
+          <div style={{ overflowX: "auto", maxHeight: "40vh" }}>
+            <table className="compact-table">
+              <thead>
                 <tr>
-                  <th style={{ backgroundColor: "var(--secondary)", width: "40px", textAlign: "center" }}>#</th>
-                  {excelSet.headers.map((h, i) => h ? (
-                    <th key={i} style={{ whiteSpace: "nowrap", backgroundColor: "var(--secondary)", color: "var(--foreground)", textAlign: i === 0 ? "left" : "center" }}>
-                      {h}
-                    </th>
-                  ) : <th key={i}></th>)}
+                  <th style={{ width: "40px" }}>#</th>
+                  {excelSet.headers.map((h, i) => <th key={i}>{h}</th>)}
                 </tr>
               </thead>
               <tbody>
-                {excelSet.data.map((order, rowIndex) => {
-                  // Encontrar el índice de la columna DESCRIPCION
-                  const descColIndex = excelSet.headers.findIndex(h =>
-                    h.toUpperCase().includes("DESCRIPCION")
-                  );
-                  const descHeaderName = descColIndex !== -1 ? excelSet.headers[descColIndex] : "";
-
-                  return (
-                    <tr key={rowIndex}>
-                      <td style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "0.7rem" }}>{rowIndex + 1}</td>
-                      {excelSet.headers.map((h, colIndex) => {
-                        if (!h) return <td key={colIndex}></td>;
-
-                        // ✅ CAMBIO 1: Si es la columna DESCRIPCION, mostrar solo nombre limpio
-                        const isDescCol = h === descHeaderName && descColIndex !== -1 && colIndex === descColIndex;
-                        const cellValue = isDescCol ? order.descripcionLimpia : order.valores[h];
-
-                        return (
-                          <td key={colIndex} style={{
-                            textAlign: colIndex === 0 ? "left" : "center",
-                            fontWeight: colIndex === 0 ? 600 : 400,
-                            backgroundColor: h.toUpperCase() === "TOTAL" ? "#fff9f6" : "transparent"
-                          }}>
-                            {cellValue}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
+                {excelSet.data.map((order, ri) => (
+                  <tr key={ri}>
+                    <td>{ri + 1}</td>
+                    {excelSet.headers.map((h, ci) => <td key={ci}>{ci === 0 ? order.descripcionLimpia : order.valores[h]}</td>)}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
       ))}
 
-      {/* ── BOTÓN AGREGAR MÁS EXCEL ── */}
-      {excelSets.length > 0 && (
-        <div style={{ textAlign: "center", marginBottom: "var(--spacing-xl)" }}>
+      {excelSets.length > 0 && (role === 'admin' || role === 'supervisor') && (
+        <div style={{ textAlign: "center", marginBottom: "var(--spacing-xl)", display: "flex", justifyContent: "center", gap: "var(--spacing-md)" }}>
+          <button className="btn-primary" onClick={calcularSumaTotal} style={{ padding: "12px 24px" }}><Calculator size={16} style={{ marginRight: "8px" }} /> CONSOLIDAR ÓRDENES</button>
+          <button className="btn-primary" onClick={() => addMoreRef.current?.click()} style={{ backgroundColor: "white", color: "var(--primary)", border: "1px solid var(--primary)" }}><Plus size={16} /> AGREGAR OTRO</button>
           <input ref={addMoreRef} type="file" hidden accept=".xlsx, .xls" multiple onChange={handleFileUpload} />
-          <button
-            onClick={() => addMoreRef.current?.click()}
-            style={{
-              padding: "12px 28px", backgroundColor: "white", color: "var(--primary)",
-              border: "2px dashed var(--primary)", borderRadius: "var(--radius-md)",
-              fontWeight: 800, fontSize: "var(--font-xs)", cursor: "pointer",
-              display: "inline-flex", alignItems: "center", gap: "8px",
-              transition: "all 0.2s"
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,69,0,0.05)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "white"; }}
-          >
-            <Plus size={16} /> AGREGAR MÁS EXCEL DE ÓRDENES
-          </button>
         </div>
       )}
 
-      {/* ── BOTÓN CALCULAR SUMA TOTAL ── */}
-      {excelSets.length > 0 && (
-        <div style={{ textAlign: "center", marginBottom: "var(--spacing-xl)" }}>
-          <button
-            onClick={calcularSumaTotal}
-            className="btn-primary"
-            style={{
-              padding: "14px 36px", fontSize: "var(--font-sm)", fontWeight: 800,
-              display: "inline-flex", alignItems: "center", gap: "8px",
-              boxShadow: "0 4px 14px rgba(255,69,0,0.3)", borderRadius: "var(--radius-md)",
-              transition: "transform 0.15s, box-shadow 0.15s"
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 6px 20px rgba(255,69,0,0.4)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 14px rgba(255,69,0,0.3)"; }}
-          >
-            <Calculator size={16} /> CALCULAR SUMA TOTAL DE TODOS LOS EXCEL
-          </button>
-        </div>
-      )}
-
-      {/* ═══════════════════════════════════════════════ */}
-      {/* ── TABLA CONSOLIDADA (Suma por producto) ──    */}
-      {/* ═══════════════════════════════════════════════ */}
-      {showConsolidated && consolidatedData.length > 0 && (
-        <div id="tabla-consolidada" className="card" style={{ padding: 0, overflow: "hidden", marginBottom: "var(--spacing-xl)", borderTop: "4px solid #0f766e" }}>
-
-          {/* Header */}
-          <div style={{
-            padding: "var(--spacing-md) var(--spacing-lg)",
-            backgroundColor: "#f0fdf4",
-            borderBottom: "1px solid rgba(22, 163, 74, 0.2)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-sm)" }}>
-              <Layers size={20} color="#0f766e" />
-              <div>
-                <h2 style={{ margin: 0, fontSize: "var(--font-lg)", fontWeight: 800, color: "#0f766e" }}>
-                  Suma Consolidada de Todos los Excel
-                </h2>
-                <p style={{ margin: 0, fontSize: "10px", color: "var(--text-muted)", fontWeight: 600 }}>
-                  {consolidatedData.length} productos únicos agrupados de {excelSets.length} Excel{excelSets.length > 1 ? "es" : ""}
-                </p>
-              </div>
-            </div>
-            <span style={{ fontSize: "10px", fontWeight: 800, color: "#0f766e", backgroundColor: "white", padding: "4px 14px", borderRadius: "20px", border: "1px solid rgba(22, 163, 74, 0.3)" }}>
-              SUMA INTELIGENTE
-            </span>
+      {showConsolidated && (
+        <div id="tabla-consolidada" className="card" style={{ padding: 0, overflow: "hidden", marginBottom: "var(--spacing-xl)" }}>
+          <div style={{ padding: "var(--spacing-md) var(--spacing-lg)", backgroundColor: "#f0fdf4", borderBottom: "1px solid #bbf7d0" }}>
+            <h2 style={{ margin: 0, fontSize: "var(--font-base)", fontWeight: 800, color: "#16a34a" }}>Suma Consolidada de Pedidos</h2>
           </div>
-
-          {/* Tabla consolidada */}
           <div style={{ overflowX: "auto" }}>
-            <table className="compact-table" style={{ minWidth: "100%" }}>
+            <table className="compact-table">
               <thead>
-                <tr style={{ backgroundColor: "#f0fdf4" }}>
-                  <th style={{ width: "40px", textAlign: "center" }}>#</th>
-                  <th style={{ minWidth: "180px" }}>Producto</th>
-                  {excelSets.map(s => (
-                    <th key={s.id} style={{ textAlign: "center", backgroundColor: "#f8fafc", minWidth: "120px" }}>
-                      <div style={{ fontSize: "9px", color: "var(--text-muted)", fontWeight: 700, marginBottom: "2px" }}>EXCEL</div>
-                      <div style={{ fontSize: "10px", fontWeight: 800, color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "120px" }}>
-                        {s.fileName.replace(/\.(xlsx|xls)$/i, '')}
-                      </div>
-                    </th>
-                  ))}
-                  <th style={{ textAlign: "center", backgroundColor: "#0f766e", color: "white", minWidth: "100px", fontWeight: 800 }}>
-                    TOTAL
-                  </th>
+                <tr>
+                  <th>Producto</th>
+                  {excelSets.map(s => <th key={s.id} style={{ textAlign: "center" }}>{s.fileName.split('.')[0]}</th>)}
+                  <th style={{ textAlign: "center", backgroundColor: "#f0fdf4" }}>TOTAL</th>
                 </tr>
               </thead>
               <tbody>
                 {consolidatedData.map((row, i) => (
                   <tr key={i}>
-                    <td style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "10px" }}>{i + 1}</td>
-                    <td style={{ fontWeight: 700, fontSize: "var(--font-sm)" }}>{row.producto}</td>
+                    <td style={{ fontWeight: 700 }}>{row.producto}</td>
                     {excelSets.map(s => {
-                      const entry = row.cantidadesPorExcel.find(c => c.excelId === s.id);
-                      const cantidad = entry ? entry.cantidad : 0;
-                      return (
-                        <td key={s.id} style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          color: cantidad > 0 ? "var(--foreground)" : "var(--text-muted)",
-                          backgroundColor: cantidad > 0 ? "rgba(22, 163, 74, 0.04)" : "transparent",
-                          fontSize: "var(--font-sm)"
-                        }}>
-                          {cantidad > 0 ? cantidad : "—"}
-                        </td>
-                      );
+                      const e = row.cantidadesPorExcel.find(c => c.excelId === s.id);
+                      return <td key={s.id} style={{ textAlign: "center" }}>{e ? e.cantidad : "—"}</td>;
                     })}
-                    <td style={{
-                      textAlign: "center", fontWeight: 800,
-                      fontSize: "var(--font-base)",
-                      color: "#0f766e",
-                      backgroundColor: "rgba(15, 118, 110, 0.06)"
-                    }}>
-                      {row.total}
-                    </td>
+                    <td style={{ textAlign: "center", fontWeight: 800, color: "#16a34a" }}>{row.total}</td>
                   </tr>
                 ))}
-
-                {/* Fila TOTAL GENERAL */}
-                <tr style={{ backgroundColor: "#111", color: "white" }}>
-                  <td colSpan={2} style={{ textAlign: "right", fontWeight: 800, fontSize: "var(--font-sm)", padding: "var(--spacing-md) var(--spacing-lg)", border: "none" }}>
-                    GRAN TOTAL
-                  </td>
-                  {excelSets.map(s => {
-                    const totalExcel = consolidatedData.reduce((sum, row) => {
-                      const entry = row.cantidadesPorExcel.find(c => c.excelId === s.id);
-                      return sum + (entry ? entry.cantidad : 0);
-                    }, 0);
-                    return (
-                      <td key={s.id} style={{ textAlign: "center", fontWeight: 700, border: "none", color: "#94a3b8", fontSize: "var(--font-sm)" }}>
-                        {totalExcel}
-                      </td>
-                    );
-                  })}
-                  <td style={{ textAlign: "center", fontWeight: 800, fontSize: "var(--font-lg)", border: "none", color: "#ff6b35" }}>
-                    {consolidatedData.reduce((sum, r) => sum + r.total, 0)}
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
-
-          {/* Botones debajo de la tabla consolidada */}
-          <div className="responsive-flex" style={{ padding: "var(--spacing-md) var(--spacing-lg)", backgroundColor: "var(--secondary)", display: "flex", justifyContent: "flex-end", gap: "var(--spacing-md)", borderTop: "1px solid var(--border)" }}>
-            <button className="btn-primary" style={{ backgroundColor: "#333", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800 }} onClick={analizarStockAcumulado}>
-              <Calculator size={14} style={{ marginRight: "var(--spacing-sm)" }} />
-              Verificar vs Stock Total
-            </button>
-            <button className="btn-primary" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800 }} onClick={handleConfirmar}>
-              <CheckCircle2 size={14} style={{ marginRight: "var(--spacing-sm)" }} />
-              Confirmar Pedido Consolidado
-            </button>
+          <div style={{ padding: "var(--spacing-md)", textAlign: "right", backgroundColor: "var(--secondary)" }}>
+            <button className="btn-primary" onClick={analizarStockAcumulado}>VERIFICAR STOCK TIENDA <ArrowRight size={14} style={{ marginLeft: "8px" }} /></button>
           </div>
         </div>
       )}
 
-      {/* ═══════════════════════════════════════════════ */}
-      {/* ── TABLA VERIFICACIÓN VS STOCK ──              */}
-      {/* ═══════════════════════════════════════════════ */}
       {showVerification && (
-        <div id="tabla-stock" className="card" style={{ marginTop: "var(--spacing-xl)", borderTop: "4px solid var(--primary)" }}>
-          <div style={{ marginBottom: "var(--spacing-md)", display: "flex", alignItems: "center", gap: "var(--spacing-sm)" }}>
-            <History size={20} color="var(--primary)" />
-            <h2 style={{ fontSize: "var(--font-lg)", margin: 0 }}>Cálculo Basado en Stock Acumulado (Multi-Día)</h2>
-          </div>
-
-          <div style={{ padding: "var(--spacing-sm)", backgroundColor: "rgba(255, 69, 0, 0.05)", borderRadius: "var(--radius-sm)", marginBottom: "var(--spacing-md)", display: "flex", flexWrap: "wrap", gap: "var(--spacing-md)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "10px", color: "var(--text-muted)" }}>
-              <div style={{ width: "10px", height: "10px", backgroundColor: "#f0fdf4", border: "1px solid #16a34a" }}></div> Stock Cubre Todo
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "10px", color: "var(--text-muted)" }}>
-              <Info size={10} /> Basado en la suma consolidada de {excelSets.length} Excel{excelSets.length > 1 ? "es" : ""}. El sistema resta todo el stock disponible.
+        <div id="tabla-stock" className="card" style={{ padding: 0, overflow: "hidden", borderTop: "4px solid var(--primary)" }}>
+          <div style={{ padding: "var(--spacing-lg)", backgroundColor: "var(--secondary)", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between" }}>
+            <h2 style={{ fontSize: "var(--font-base)", fontWeight: 800, margin: 0 }}>Cálculo Final para el Encargado</h2>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <div style={{ fontSize: "10px", fontWeight: 800, color: "#1d4ed8" }}>■ SIN STOCK (AZUL)</div>
+              <div style={{ fontSize: "10px", fontWeight: 800, color: "#16a34a" }}>■ STOCK OK (VERDE)</div>
             </div>
           </div>
-
           <div style={{ overflowX: "auto" }}>
             <table className="compact-table">
               <thead>
-                <tr style={{ backgroundColor: "#f3f4f6" }}>
-                  <th style={{ width: "40px" }}>#</th>
+                <tr style={{ backgroundColor: "#f8f9fa" }}>
+                  <th>#</th>
                   <th>Producto</th>
-                  <th>Pedido Total (Suma)</th>
-                  <th style={{ backgroundColor: "#eef2ff" }}>Stock Actual</th>
-                  <th style={{ backgroundColor: "var(--primary)", color: "white" }}>A Comprar Realmente</th>
-                  <th style={{ backgroundColor: "#f0fdf4" }}>Saldo Stock Proyectado</th>
-                  <th>Estado</th>
+                  <th style={{ textAlign: "center" }}>Pedido Total</th>
+                  <th style={{ textAlign: "center", backgroundColor: "#eff6ff" }}>Stock en Tienda</th>
+                  <th style={{ textAlign: "center", backgroundColor: "var(--primary)", color: "white" }}>A Comprar Real</th>
+                  <th style={{ textAlign: "center" }}>Unidad</th>
+                  <th>Observación</th>
                 </tr>
               </thead>
               <tbody>
-                {verificacionStock.map((row, i) => (
-                  <tr key={i} style={{ backgroundColor: row.estado === "STOCK_SUFICIENTE" ? "#f0fdf4" : "transparent" }}>
-                    <td style={{ textAlign: "center", fontSize: "10px" }}>{i + 1}</td>
-                    <td style={{ fontWeight: 600 }}>{row.producto}</td>
-                    <td style={{ textAlign: "center" }}>{row.pedidoTotal}</td>
-                    <td style={{ textAlign: "center", fontWeight: 700, color: "#4338ca", backgroundColor: "#f5f7ff" }}>
-                      {row.stockAcumulado > 0 ? `${row.stockAcumulado} ${row.unidad}` : "0"}
-                    </td>
-                    <td style={{ textAlign: "center", fontWeight: 800, color: "var(--primary)", fontSize: "var(--font-lg)" }}>
-                      {row.compraRecomendada}
-                    </td>
-                    <td style={{ textAlign: "center", fontWeight: 700, color: "var(--success)" }}>
-                      {row.stockProyectado}
-                    </td>
-                    <td style={{ textAlign: "center" }}>
-                      {row.estado === "STOCK_SUFICIENTE" ? (
-                        <span style={{ color: "var(--success)", fontSize: "10px", fontWeight: 700 }}>SOBRANTE ACUMULADO CUBRE PEDIDO</span>
-                      ) : row.estado === "DESCONTADO" ? (
-                        <span style={{ color: "var(--primary)", fontSize: "10px", fontWeight: 600 }}>CANTIDAD REDUCIDA POR STOCK</span>
-                      ) : (
-                        <span style={{ color: "var(--text-muted)", fontSize: "10px" }}>SIN STOCK DISPONIBLE</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                {verificacionStock.map((row, i) => {
+                  const noStock = row.stockAcumulado <= 0;
+                  const enough = row.estado === "STOCK_SUFICIENTE";
+                  return (
+                    <tr key={i} style={{ backgroundColor: enough ? "#f0fdf4" : "transparent" }}>
+                      <td style={{ fontSize: "10px" }}>{i + 1}</td>
+                      <td style={{ fontWeight: 800, color: noStock ? "#1d4ed8" : "inherit" }}>{row.producto}</td>
+                      <td style={{ textAlign: "center" }}>{row.pedidoTotal}</td>
+                      <td style={{ textAlign: "center", fontWeight: 800, color: noStock ? "#1d4ed8" : "#1e40af", backgroundColor: "rgba(30,64,175,0.03)" }}>{row.stockAcumulado}</td>
+                      <td style={{ textAlign: "center", fontWeight: 900, color: "var(--primary)", fontSize: "1.1rem" }}>{row.compraRecomendada}</td>
+                      <td style={{ textAlign: "center", fontSize: "10px" }}>{row.unidad}</td>
+                      <td style={{ fontSize: "10px", fontWeight: 800 }}>
+                        {enough ? "STOCK CUBRE TODO" : (noStock ? "SIN STOCK (COMPRAR TODO)" : "DESCONTADO PARCIAL")}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
-        </div>
-      )}
-
-      {/* ── EMPTY STATE ── */}
-      {excelSets.length === 0 && !loading && (
-        <div style={{ textAlign: "center", padding: "80px 0", border: "2px dashed var(--border)", borderRadius: "var(--radius-md)" }}>
-          <FileSpreadsheet size={48} style={{ marginBottom: "var(--spacing-md)", opacity: 0.1 }} />
-          <p style={{ fontSize: "var(--font-sm)", color: "var(--text-muted)", marginBottom: "var(--spacing-sm)" }}>Sube uno o más Excel para comenzar.</p>
-          <p style={{ fontSize: "var(--font-xs)", color: "var(--text-muted)" }}>Puedes cargar varios archivos a la vez o de uno en uno.</p>
-        </div>
-      )}
-
-      {loading && (
-        <div style={{ textAlign: "center", padding: "60px 0" }}>
-          <p style={{ color: "var(--text-muted)", fontSize: "var(--font-sm)" }}>Procesando archivo(s)...</p>
-        </div>
-      )}
-
-      {/* ══════ MODAL DE CONFIRMACIÓN ══════ */}
-      {showModal && (
-        <div style={{
-          position: "fixed",
-          top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: "rgba(0,0,0,0.5)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: 9999
-        }}>
-          <div className="card" style={{ width: "450px", textAlign: "center", animation: "slideDown 0.3s ease-out" }}>
-            <div style={{ width: "60px", height: "60px", borderRadius: "50%", backgroundColor: "var(--success)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto var(--spacing-md)" }}>
-              <CheckCircle2 size={32} color="white" />
-            </div>
-            <h2 style={{ fontSize: "var(--font-lg)", marginBottom: "var(--spacing-sm)" }}>¡Enviado al encargado!</h2>
-            <p style={{ color: "var(--text-muted)", fontSize: "var(--font-sm)", marginBottom: "var(--spacing-xl)" }}>
-              El pedido consolidado de {excelSets.length} Excel{excelSets.length > 1 ? "es" : ""} ha sido calculado y enviado exitosamente. Selecciona qué deseas hacer ahora:
-            </p>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-md)" }}>
-              <button
-                onClick={() => window.location.href = "/dashboard/ordenes/confirmadas"}
-                className="btn-primary"
-                style={{ backgroundColor: "var(--secondary)", color: "var(--foreground)", padding: "var(--spacing-md)" }}
-              >
-                1. Ir a Historial del Encargado
-              </button>
-
-              <button
-                onClick={() => window.location.href = "/dashboard/asignaciones-boletas"}
-                className="btn-primary"
-                style={{ padding: "var(--spacing-md)" }}
-              >
-                2. Ver Boletas y Asignaciones
-              </button>
-
-              <button
-                onClick={() => setShowModal(false)}
-                style={{ marginTop: "var(--spacing-md)", background: "transparent", border: "none", color: "var(--text-muted)", fontSize: "var(--font-xs)", cursor: "pointer", textDecoration: "underline" }}
-              >
-                Cerrar y quedarme aquí
-              </button>
-            </div>
+          <div style={{ padding: "var(--spacing-lg)", textAlign: "right" }}>
+            <button className="btn-primary" onClick={handleConfirmar}>FINALIZAR Y ENVIAR PEDIDO</button>
           </div>
         </div>
       )}
 
-      <style jsx>{`
-        @keyframes slideDown {
-          from { transform: translateY(-20px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-      `}</style>
+      {showModal && (
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1000 }}>
+          <div className="card" style={{ width: "400px", textAlign: "center", padding: "40px" }}>
+            <CheckCircle2 size={48} color="var(--success)" style={{ margin: "0 auto 20px" }} />
+            <h3>¡Pedido Procesado!</h3>
+            <p style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "20px" }}>El encargado ya puede visualizar la lista final de compras.</p>
+            <button onClick={() => setShowModal(false)} className="btn-primary">Aceptar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

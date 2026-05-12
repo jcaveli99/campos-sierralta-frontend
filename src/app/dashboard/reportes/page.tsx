@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   BarChart3,
   Calendar,
@@ -27,49 +27,90 @@ interface CompraRegistro {
   total: number;
 }
 
-// ── Data simulada de compras (multi-día, multi-proveedor) ──
-const COMPRAS_SIMULADAS: CompraRegistro[] = [
-  // ── 27 Marzo 2026 ──
-  { id: "c01", fecha: "2026-03-27", producto: "Plátano Seda", proveedor: "Proveedor Principal SAC", proveedorId: "prov1", cantidad: 50, unidad: "KG", costoUnitario: 2.50, total: 125.00 },
-  { id: "c02", fecha: "2026-03-27", producto: "Fresa Nacional", proveedor: "Mercado Central - Puesto 15", proveedorId: "prov2", cantidad: 20, unidad: "KG", costoUnitario: 8.00, total: 160.00 },
-  { id: "c03", fecha: "2026-03-27", producto: "Brócoli Bandeja x 250g", proveedor: "Agro Sur SRL", proveedorId: "prov3", cantidad: 30, unidad: "Bandeja", costoUnitario: 3.50, total: 105.00 },
-  { id: "c04", fecha: "2026-03-27", producto: "Tomate Especial", proveedor: "Distribuidora El Sol", proveedorId: "prov4", cantidad: 25, unidad: "KG", costoUnitario: 4.00, total: 100.00 },
-  { id: "c05", fecha: "2026-03-27", producto: "Cebolla Roja Malla x 500g", proveedor: "Proveedor Principal SAC", proveedorId: "prov1", cantidad: 40, unidad: "Malla", costoUnitario: 2.80, total: 112.00 },
-  { id: "c06", fecha: "2026-03-27", producto: "Papaya Extra", proveedor: "Mercado Central - Puesto 15", proveedorId: "prov2", cantidad: 15, unidad: "Unidad", costoUnitario: 6.50, total: 97.50 },
-  // ── 26 Marzo 2026 ──
-  { id: "c07", fecha: "2026-03-26", producto: "Plátano Seda", proveedor: "Proveedor Principal SAC", proveedorId: "prov1", cantidad: 45, unidad: "KG", costoUnitario: 2.50, total: 112.50 },
-  { id: "c08", fecha: "2026-03-26", producto: "Aguaymanto Taper x 250g", proveedor: "Agro Sur SRL", proveedorId: "prov3", cantidad: 18, unidad: "Taper", costoUnitario: 5.00, total: 90.00 },
-  { id: "c09", fecha: "2026-03-26", producto: "Piña Golden", proveedor: "Distribuidora El Sol", proveedorId: "prov4", cantidad: 12, unidad: "Unidad", costoUnitario: 7.00, total: 84.00 },
-  { id: "c10", fecha: "2026-03-26", producto: "Fresa Nacional", proveedor: "Mercado Central - Puesto 15", proveedorId: "prov2", cantidad: 22, unidad: "KG", costoUnitario: 8.00, total: 176.00 },
-  // ── 25 Marzo 2026 ──
-  { id: "c11", fecha: "2026-03-25", producto: "Tomate Especial", proveedor: "Distribuidora El Sol", proveedorId: "prov4", cantidad: 30, unidad: "KG", costoUnitario: 3.80, total: 114.00 },
-  { id: "c12", fecha: "2026-03-25", producto: "Cebolla Roja Malla x 500g", proveedor: "Proveedor Principal SAC", proveedorId: "prov1", cantidad: 35, unidad: "Malla", costoUnitario: 2.80, total: 98.00 },
-  { id: "c13", fecha: "2026-03-25", producto: "Brócoli Bandeja x 250g", proveedor: "Agro Sur SRL", proveedorId: "prov3", cantidad: 28, unidad: "Bandeja", costoUnitario: 3.50, total: 98.00 },
-  { id: "c14", fecha: "2026-03-25", producto: "Papaya Extra", proveedor: "Mercado Central - Puesto 15", proveedorId: "prov2", cantidad: 10, unidad: "Unidad", costoUnitario: 6.50, total: 65.00 },
-  // ── 24 Marzo 2026 ──
-  { id: "c15", fecha: "2026-03-24", producto: "Plátano Seda", proveedor: "Proveedor Principal SAC", proveedorId: "prov1", cantidad: 55, unidad: "KG", costoUnitario: 2.40, total: 132.00 },
-  { id: "c16", fecha: "2026-03-24", producto: "Fresa Nacional", proveedor: "Mercado Central - Puesto 15", proveedorId: "prov2", cantidad: 18, unidad: "KG", costoUnitario: 8.50, total: 153.00 },
-  { id: "c17", fecha: "2026-03-24", producto: "Piña Golden", proveedor: "Distribuidora El Sol", proveedorId: "prov4", cantidad: 10, unidad: "Unidad", costoUnitario: 7.00, total: 70.00 },
-  { id: "c18", fecha: "2026-03-24", producto: "Aguaymanto Taper x 250g", proveedor: "Agro Sur SRL", proveedorId: "prov3", cantidad: 15, unidad: "Taper", costoUnitario: 5.00, total: 75.00 },
-  // ── 10 Marzo 2026 ──
-  { id: "c19", fecha: "2026-03-10", producto: "Plátano Seda", proveedor: "Proveedor Principal SAC", proveedorId: "prov1", cantidad: 60, unidad: "KG", costoUnitario: 2.50, total: 150.00 },
-  { id: "c20", fecha: "2026-03-10", producto: "Tomate Especial", proveedor: "Distribuidora El Sol", proveedorId: "prov4", cantidad: 35, unidad: "KG", costoUnitario: 4.00, total: 140.00 },
-  { id: "c21", fecha: "2026-03-10", producto: "Fresa Nacional", proveedor: "Mercado Central - Puesto 15", proveedorId: "prov2", cantidad: 25, unidad: "KG", costoUnitario: 7.50, total: 187.50 },
-  // ── 01 Marzo 2026 ──
-  { id: "c22", fecha: "2026-03-01", producto: "Cebolla Roja Malla x 500g", proveedor: "Proveedor Principal SAC", proveedorId: "prov1", cantidad: 45, unidad: "Malla", costoUnitario: 2.80, total: 126.00 },
-  { id: "c23", fecha: "2026-03-01", producto: "Brócoli Bandeja x 250g", proveedor: "Agro Sur SRL", proveedorId: "prov3", cantidad: 32, unidad: "Bandeja", costoUnitario: 3.50, total: 112.00 },
-  { id: "c24", fecha: "2026-03-01", producto: "Papaya Extra", proveedor: "Mercado Central - Puesto 15", proveedorId: "prov2", cantidad: 14, unidad: "Unidad", costoUnitario: 6.00, total: 84.00 },
-];
+const WORKERS = ['Daniel', 'Jesus', 'Alex', 'Yamilet', 'Victor', 'Abraham', 'Fabricio'];
+const PROVEEDORES_MAP: Record<string, string> = {
+  "prov1": "Proveedor Principal SAC",
+  "prov2": "Mercado Central - Puesto 15",
+  "prov3": "Agro Sur SRL",
+  "prov4": "Distribuidora El Sol",
+  "none": "Sin Proveedor"
+};
 
 export default function ReporteGeneral() {
-  const [fechaSeleccionada, setFechaSeleccionada] = useState("2026-03-27");
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(new Date().toISOString().split("T")[0]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [comprasReales, setComprasReales] = useState<CompraRegistro[]>([]);
+
+  // Función para agrupar compras de todos los trabajadores desde el Backend
+  const fetchAllWorkerPurchases = async () => {
+    try {
+      const res = await fetch(`http://localhost:4000/compras?fecha=${fechaSeleccionada}`);
+      const serverData = await res.json();
+      console.log("Server data received for date", fechaSeleccionada, ":", serverData);
+      
+      const aggregated: CompraRegistro[] = serverData.map((item: any) => ({
+        id: item.id,
+        fecha: item.fecha,
+        producto: item.producto?.nombre || "DESCONOCIDO",
+        proveedor: PROVEEDORES_MAP[item.proveedor_id?.toLowerCase() || ""] || item.proveedor?.nombre || "Sin Proveedor",
+        proveedorId: item.proveedor_id || "none",
+        cantidad: Number(item.cantidad_comprada) || 0,
+        unidad: item.unidad_compra || "KG",
+        costoUnitario: Number(item.costo_unitario) || 0,
+        total: Number(item.monto_total) || 0
+      })).filter((c: CompraRegistro) => c.cantidad > 0);
+      
+      console.log("Aggregated data:", aggregated);
+      setComprasReales(aggregated);
+    } catch (error) {
+      console.error("Error fetching report data:", error);
+    }
+  };
+
+  // Sincronización con el servidor al cargar
+  useEffect(() => {
+    const initSync = async () => {
+      try {
+        const res = await fetch('/api/sync');
+        const serverData = await res.json();
+        if (serverData && Object.keys(serverData).length > 0) {
+           for (const key of Object.keys(serverData)) {
+              localStorage.setItem(key, typeof serverData[key] === 'string' ? serverData[key] : JSON.stringify(serverData[key]));
+           }
+           fetchAllWorkerPurchases();
+        }
+      } catch(e) {}
+    };
+    initSync();
+  }, []);
+
+  // Efecto para cargar datos cada vez que cambie la fecha
+  useEffect(() => {
+    fetchAllWorkerPurchases();
+  }, [fechaSeleccionada]);
+
+  // Polling para simular tiempo real
+  useEffect(() => {
+    const interval = setInterval(fetchAllWorkerPurchases, 5000);
+    return () => clearInterval(interval);
+  }, [fechaSeleccionada]);
 
   const comprasDelDia = useMemo(() => {
-    return COMPRAS_SIMULADAS
-      .filter((c) => c.fecha === fechaSeleccionada)
+    return comprasReales
       .filter((c) => c.producto.toLowerCase().includes(searchTerm.toLowerCase()) || c.proveedor.toLowerCase().includes(searchTerm.toLowerCase()));
-  }, [fechaSeleccionada, searchTerm]);
+  }, [comprasReales, searchTerm]);
+
+  const resumenPorProveedor = useMemo(() => {
+    const summary: Record<string, { nombre: string, total: number, items: any[] }> = {};
+    comprasDelDia.forEach(c => {
+      if (!summary[c.proveedor]) {
+        summary[c.proveedor] = { nombre: c.proveedor, total: 0, items: [] };
+      }
+      summary[c.proveedor].total += c.total;
+      summary[c.proveedor].items.push(c);
+    });
+    return Object.values(summary).sort((a, b) => b.total - a.total);
+  }, [comprasDelDia]);
 
   const totalGastado = comprasDelDia.reduce((sum, c) => sum + c.total, 0);
   const proveedoresUnicos = new Set(comprasDelDia.map((c) => c.proveedorId)).size;
@@ -114,7 +155,11 @@ export default function ReporteGeneral() {
           <input
             type="date"
             value={fechaSeleccionada}
-            onChange={(e) => setFechaSeleccionada(e.target.value)}
+            onChange={(e) => {
+              setFechaSeleccionada(e.target.value);
+              // Forzar actualización inmediata al cambiar fecha
+              setTimeout(fetchAllWorkerPurchases, 0);
+            }}
             style={{ padding: "10px 16px", border: "2px solid var(--primary)", borderRadius: "var(--radius-md)", fontSize: "var(--font-sm)", fontWeight: 700, color: "var(--foreground)", cursor: "pointer" }}
           />
         </div>
@@ -123,17 +168,26 @@ export default function ReporteGeneral() {
             <Search size={12} style={{ marginRight: "4px", verticalAlign: "middle" }} />
             Buscar
           </label>
-          <input
-            type="text"
-            placeholder="Producto o proveedor..."
+          <select
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ padding: "10px 16px", width: "260px", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "var(--font-sm)" }}
-          />
+            style={{ padding: "10px 16px", width: "260px", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "var(--font-sm)", backgroundColor: "white", color: "#333", fontWeight: 600 }}
+          >
+            <option value="">-- Seleccionar Proveedor --</option>
+            {Object.values(PROVEEDORES_MAP).filter(v => v !== "Sin Proveedor").map((provName) => (
+              <option key={provName} value={provName}>{provName}</option>
+            ))}
+          </select>
         </div>
-        <div style={{ padding: "10px 20px", backgroundColor: "var(--primary)", color: "white", borderRadius: "var(--radius-md)", fontSize: "var(--font-xs)", fontWeight: 800, letterSpacing: "0.5px", textTransform: "uppercase" }}>
+        <div style={{ padding: "10px 20px", backgroundColor: "#f8fafc", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", fontSize: "var(--font-xs)", fontWeight: 800, letterSpacing: "0.5px", textTransform: "uppercase", color: "var(--text-muted)" }}>
           {fechaFormateada}
         </div>
+        <button
+          onClick={fetchAllWorkerPurchases}
+          style={{ padding: "10px 20px", backgroundColor: "var(--primary)", color: "white", border: "none", borderRadius: "var(--radius-md)", fontSize: "var(--font-xs)", fontWeight: 800, letterSpacing: "0.5px", textTransform: "uppercase", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "8px" }}
+        >
+          <BarChart3 size={14} /> GENERAR REPORTE GENERAL
+        </button>
       </div>
 
       {/* KPIs */}
@@ -159,6 +213,28 @@ export default function ReporteGeneral() {
         })}
       </div>
 
+      {/* RESUMEN POR PROVEEDOR */}
+      {resumenPorProveedor.length > 0 && (
+        <div style={{ marginBottom: "var(--spacing-xl)" }}>
+          <h3 style={{ fontSize: "var(--font-sm)", fontWeight: 800, marginBottom: "var(--spacing-md)", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            Resumen por Proveedor
+          </h3>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "12px" }}>
+            {resumenPorProveedor.map((p, i) => (
+              <div key={i} className="card" style={{ padding: "16px", display: "flex", justifyContent: "space-between", alignItems: "center", borderLeft: "4px solid var(--primary)" }}>
+                <div>
+                  <div style={{ fontSize: "var(--font-xs)", fontWeight: 800, color: "var(--text-main)", marginBottom: "4px" }}>{p.nombre}</div>
+                  <div style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: 600 }}>{p.items.length} productos comprados</div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: "var(--font-sm)", fontWeight: 800, color: "var(--primary)" }}>S/ {p.total.toFixed(2)}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* TABLA DE COMPRAS */}
       {comprasDelDia.length > 0 ? (
         <div className="card" style={{ padding: 0, overflow: "hidden" }}>
@@ -179,37 +255,41 @@ export default function ReporteGeneral() {
               <thead>
                 <tr style={{ backgroundColor: "#f8f9fa" }}>
                   <th style={{ width: "40px", textAlign: "center" }}>#</th>
-                  <th style={{ minWidth: "200px" }}>Producto</th>
-                  <th style={{ minWidth: "200px" }}>Proveedor</th>
-                  <th style={{ textAlign: "center", width: "100px" }}>Cantidad</th>
-                  <th style={{ textAlign: "center", width: "90px" }}>Unidad</th>
-                  <th style={{ textAlign: "center", width: "120px" }}>Costo Unit. (S/)</th>
-                  <th style={{ textAlign: "center", width: "120px", backgroundColor: "rgba(255, 69, 0, 0.06)" }}>Total (S/)</th>
+                  <th style={{ textAlign: "center", width: "120px" }}>Cant. Prod.</th>
+                  <th style={{ minWidth: "220px" }}>Nombre del Proveedor</th>
+                  <th style={{ minWidth: "300px" }}>Detalle de Productos / Precios</th>
+                  <th style={{ textAlign: "center", width: "140px", backgroundColor: "rgba(255, 69, 0, 0.06)" }}>Total Proveedor (S/)</th>
                 </tr>
               </thead>
               <tbody>
-                {comprasDelDia.map((compra, i) => (
-                  <tr key={compra.id} style={{ transition: "background 0.15s" }}>
-                    <td style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "11px" }}>{i + 1}</td>
-                    <td style={{ fontWeight: 600 }}>{compra.producto}</td>
-                    <td>
-                      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: compra.proveedorId === "prov1" ? "#f97316" : compra.proveedorId === "prov2" ? "#8b5cf6" : compra.proveedorId === "prov3" ? "#06b6d4" : "#10b981" }} />
-                        <span style={{ fontSize: "var(--font-xs)" }}>{compra.proveedor}</span>
+                {resumenPorProveedor.map((prov, i) => (
+                  <tr key={i} style={{ transition: "background 0.15s" }}>
+                    <td data-label="#" style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "11px" }}>{i + 1}</td>
+                    <td data-label="Cant. Prod." style={{ textAlign: "center", fontWeight: 700 }}>
+                      <span style={{ backgroundColor: "var(--secondary)", padding: "4px 10px", borderRadius: "12px", fontSize: "11px" }}>
+                        {prov.items.length} Variedades
+                      </span>
+                    </td>
+                    <td data-label="Nombre del Proveedor" style={{ fontWeight: 800, color: "#111" }}>{prov.nombre}</td>
+                    <td data-label="Detalle de Productos / Precios" style={{ fontSize: "11px", color: "#444" }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                        {prov.items.map((it, idx) => (
+                          <div key={idx} style={{ display: "flex", justifyContent: "space-between", borderBottom: idx < prov.items.length - 1 ? "1px dashed #eee" : "none", padding: "2px 0" }}>
+                            <span>• {it.producto} ({it.cantidad} {it.unidad})</span>
+                            <span style={{ fontWeight: 600 }}>S/ {it.costoUnitario.toFixed(2)}</span>
+                          </div>
+                        ))}
                       </div>
                     </td>
-                    <td style={{ textAlign: "center", fontWeight: 700 }}>{compra.cantidad}</td>
-                    <td style={{ textAlign: "center", fontSize: "var(--font-xs)", color: "var(--text-muted)" }}>{compra.unidad}</td>
-                    <td style={{ textAlign: "center" }}>S/ {compra.costoUnitario.toFixed(2)}</td>
-                    <td style={{ textAlign: "center", fontWeight: 800, color: "var(--primary)", backgroundColor: "rgba(255, 69, 0, 0.04)" }}>
-                      S/ {compra.total.toFixed(2)}
+                    <td data-label="Total Proveedor (S/)" style={{ textAlign: "center", fontWeight: 800, color: "var(--primary)", backgroundColor: "rgba(255, 69, 0, 0.04)", fontSize: "15px" }}>
+                      S/ {prov.total.toFixed(2)}
                     </td>
                   </tr>
                 ))}
-                {/* Fila Total */}
+                {/* Fila Total General */}
                 <tr style={{ backgroundColor: "#111", color: "white" }}>
-                  <td colSpan={6} style={{ textAlign: "right", fontWeight: 800, fontSize: "var(--font-sm)", padding: "var(--spacing-md) var(--spacing-lg)", border: "none" }}>
-                    TOTAL GENERAL DEL DÍA
+                  <td colSpan={4} style={{ textAlign: "right", fontWeight: 800, fontSize: "var(--font-sm)", padding: "var(--spacing-md) var(--spacing-lg)", border: "none" }}>
+                    TOTAL GENERAL DEL DÍA (TODOS LOS PROVEEDORES)
                   </td>
                   <td style={{ textAlign: "center", fontWeight: 800, fontSize: "var(--font-lg)", border: "none", color: "#ff6b35" }}>
                     S/ {totalGastado.toFixed(2)}
@@ -223,10 +303,10 @@ export default function ReporteGeneral() {
         <div className="card" style={{ textAlign: "center", padding: "80px 20px" }}>
           <BarChart3 size={48} style={{ margin: "0 auto var(--spacing-md)", opacity: 0.1, display: "block" }} />
           <p style={{ color: "var(--text-muted)", fontSize: "var(--font-sm)", margin: 0 }}>
-            No se encontraron compras para la fecha seleccionada.
+            No se encontraron compras registradas por los trabajadores para esta fecha.
           </p>
           <p style={{ color: "var(--text-muted)", fontSize: "var(--font-xs)", marginTop: "8px" }}>
-            Intenta seleccionar otra fecha (27, 26, 25, 24, 10 o 01 de Marzo 2026)
+            Asegúrate de que el personal de mercado haya completado y guardado sus registros.
           </p>
         </div>
       )}

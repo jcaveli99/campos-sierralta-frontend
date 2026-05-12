@@ -41,14 +41,15 @@ export default function DashboardLayout({
 
   // Definición de ítems de navegación según el ROL
   const allNavItems = [
-    { name: "Resumen", icon: LayoutDashboard, path: "/dashboard", roles: ["admin", "supervisor", "encargado", "trabajador"] },
-    { name: "Órdenes de Compra", icon: ShoppingCart, path: "/dashboard/ordenes", roles: ["admin", "supervisor"] },
-    { name: "Historial de Órdenes", icon: FileText, path: "/dashboard/ordenes/confirmadas", roles: ["admin", "supervisor", "encargado"] },
-    { name: "Registro de Mercado", icon: Camera, path: "/dashboard/compras", roles: ["admin", "supervisor", "trabajador"] },
-    { name: "Inventario / Stock", icon: Package, path: "/dashboard/inventario", roles: ["admin", "supervisor", "encargado", "trabajador"] },
-    { name: "Reporte General", icon: BarChart3, path: "/dashboard/reportes", roles: ["admin", "encargado"] },
-    { name: "Reporte x Proveedor", icon: ClipboardList, path: "/dashboard/reportes/proveedor", roles: ["admin", "encargado"] },
-    { name: "Vista Pagos", icon: Wallet, path: "/dashboard/pagos", roles: ["admin"] },
+    { name: "Resumen", icon: LayoutDashboard, path: "/dashboard", roles: ["admin", "dueño", "supervisor", "encargado", "trabajador"] },
+    { name: "Órdenes de Compra", icon: ShoppingCart, path: "/dashboard/ordenes", roles: ["admin", "dueño", "supervisor"] },
+    { name: "Historial de Órdenes", icon: FileText, path: "/dashboard/ordenes/confirmadas", roles: ["admin", "dueño", "supervisor", "encargado"] },
+    { name: "Registro de Mercado", icon: Camera, path: "/dashboard/compras", roles: ["admin", "dueño", "trabajador", "encargado"] },
+    { name: "Inventario / Stock", icon: Package, path: "/dashboard/inventario", roles: ["admin", "dueño", "supervisor", "encargado", "trabajador"] },
+    { name: "Reporte General", icon: BarChart3, path: "/dashboard/reportes", roles: ["admin", "dueño", "encargado"] },
+    { name: "Reporte x Proveedor", icon: ClipboardList, path: "/dashboard/reportes/proveedor", roles: ["admin", "dueño", "encargado"] },
+    { name: "Vista Pagos", icon: Wallet, path: "/dashboard/pagos", roles: ["admin", "dueño"] },
+    { name: "Gestión de Equipo", icon: UserIcon, path: "/dashboard/equipo", roles: ["admin", "dueño"] },
   ];
 
   const visibleNavItems = allNavItems.filter(item => role && item.roles.includes(role));
@@ -57,13 +58,25 @@ export default function DashboardLayout({
     <div className="dashboard-layout" style={{ display: "flex", height: "100vh", backgroundColor: "var(--background)", flexDirection: "column" }}>
       
       {/* 📱 MOBILE HEADER (Extra Navbar solo en celular) */}
-      <div className="mobile-header" style={{ display: "none", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", borderBottom: "1px solid var(--border)", backgroundColor: "white", zIndex: 1000, boxShadow: "0 2px 10px rgba(0,0,0,0.05)" }}>
+      <div className="mobile-header" style={{ display: "none", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: "1px solid var(--border)", backgroundColor: "white", zIndex: 1000, boxShadow: "0 2px 10px rgba(0,0,0,0.05)", position: "sticky", top: 0 }}>
         <Link href="/dashboard" style={{ textDecoration: "none" }}>
-          <h3 style={{ margin: 0, fontSize: "var(--font-base)", color: "var(--primary)", letterSpacing: "1px" }}>CAMPOS SIERRALTA</h3>
-          <p style={{ margin: 0, fontSize: "10px", color: "var(--text-muted)" }}>{role || "Gestión"}</p>
+          <h3 style={{ margin: 0, fontSize: "14px", color: "var(--primary)", letterSpacing: "1px", fontWeight: 900 }}>SIERRALTA</h3>
+          <p style={{ margin: 0, fontSize: "9px", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase" }}>{role || "Cargando..."}</p>
         </Link>
-        <button onClick={() => setIsMobileMenuOpen(true)} style={{ background: "none", border: "none", color: "var(--foreground)", padding: "4px" }}>
-          <Menu size={24} />
+        <button 
+          onClick={() => setIsMobileMenuOpen(true)} 
+          style={{ 
+            background: "rgba(255, 69, 0, 0.05)", 
+            border: "none", 
+            color: "var(--primary)", 
+            padding: "8px",
+            borderRadius: "8px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <Menu size={22} />
         </button>
       </div>
 
@@ -73,7 +86,15 @@ export default function DashboardLayout({
         <div 
           className={`mobile-overlay ${isMobileMenuOpen ? 'open' : ''}`}
           onClick={() => setIsMobileMenuOpen(false)}
-          style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.5)", zIndex: 9998, display: "none" }}
+          style={{ 
+            position: "fixed", 
+            inset: 0, 
+            backgroundColor: "rgba(0,0,0,0.4)", 
+            zIndex: 9998, 
+            display: "none",
+            backdropFilter: "blur(2px)",
+            transition: "opacity 0.3s ease"
+          }}
         />
 
         {/* 💻 DESKTOP SIDEBAR + 📱 MOBILE DRAWER */}
@@ -93,7 +114,7 @@ export default function DashboardLayout({
 
           <Link href="/dashboard" className="sidebar-header desktop-only" style={{ marginBottom: "var(--spacing-xl)", textDecoration: "none", display: "block" }}>
             <h3 style={{ color: "var(--primary)", fontSize: "var(--font-base)", letterSpacing: "1px", margin: 0 }}>
-              CAMPOS SIERRALTA
+              SIERRALTA
             </h3>
             <p style={{ fontSize: "10px", color: "var(--text-muted)", margin: 0 }}>Gestión Fullstack</p>
           </Link>

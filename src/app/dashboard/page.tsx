@@ -42,15 +42,15 @@ const ROLE_CONTENT: Record<string, any> = {
   supervisor: {
     title: "Supervisor de Operaciones",
     shortcuts: [
-      { label: "Supervisar Mercado", icon: Camera, path: "/dashboard/compras", color: "#10b981", bg: "rgba(16, 185, 129, 0.1)" },
+      { label: "Cargar Órdenes de Compra", icon: FileSpreadsheet, path: "/dashboard/ordenes", color: "#f97316", bg: "rgba(249, 115, 22, 0.1)" },
       { label: "Control de Inventario", icon: Package, path: "/dashboard/inventario", color: "#8b5cf6", bg: "rgba(139, 92, 246, 0.1)" },
-      { label: "Descargar Órdenes Listas", icon: Download, path: "/dashboard/ordenes/confirmadas", color: "#0ea5e9", bg: "rgba(14, 165, 233, 0.1)" },
+      { label: "Historial de Órdenes", icon: FileText, path: "/dashboard/ordenes/confirmadas", color: "#0ea5e9", bg: "rgba(14, 165, 233, 0.1)" },
     ],
     reminders: [
       { id: 1, type: "warning", title: "Monitoreo de Mermas Físicas", desc: "Asegúrate de revisar el stock sobrante de ayer de Fresa antes de los nuevos envíos a tiendas.", time: "Hace 1 hora", icon: AlertTriangle, color: "#f59e0b" },
       { id: 2, type: "info", title: "Orden OC-20260310 Autorizada", desc: "La orden generada por el dueño se encuentra lista para su descarga e impresión.", time: "Hace 2 horas", icon: Info, color: "#3b82f6" },
     ],
-    welcomeMessage: "Como supervisor, tu rol es asegurar que tanto los compradores de mercado como los encargados de tienda operen en perfecta sincronización."
+    welcomeMessage: "Como supervisor, tu prioridad es la gestión de órdenes de compra y el control riguroso del inventario en tienda."
   },
   encargado: {
     title: "Encargado de Tienda",
@@ -115,7 +115,7 @@ export default function Dashboard() {
                <div style={{ width: "64px", height: "64px", backgroundColor: "white", borderRadius: "50%", margin: "0 auto var(--spacing-md)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(0,0,0,0.2)" }}>
                  <ShieldCheck size={32} color="var(--primary)" />
                </div>
-               <h2 style={{ margin: 0, fontSize: "var(--font-xl)", fontWeight: 800 }}>¡Hola, {userName}!</h2>
+               <h2 style={{ margin: 0, fontSize: "var(--font-xl)", fontWeight: 800 }}>Hola {userName}, Bienvenido</h2>
                <p style={{ margin: "4px 0 0", fontSize: "var(--font-xs)", opacity: 0.9 }}>Has ingresado como <strong>{currentData.title}</strong></p>
             </div>
             <div style={{ padding: "var(--spacing-xl)", textAlign: "center" }}>
@@ -140,7 +140,7 @@ export default function Dashboard() {
            <ShieldCheck size={20} color="var(--primary)" />
            <span style={{ fontSize: "10px", fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase" }}>Panel Especializado</span>
         </div>
-        <h1 style={{ fontSize: "var(--font-xl)", fontWeight: 800 }}>Bienvenido, {userName}</h1>
+        <h1 style={{ fontSize: "var(--font-xl)", fontWeight: 800 }}>Hola {userName}, Bienvenido</h1>
         <p style={{ color: "var(--text-muted)", fontSize: "var(--font-sm)", 
           padding: "6px 14px", backgroundColor: "var(--secondary)", display: "inline-block", borderRadius: "20px", border: "1px solid var(--border)", fontWeight: 600
         }}>

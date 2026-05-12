@@ -1,0 +1,5300 @@
+{
+  "orden_compra_actual_2026-04-28_Fabrizzio": [
+    {
+      "id": "1",
+      "nombre": "PLATANO",
+      "cantidadSolicitada": 50,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 50,
+      "costoUnitario": 2.5,
+      "montoTotal": 125,
+      "proveedor": "prov1",
+      "fotos": [
+        "blob:foo"
+      ],
+      "esAdicional": false
+    },
+    {
+      "id": "2",
+      "nombre": "FRESA",
+      "cantidadSolicitada": 20,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 20,
+      "costoUnitario": 8,
+      "montoTotal": 160,
+      "proveedor": "prov2",
+      "fotos": [],
+      "esAdicional": false
+    },
+    {
+      "id": "3",
+      "nombre": "CEBOLLA ROJA",
+      "cantidadSolicitada": 40,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 0,
+      "costoUnitario": 0,
+      "montoTotal": 0,
+      "proveedor": "",
+      "fotos": [],
+      "esAdicional": false
+    },
+    {
+      "id": "4",
+      "nombre": "PAPA HUAYRO",
+      "cantidadSolicitada": 30,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 30,
+      "costoUnitario": 1.5,
+      "montoTotal": 45,
+      "proveedor": "prov3",
+      "fotos": [
+        "blob:bar"
+      ],
+      "esAdicional": false
+    },
+    {
+      "id": "5",
+      "nombre": "ZANAHORIA",
+      "cantidadSolicitada": 15,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 0,
+      "costoUnitario": 0,
+      "montoTotal": 0,
+      "proveedor": "",
+      "fotos": [],
+      "esAdicional": false,
+      "noSeCompro": true
+    }
+  ],
+  "inventario_dia_2026-04-28_Fabrizzio": [
+    {
+      "id": "PLATANO",
+      "producto": "PLATANO",
+      "stockAnterior": 10,
+      "unidad": "Kg",
+      "merma": 2,
+      "motivoMerma": "Maduración Excesiva",
+      "detalleOtro": "",
+      "stockActual": 8
+    },
+    {
+      "id": "FRESA",
+      "producto": "FRESA",
+      "stockAnterior": 5,
+      "unidad": "Kg",
+      "merma": 0,
+      "motivoMerma": "",
+      "detalleOtro": "",
+      "stockActual": 5
+    },
+    {
+      "id": "CEBOLLA ROJA",
+      "producto": "CEBOLLA ROJA",
+      "stockAnterior": 15,
+      "unidad": "Kg",
+      "merma": 1,
+      "motivoMerma": "Daño Transporte",
+      "detalleOtro": "",
+      "stockActual": 14
+    }
+  ],
+  "workers_extra_time": {
+    "Fabrizzio": 1777412844335
+  },
+  "workers_assignments": {
+    "Fabrizzio": [
+      "PLATANO",
+      "FRESA",
+      "CEBOLLA ROJA",
+      "PAPA HUAYRO",
+      "ZANAHORIA"
+    ],
+    "Daniel": [
+      "MANGO KENT",
+      "MANZANA ISRAEL",
+      "AJÍ AMARILLO",
+      "AGUAYMANTO",
+      "PAPA BLANCA",
+      "BRÓCOLI BANDEJA"
+    ],
+    "Jesus": [
+      "TOMATE ESPECIAL",
+      "FRESA",
+      "PAPA HUAYRO",
+      "PLATANO"
+    ],
+    "Victor": [
+      "ZANAHORIA",
+      "MANGO KENT",
+      "CEBOLLA ROJA"
+    ],
+    "Habraham": [
+      "MANZANA ISRAEL",
+      "PAPA BLANCA",
+      "PLATANO",
+      "FRESA",
+      "AJÍ AMARILLO"
+    ],
+    "Alex": [
+      "PLATANO",
+      "MANGO KENT",
+      "CEBOLLA ROJA",
+      "PAPA HUAYRO",
+      "ZANAHORIA",
+      "MANZANA ISRAEL",
+      "AJÍ AMARILLO",
+      "AGUAYMANTO",
+      "PAPA BLANCA",
+      "TOMATE ESPECIAL"
+    ]
+  },
+  "simulacion_real_final": true,
+  "inventario_dia_2026-04-28_Jesus": [
+    {
+      "id": "TOMATE ESPECIAL",
+      "producto": "TOMATE ESPECIAL",
+      "stockAnterior": 12,
+      "unidad": "Kg",
+      "merma": 2,
+      "motivoMerma": "Otro",
+      "detalleOtro": "Pérdida",
+      "stockActual": 10
+    },
+    {
+      "id": "FRESA",
+      "producto": "FRESA",
+      "stockAnterior": 15,
+      "unidad": "Kg",
+      "merma": 1,
+      "motivoMerma": "Maduración Excesiva",
+      "detalleOtro": "",
+      "stockActual": 14
+    },
+    {
+      "id": "PAPA HUAYRO",
+      "producto": "PAPA HUAYRO",
+      "stockAnterior": 50,
+      "unidad": "Kg",
+      "merma": 0,
+      "motivoMerma": "",
+      "detalleOtro": "",
+      "stockActual": 50
+    },
+    {
+      "id": "PLATANO",
+      "producto": "PLATANO",
+      "stockAnterior": 25,
+      "unidad": "Kg",
+      "merma": 3,
+      "motivoMerma": "Daño Transporte",
+      "detalleOtro": "",
+      "stockActual": 22
+    }
+  ],
+  "orden_compra_actual_2026-04-28_Daniel": [
+    {
+      "id": "10",
+      "nombre": "MANGO KENT",
+      "cantidadSolicitada": 10,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 10,
+      "costoUnitario": 4.5,
+      "montoTotal": 45,
+      "proveedor": "prov3",
+      "fotos": [
+        "blob"
+      ],
+      "esAdicional": false
+    },
+    {
+      "id": "11",
+      "nombre": "MANZANA ISRAEL",
+      "cantidadSolicitada": 15,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 15,
+      "costoUnitario": 0,
+      "montoTotal": 0,
+      "proveedor": "prov2",
+      "fotos": [
+        "blob"
+      ],
+      "esAdicional": false
+    }
+  ],
+  "inventario_dia_2026-04-28_Daniel": [
+    {
+      "id": "MANZANA ISRAEL",
+      "producto": "MANZANA ISRAEL",
+      "stockAnterior": 20,
+      "unidad": "Kg",
+      "merma": 5,
+      "motivoMerma": "Otro",
+      "detalleOtro": "Golpeadas por caída",
+      "stockActual": 15
+    },
+    {
+      "id": "AJÍ AMARILLO",
+      "producto": "AJÍ AMARILLO",
+      "stockAnterior": 8,
+      "unidad": "Kg",
+      "merma": 0,
+      "motivoMerma": "",
+      "detalleOtro": "",
+      "stockActual": 8
+    }
+  ],
+  "orden_compra_actual_2026-05-05_Fabrizzio": [
+    {
+      "id": "1",
+      "nombre": "PLATANO SEDA",
+      "cantidadSolicitada": 100,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 100,
+      "costoUnitario": 2.5,
+      "montoTotal": 250,
+      "proveedor": "prov1",
+      "fotos": [],
+      "esAdicional": false
+    },
+    {
+      "id": "2",
+      "nombre": "MANZANA ISRAEL",
+      "cantidadSolicitada": 3,
+      "unidadVenta": "KG",
+      "unidadCompra": "Caja",
+      "cantidadComprada": 3,
+      "costoUnitario": 76,
+      "montoTotal": 228,
+      "proveedor": "prov1",
+      "fotos": [],
+      "esAdicional": false
+    },
+    {
+      "id": "3",
+      "nombre": "FRESA",
+      "cantidadSolicitada": 50,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 50,
+      "costoUnitario": 9,
+      "montoTotal": 450,
+      "proveedor": "prov2",
+      "fotos": [],
+      "esAdicional": false
+    },
+    {
+      "id": "4",
+      "nombre": "PAPA HUAYRO",
+      "cantidadSolicitada": 2,
+      "unidadVenta": "KG",
+      "unidadCompra": "Saco",
+      "cantidadComprada": 2,
+      "costoUnitario": 60,
+      "montoTotal": 120,
+      "proveedor": "prov2",
+      "fotos": [],
+      "esAdicional": false
+    }
+  ],
+  "orden_compra_actual_2026-05-05_Alex": [
+    {
+      "id": "1",
+      "nombre": "MANGO KENT",
+      "cantidadSolicitada": 40,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 40,
+      "costoUnitario": 5.5,
+      "montoTotal": 220,
+      "proveedor": "prov3",
+      "fotos": [],
+      "esAdicional": false
+    },
+    {
+      "id": "2",
+      "nombre": "AJI AMARILLO",
+      "cantidadSolicitada": 5,
+      "unidadVenta": "KG",
+      "unidadCompra": "Atado",
+      "cantidadComprada": 5,
+      "costoUnitario": 13.5,
+      "montoTotal": 67.5,
+      "proveedor": "prov3",
+      "fotos": [],
+      "esAdicional": false
+    },
+    {
+      "id": "3",
+      "nombre": "CEBOLLA ROJA",
+      "cantidadSolicitada": 4,
+      "unidadVenta": "KG",
+      "unidadCompra": "Malla",
+      "cantidadComprada": 4,
+      "costoUnitario": 44,
+      "montoTotal": 176,
+      "proveedor": "prov4",
+      "fotos": [],
+      "esAdicional": false
+    },
+    {
+      "id": "4",
+      "nombre": "TOMATE ESPECIAL",
+      "cantidadSolicitada": 10,
+      "unidadVenta": "KG",
+      "unidadCompra": "Bandeja",
+      "cantidadComprada": 10,
+      "costoUnitario": 16,
+      "montoTotal": 160,
+      "proveedor": "prov4",
+      "fotos": [],
+      "esAdicional": false
+    }
+  ],
+  "orden_compra_actual_2026-05-01_Fabrizzio": [
+    {
+      "id": "1",
+      "nombre": "PLATANO SEDA",
+      "cantidadComprada": 80,
+      "unidadCompra": "KG",
+      "costoUnitario": 2.5,
+      "montoTotal": 200,
+      "proveedor": "prov1"
+    },
+    {
+      "id": "2",
+      "nombre": "MANZANA ISRAEL",
+      "cantidadComprada": 2,
+      "unidadCompra": "Caja",
+      "costoUnitario": 75,
+      "montoTotal": 150,
+      "proveedor": "prov1"
+    }
+  ],
+  "orden_compra_actual_2026-05-02_Fabrizzio": [
+    {
+      "id": "1",
+      "nombre": "PLATANO SEDA",
+      "cantidadComprada": 90,
+      "unidadCompra": "KG",
+      "costoUnitario": 2.5,
+      "montoTotal": 225,
+      "proveedor": "prov1"
+    }
+  ],
+  "orden_compra_actual_2026-05-03_Fabrizzio": [
+    {
+      "id": "1",
+      "nombre": "PLATANO SEDA",
+      "cantidadComprada": 100,
+      "unidadCompra": "KG",
+      "costoUnitario": 2.6,
+      "montoTotal": 260,
+      "proveedor": "prov1"
+    }
+  ],
+  "orden_compra_actual_2026-05-04_Fabrizzio": [
+    {
+      "id": "1",
+      "nombre": "PLATANO SEDA",
+      "cantidadComprada": 85,
+      "unidadCompra": "KG",
+      "costoUnitario": 2.5,
+      "montoTotal": 212.5,
+      "proveedor": "prov1"
+    }
+  ],
+  "orden_compra_actual_2026-05-01_Alex": [
+    {
+      "id": "1",
+      "nombre": "MANGO KENT",
+      "cantidadComprada": 30,
+      "unidadCompra": "KG",
+      "costoUnitario": 5.5,
+      "montoTotal": 165,
+      "proveedor": "prov3"
+    }
+  ],
+  "orden_compra_actual_2026-05-02_Alex": [
+    {
+      "id": "1",
+      "nombre": "MANGO KENT",
+      "cantidadComprada": 35,
+      "unidadCompra": "KG",
+      "costoUnitario": 5.5,
+      "montoTotal": 192.5,
+      "proveedor": "prov3"
+    }
+  ],
+  "inventario_dia_2026-05-07_Daniel": [
+    {
+      "id": "MANGO KENT",
+      "producto": "MANGO KENT",
+      "stockAnterior": 13,
+      "unidad": "Unidad",
+      "merma": 0,
+      "motivoMerma": "",
+      "detalleOtro": "",
+      "stockActual": 13,
+      "noHuboMerma": true
+    },
+    {
+      "id": "MANZANA ISRAEL",
+      "producto": "MANZANA ISRAEL",
+      "stockAnterior": 0,
+      "unidad": "Kg",
+      "merma": 0,
+      "motivoMerma": "",
+      "detalleOtro": "",
+      "stockActual": 0,
+      "noHuboSobrante": true,
+      "noHuboMerma": true
+    },
+    {
+      "id": "AJÍ AMARILLO",
+      "producto": "AJÍ AMARILLO",
+      "stockAnterior": 0,
+      "unidad": "Kg",
+      "merma": 0,
+      "motivoMerma": "",
+      "detalleOtro": "",
+      "stockActual": 0,
+      "noHuboSobrante": true,
+      "noHuboMerma": true
+    },
+    {
+      "id": "AGUAYMANTO",
+      "producto": "AGUAYMANTO",
+      "stockAnterior": 0,
+      "unidad": "Kg",
+      "merma": 0,
+      "motivoMerma": "",
+      "detalleOtro": "",
+      "stockActual": 0,
+      "noHuboSobrante": true,
+      "noHuboMerma": true
+    },
+    {
+      "id": "PAPA BLANCA",
+      "producto": "PAPA BLANCA",
+      "stockAnterior": 45,
+      "unidad": "Kg",
+      "merma": 0,
+      "motivoMerma": "",
+      "detalleOtro": "",
+      "stockActual": 45,
+      "noHuboMerma": true
+    },
+    {
+      "id": "BRÓCOLI BANDEJA",
+      "producto": "BRÓCOLI BANDEJA",
+      "stockAnterior": 0,
+      "unidad": "Kg",
+      "merma": 0,
+      "motivoMerma": "",
+      "detalleOtro": "",
+      "stockActual": 0,
+      "noHuboSobrante": true,
+      "noHuboMerma": true
+    }
+  ],
+  "orden_compra_actual_2026-05-07_Daniel": [
+    {
+      "id": "3",
+      "nombre": "BRÓCOLI BANDEJA",
+      "cantidadSolicitada": 30,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 25,
+      "costoUnitario": 1.19,
+      "montoTotal": 29.75,
+      "proveedor": "prov3",
+      "fotos": [
+        "blob:http://localhost:3000/aa89b75d-b983-46cc-91bd-98e5b43598c7"
+      ],
+      "esAdicional": false,
+      "noSeCompro": false
+    },
+    {
+      "id": "gen-0.8138748654869309",
+      "nombre": "MANGO KENT",
+      "cantidadSolicitada": 0,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 0,
+      "costoUnitario": 0,
+      "montoTotal": 0,
+      "proveedor": "",
+      "fotos": [],
+      "esAdicional": false,
+      "noSeCompro": true
+    },
+    {
+      "id": "gen-0.04629751470611709",
+      "nombre": "MANZANA ISRAEL",
+      "cantidadSolicitada": 0,
+      "unidadVenta": "KG",
+      "unidadCompra": "Unidad",
+      "cantidadComprada": 45,
+      "costoUnitario": 1.09,
+      "montoTotal": 49.05,
+      "proveedor": "prov1",
+      "fotos": [
+        "blob:http://localhost:3000/95cb4de7-abec-4e7d-a580-5bd25bddd135"
+      ],
+      "esAdicional": false
+    },
+    {
+      "id": "gen-0.4257797219324625",
+      "nombre": "AJÍ AMARILLO",
+      "cantidadSolicitada": 0,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 0,
+      "costoUnitario": 0,
+      "montoTotal": 0,
+      "proveedor": "",
+      "fotos": [],
+      "esAdicional": false,
+      "noSeCompro": true
+    },
+    {
+      "id": "gen-0.02073411077189824",
+      "nombre": "AGUAYMANTO",
+      "cantidadSolicitada": 0,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 0,
+      "costoUnitario": 0,
+      "montoTotal": 0,
+      "proveedor": "",
+      "fotos": [],
+      "esAdicional": false,
+      "noSeCompro": true
+    },
+    {
+      "id": "gen-0.6633665475443251",
+      "nombre": "PAPA BLANCA",
+      "cantidadSolicitada": 0,
+      "unidadVenta": "KG",
+      "unidadCompra": "KG",
+      "cantidadComprada": 0,
+      "costoUnitario": 0,
+      "montoTotal": 0,
+      "proveedor": "",
+      "fotos": [],
+      "esAdicional": false,
+      "noSeCompro": true
+    }
+  ],
+  "shared_excel_sets": [],
+  "shared_consolidated_data": [],
+  "shared_verificacion_stock": [],
+  "orden_compra_historial": [
+    {
+      "id": "OC-202605121725",
+      "fecha": "12/5/2026, 12:25:09 p. m.",
+      "excelFiles": [
+        "OC Rappi Sabado 07- 03- 26.xlsx"
+      ],
+      "itemsCount": 84,
+      "totalUnidades": 2557,
+      "creadoPor": "Angel",
+      "items": [
+        {
+          "id": "f18e2j5ki",
+          "nombre": "Aguaymanto - taper x 250 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "a7cmjzcm7",
+          "nombre": "Ají amarillo x unidad",
+          "cantidadSolicitada": 72,
+          "stockTienda": 0,
+          "compraReal": 72,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "sv1w5e56e",
+          "nombre": "Ají limo - bandeja x 100 g",
+          "cantidadSolicitada": 7,
+          "stockTienda": 0,
+          "compraReal": 7,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "c8hjmr3a9",
+          "nombre": "Ajo entero - bandeja x 250 g",
+          "cantidadSolicitada": 10,
+          "stockTienda": 0,
+          "compraReal": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "031bj5be3",
+          "nombre": "Ajo pelado - bolsa x 250 g",
+          "cantidadSolicitada": 6,
+          "stockTienda": 0,
+          "compraReal": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pjascuq25",
+          "nombre": "Albahaca x atado",
+          "cantidadSolicitada": 28,
+          "stockTienda": 0,
+          "compraReal": 28,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "la1ysjrts",
+          "nombre": "Alcachofa x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "q21pjgmvj",
+          "nombre": "Apio x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "0g8v6a1n0",
+          "nombre": "Arándano - taper x 250 g",
+          "cantidadSolicitada": 34,
+          "stockTienda": 0,
+          "compraReal": 34,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "0onwwspbw",
+          "nombre": "Arveja - bandeja x 250 g",
+          "cantidadSolicitada": 4,
+          "stockTienda": 0,
+          "compraReal": 4,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "nrlvxn6nh",
+          "nombre": "Arveja desvainada - bandeja x 150 g",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2jusjp9zd",
+          "nombre": "Betarraga x atado",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "k0o7ln3y3",
+          "nombre": "Brócoli - bandeja x 250 g",
+          "cantidadSolicitada": 27,
+          "stockTienda": 0,
+          "compraReal": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ei1qpb4i2",
+          "nombre": "Camote amarillo - malla x 1 kg",
+          "cantidadSolicitada": 42,
+          "stockTienda": 0,
+          "compraReal": 42,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ak838vkcv",
+          "nombre": "Cebolla blanca - malla x 500 g",
+          "cantidadSolicitada": 32,
+          "stockTienda": 0,
+          "compraReal": 32,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ibtq56ql5",
+          "nombre": "Cebolla china x atado",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wq086mp96",
+          "nombre": "Cebolla roja - malla x 500 g",
+          "cantidadSolicitada": 40,
+          "stockTienda": 0,
+          "compraReal": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6n8qmziw0",
+          "nombre": "Choclo desgranado - bandeja x 100 g",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ha1ulr6zl",
+          "nombre": "Choclo x unidad",
+          "cantidadSolicitada": 48,
+          "stockTienda": 0,
+          "compraReal": 48,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ffgfpfjc2",
+          "nombre": "Cilantro - atado",
+          "cantidadSolicitada": 33,
+          "stockTienda": 0,
+          "compraReal": 33,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "w6tuqdlho",
+          "nombre": "Col china - 1/2 Unid",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "g92j7kl8y",
+          "nombre": "Col corazón - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "54kaoqcwh",
+          "nombre": "Col crespa - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pezuv733d",
+          "nombre": "Col morada - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "oc6lwogwk",
+          "nombre": "Durazno x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ygxqwt47e",
+          "nombre": "Esparrago x unidad",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qcuoabefs",
+          "nombre": "Espinaca - bolsa x 500 g",
+          "cantidadSolicitada": 17,
+          "stockTienda": 0,
+          "compraReal": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "nlsl3k6ry",
+          "nombre": "Fresa - taper x 500 g",
+          "cantidadSolicitada": 62,
+          "stockTienda": 0,
+          "compraReal": 62,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "kgw95ep2e",
+          "nombre": "Granadilla - malla x 500 g",
+          "cantidadSolicitada": 35,
+          "stockTienda": 0,
+          "compraReal": 35,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "746rtlepx",
+          "nombre": "Hierbabuena x atado",
+          "cantidadSolicitada": 5,
+          "stockTienda": 0,
+          "compraReal": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "76l3ao2qk",
+          "nombre": "Hierbaluisa x atado",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "c0tijl1tm",
+          "nombre": "Kion - malla x 250 g",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vtkx6fhbn",
+          "nombre": "Kiwi x unidad",
+          "cantidadSolicitada": 19,
+          "stockTienda": 0,
+          "compraReal": 19,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qqxscgv2d",
+          "nombre": "Lechuga americana x unidad",
+          "cantidadSolicitada": 31,
+          "stockTienda": 0,
+          "compraReal": 31,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "hzk14g109",
+          "nombre": "Lechuga crespa x unidad",
+          "cantidadSolicitada": 30,
+          "stockTienda": 0,
+          "compraReal": 30,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "j0bwcmzpe",
+          "nombre": "Limon - malla x 500 g",
+          "cantidadSolicitada": 269,
+          "stockTienda": 0,
+          "compraReal": 269,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "08ae41mf4",
+          "nombre": "Lucuma x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "57cjx985j",
+          "nombre": "Mandarina sin pepa - malla x 500 g",
+          "cantidadSolicitada": 59,
+          "stockTienda": 0,
+          "compraReal": 59,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "h4q8dcgd0",
+          "nombre": "Mango Edward x unidad",
+          "cantidadSolicitada": 26,
+          "stockTienda": 0,
+          "compraReal": 26,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "phe6b3cut",
+          "nombre": "Mango Haden x unidad",
+          "cantidadSolicitada": 10,
+          "stockTienda": 0,
+          "compraReal": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "hl7rn2law",
+          "nombre": "Manzana de agua - malla x 500 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ga6mi1ip8",
+          "nombre": "Manzana delicia x unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "braq0mtmc",
+          "nombre": "Manzana israel x unidad",
+          "cantidadSolicitada": 5,
+          "stockTienda": 0,
+          "compraReal": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "9zwkppm9x",
+          "nombre": "Manzana roja x unidad",
+          "cantidadSolicitada": 15,
+          "stockTienda": 0,
+          "compraReal": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "oui4gzn0z",
+          "nombre": "Manzana royal gala x unidad",
+          "cantidadSolicitada": 36,
+          "stockTienda": 0,
+          "compraReal": 36,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "st56xrjpi",
+          "nombre": "Manzana verde x unidad",
+          "cantidadSolicitada": 40,
+          "stockTienda": 0,
+          "compraReal": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "nho98gqx0",
+          "nombre": "Maracuya x unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "xsjj9wuii",
+          "nombre": "Melocotón x unidad",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "xcudj1xpw",
+          "nombre": "Melon coquito x unidad",
+          "cantidadSolicitada": 9,
+          "stockTienda": 0,
+          "compraReal": 9,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1doxmqj5l",
+          "nombre": "Naranja mesa x unidad",
+          "cantidadSolicitada": 27,
+          "stockTienda": 0,
+          "compraReal": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "kkg914g2u",
+          "nombre": "Naranja para jugo - malla x 1 kg",
+          "cantidadSolicitada": 51,
+          "stockTienda": 0,
+          "compraReal": 51,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1d6ospr9n",
+          "nombre": "Palta fuerte sazón x unidad",
+          "cantidadSolicitada": 314,
+          "stockTienda": 0,
+          "compraReal": 314,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "p1eorfilu",
+          "nombre": "Palta fuerte verde - bandeja x 500 g",
+          "cantidadSolicitada": 5,
+          "stockTienda": 0,
+          "compraReal": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8p1yoiayi",
+          "nombre": "Palta hass x unidad",
+          "cantidadSolicitada": 39,
+          "stockTienda": 0,
+          "compraReal": 39,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1fyu9f49k",
+          "nombre": "Papa amarilla ambo - malla x 1 kg",
+          "cantidadSolicitada": 69,
+          "stockTienda": 0,
+          "compraReal": 69,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "lsau1r3kv",
+          "nombre": "Papa amarilla peruanita - malla x 500 g",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "9jcsg419c",
+          "nombre": "Papa blanca yungay - malla x 1 kg",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4zac0ao24",
+          "nombre": "Papa canchan rosada - malla x 1 kg",
+          "cantidadSolicitada": 12,
+          "stockTienda": 0,
+          "compraReal": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "iya0l55m3",
+          "nombre": "Papa cocktail peruanita - malla x 500 g",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pxs69s4do",
+          "nombre": "Papa huayro - malla x 1 kg",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "kednl9v7w",
+          "nombre": "Papaya x unidad",
+          "cantidadSolicitada": 29,
+          "stockTienda": 0,
+          "compraReal": 29,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "p0m5u2muw",
+          "nombre": "Pepino x unidad",
+          "cantidadSolicitada": 56,
+          "stockTienda": 0,
+          "compraReal": 56,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "18u3ki0y2",
+          "nombre": "Pera x unidad",
+          "cantidadSolicitada": 15,
+          "stockTienda": 0,
+          "compraReal": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qr5uz424o",
+          "nombre": "Perejil x atado",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "px80bcva7",
+          "nombre": "Pimiento Moron x  unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1uksps8t7",
+          "nombre": "Piña golden x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1705p9cng",
+          "nombre": "Pitahaya amarilla x unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "nbd0rz4oh",
+          "nombre": "Platano bellaco x unidad",
+          "cantidadSolicitada": 17,
+          "stockTienda": 0,
+          "compraReal": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "uefrma8fz",
+          "nombre": "Platano bizcocho - bandeja x 400 g",
+          "cantidadSolicitada": 44,
+          "stockTienda": 0,
+          "compraReal": 44,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "17zswibel",
+          "nombre": "Platano isla x unidad",
+          "cantidadSolicitada": 14,
+          "stockTienda": 0,
+          "compraReal": 14,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "h3wxrq0eu",
+          "nombre": "Plátano seda orgánico x 5 unidades",
+          "cantidadSolicitada": 159,
+          "stockTienda": 0,
+          "compraReal": 159,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "x7gxy8qyr",
+          "nombre": "Poro x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "z8f6s5vds",
+          "nombre": "Rocoto - bandeja x 3 unid",
+          "cantidadSolicitada": 8,
+          "stockTienda": 0,
+          "compraReal": 8,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "yivw52aao",
+          "nombre": "Romero x atado",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "5quddr8hn",
+          "nombre": "Tomate - malla x 500 g",
+          "cantidadSolicitada": 52,
+          "stockTienda": 0,
+          "compraReal": 52,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "mqt71zrkv",
+          "nombre": "Tomate x unidad",
+          "cantidadSolicitada": 149,
+          "stockTienda": 0,
+          "compraReal": 149,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6kcrxvod3",
+          "nombre": "Toronja rosada x unidad",
+          "cantidadSolicitada": 6,
+          "stockTienda": 0,
+          "compraReal": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "670h28iwd",
+          "nombre": "Tuna verde - malla x 500 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "t5ngezpl8",
+          "nombre": "Uva verde sin pepa - taper x 500 g",
+          "cantidadSolicitada": 61,
+          "stockTienda": 0,
+          "compraReal": 61,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "r7qx5dv9v",
+          "nombre": "Vainita - bandeja x 250 g",
+          "cantidadSolicitada": 12,
+          "stockTienda": 0,
+          "compraReal": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jptina7fr",
+          "nombre": "Yuca blanca x unidad",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "lcg63kadx",
+          "nombre": "Zanahoria x unidad",
+          "cantidadSolicitada": 84,
+          "stockTienda": 0,
+          "compraReal": 84,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "s41szd7co",
+          "nombre": "Zapallo italiano x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "d6vapfeqh",
+          "nombre": "Zapallo Macre x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        }
+      ],
+      "estado": "EN_MERCADO"
+    },
+    {
+      "id": "OC-202605111751",
+      "fecha": "11/5/2026, 12:51:49 p. m.",
+      "excelFiles": [
+        "OC Rappi Sabado 07- 03- 26.xlsx",
+        "OC Campos 26-03-2026.xls"
+      ],
+      "itemsCount": 89,
+      "totalUnidades": 2576,
+      "creadoPor": "Angel",
+      "items": [
+        {
+          "id": "7osla6xbm",
+          "nombre": "Acelga - bolsa x 300 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "w0hstiw75",
+          "nombre": "Aguaymanto - taper x 250 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "objnerlz",
+          "nombre": "Ají amarillo x unidad",
+          "cantidadSolicitada": 72,
+          "stockTienda": 0,
+          "compraReal": 72,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "io4vwo624",
+          "nombre": "Ají limo - bandeja x 100 g",
+          "cantidadSolicitada": 7,
+          "stockTienda": 0,
+          "compraReal": 7,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ju3x2ox06",
+          "nombre": "Ajo entero - bandeja x 250 g",
+          "cantidadSolicitada": 10,
+          "stockTienda": 0,
+          "compraReal": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8sxl3ld7k",
+          "nombre": "Ajo pelado - bolsa x 250 g",
+          "cantidadSolicitada": 6,
+          "stockTienda": 0,
+          "compraReal": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "kscwimcbp",
+          "nombre": "Albahaca x atado",
+          "cantidadSolicitada": 28,
+          "stockTienda": 0,
+          "compraReal": 28,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "k4p498fh7",
+          "nombre": "Alcachofa x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pvcj97842",
+          "nombre": "Apio x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "18amblukj",
+          "nombre": "Arándano - taper x 250 g",
+          "cantidadSolicitada": 34,
+          "stockTienda": 0,
+          "compraReal": 34,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fkbd7ekma",
+          "nombre": "Arveja - bandeja x 250 g",
+          "cantidadSolicitada": 4,
+          "stockTienda": 0,
+          "compraReal": 4,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "xqbfwby6t",
+          "nombre": "Arveja desvainada - bandeja x 150 g",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fy81qvky5",
+          "nombre": "Betarraga x atado",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "rn5u7d0ev",
+          "nombre": "Brócoli - bandeja x 250 g",
+          "cantidadSolicitada": 27,
+          "stockTienda": 0,
+          "compraReal": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3h8czwn12",
+          "nombre": "Brócoli florete - bandeja x 250 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "rc08twgh1",
+          "nombre": "Camote amarillo - malla x 1 kg",
+          "cantidadSolicitada": 42,
+          "stockTienda": 0,
+          "compraReal": 42,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "xffqjmnce",
+          "nombre": "Cebolla blanca - malla x 500 g",
+          "cantidadSolicitada": 32,
+          "stockTienda": 0,
+          "compraReal": 32,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "c7zgx87kj",
+          "nombre": "Cebolla china x atado",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "zywlc2za2",
+          "nombre": "Cebolla roja - malla x 500 g",
+          "cantidadSolicitada": 40,
+          "stockTienda": 0,
+          "compraReal": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "cf2bjshte",
+          "nombre": "Choclo desgranado - bandeja x 100 g",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "th7rpa65l",
+          "nombre": "Choclo x unidad",
+          "cantidadSolicitada": 48,
+          "stockTienda": 0,
+          "compraReal": 48,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "f983lo7yj",
+          "nombre": "Cilantro - atado",
+          "cantidadSolicitada": 33,
+          "stockTienda": 0,
+          "compraReal": 33,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ly3kb5s4r",
+          "nombre": "Col china - 1/2 Unid",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "a3dnhavqo",
+          "nombre": "Col corazón - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ekmu7ozdo",
+          "nombre": "Col crespa - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "e5ood8n79",
+          "nombre": "Col morada - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "crghog0g0",
+          "nombre": "Durazno x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "s5g4ne18c",
+          "nombre": "Esparrago x unidad",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ptiqrehek",
+          "nombre": "Espinaca - bolsa x 500 g",
+          "cantidadSolicitada": 17,
+          "stockTienda": 0,
+          "compraReal": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "epjly0vth",
+          "nombre": "Fresa - taper x 500 g",
+          "cantidadSolicitada": 62,
+          "stockTienda": 0,
+          "compraReal": 62,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2z8cfeyfe",
+          "nombre": "Granadilla - malla x 500 g",
+          "cantidadSolicitada": 35,
+          "stockTienda": 0,
+          "compraReal": 35,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "h31a9v4bf",
+          "nombre": "Hierba albahaca x atado",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6zniv4y08",
+          "nombre": "Hierbabuena x atado",
+          "cantidadSolicitada": 5,
+          "stockTienda": 0,
+          "compraReal": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "35ttm1wov",
+          "nombre": "Hierbaluisa x atado",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wgkvy57it",
+          "nombre": "Kion - malla x 250 g",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vzluk6udk",
+          "nombre": "Kiwi x unidad",
+          "cantidadSolicitada": 19,
+          "stockTienda": 0,
+          "compraReal": 19,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "21bqst6h5",
+          "nombre": "Lechuga americana x unidad",
+          "cantidadSolicitada": 31,
+          "stockTienda": 0,
+          "compraReal": 31,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6k5ct2krm",
+          "nombre": "Lechuga crespa x unidad",
+          "cantidadSolicitada": 30,
+          "stockTienda": 0,
+          "compraReal": 30,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vpz8m3st2",
+          "nombre": "Limon - malla x 500 g",
+          "cantidadSolicitada": 269,
+          "stockTienda": 0,
+          "compraReal": 269,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "abxnr1jcc",
+          "nombre": "Lucuma x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "g6v7saelz",
+          "nombre": "Mandarina sin pepa - malla x 500 g",
+          "cantidadSolicitada": 59,
+          "stockTienda": 0,
+          "compraReal": 59,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "mkq9ojkjz",
+          "nombre": "Mango Edward x unidad",
+          "cantidadSolicitada": 26,
+          "stockTienda": 0,
+          "compraReal": 26,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "e9gy5sqk0",
+          "nombre": "Mango Haden x unidad",
+          "cantidadSolicitada": 10,
+          "stockTienda": 0,
+          "compraReal": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "dx31detlr",
+          "nombre": "Manzana de agua - malla x 500 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jb4imohfb",
+          "nombre": "Manzana delicia x unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "c2qm3uqi9",
+          "nombre": "Manzana israel x unidad",
+          "cantidadSolicitada": 5,
+          "stockTienda": 0,
+          "compraReal": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "9j8o0n8qv",
+          "nombre": "Manzana roja x unidad",
+          "cantidadSolicitada": 15,
+          "stockTienda": 0,
+          "compraReal": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "j47t9cm05",
+          "nombre": "Manzana royal gala x unidad",
+          "cantidadSolicitada": 36,
+          "stockTienda": 0,
+          "compraReal": 36,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "u7z879spm",
+          "nombre": "Manzana verde x unidad",
+          "cantidadSolicitada": 40,
+          "stockTienda": 0,
+          "compraReal": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "m23wta96b",
+          "nombre": "Maracuya x unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "deuhbrxau",
+          "nombre": "Melocotón x unidad",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "66wv5mv2a",
+          "nombre": "Melon coquito x unidad",
+          "cantidadSolicitada": 9,
+          "stockTienda": 0,
+          "compraReal": 9,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4j1hzl7yo",
+          "nombre": "Naranja mesa x unidad",
+          "cantidadSolicitada": 27,
+          "stockTienda": 0,
+          "compraReal": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "33uuizzdb",
+          "nombre": "Naranja para jugo - malla x 1 kg",
+          "cantidadSolicitada": 51,
+          "stockTienda": 0,
+          "compraReal": 51,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "kgzl59jzs",
+          "nombre": "Palta fuerte sazón x unidad",
+          "cantidadSolicitada": 314,
+          "stockTienda": 0,
+          "compraReal": 314,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jkxpfqrwt",
+          "nombre": "Palta fuerte verde - bandeja x 500 g",
+          "cantidadSolicitada": 5,
+          "stockTienda": 0,
+          "compraReal": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wt9ahlgzg",
+          "nombre": "Palta hass x unidad",
+          "cantidadSolicitada": 39,
+          "stockTienda": 0,
+          "compraReal": 39,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "e5ett0si0",
+          "nombre": "Papa amarilla ambo - malla x 1 kg",
+          "cantidadSolicitada": 69,
+          "stockTienda": 0,
+          "compraReal": 69,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "312x498l4",
+          "nombre": "Papa amarilla peruanita - malla x 500 g",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "albs0liyx",
+          "nombre": "Papa blanca yungay - malla x 1 kg",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "b0hycqsi4",
+          "nombre": "Papa canchan rosada - malla x 1 kg",
+          "cantidadSolicitada": 12,
+          "stockTienda": 0,
+          "compraReal": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "tsc3tshnt",
+          "nombre": "Papa cocktail peruanita - malla x 500 g",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wtwdj4mub",
+          "nombre": "Papa huayro - malla x 1 kg",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "aen18c1r5",
+          "nombre": "Papaya x unidad",
+          "cantidadSolicitada": 29,
+          "stockTienda": 0,
+          "compraReal": 29,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "z3ikm2mrx",
+          "nombre": "Pepino x unidad",
+          "cantidadSolicitada": 56,
+          "stockTienda": 0,
+          "compraReal": 56,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "icrbf7lks",
+          "nombre": "Pera x unidad",
+          "cantidadSolicitada": 15,
+          "stockTienda": 0,
+          "compraReal": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "a3eko4toz",
+          "nombre": "Perejil x atado",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "i63mgyepv",
+          "nombre": "Pimiento de colores bandeja x 3 ud",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pryx53qrf",
+          "nombre": "Pimiento Moron x  unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "nkcqh5ggt",
+          "nombre": "Pimiento Morón x unidad",
+          "cantidadSolicitada": 7,
+          "stockTienda": 0,
+          "compraReal": 7,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "sho68a91o",
+          "nombre": "Piña golden x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8c7tf1e0m",
+          "nombre": "Pitahaya amarilla x unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "zwdmzv99q",
+          "nombre": "Platano bellaco x unidad",
+          "cantidadSolicitada": 17,
+          "stockTienda": 0,
+          "compraReal": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3apt9kqxh",
+          "nombre": "Platano bizcocho - bandeja x 400 g",
+          "cantidadSolicitada": 44,
+          "stockTienda": 0,
+          "compraReal": 44,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ci983ltz1",
+          "nombre": "Platano isla x unidad",
+          "cantidadSolicitada": 14,
+          "stockTienda": 0,
+          "compraReal": 14,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3bv3di6jb",
+          "nombre": "Plátano seda orgánico x 5 unidades",
+          "cantidadSolicitada": 159,
+          "stockTienda": 0,
+          "compraReal": 159,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "knymjiqoe",
+          "nombre": "Poro x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "h36fmgp3s",
+          "nombre": "Rocoto - bandeja x 3 unid",
+          "cantidadSolicitada": 8,
+          "stockTienda": 0,
+          "compraReal": 8,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wvf38557o",
+          "nombre": "Romero x atado",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "q7mkon6pm",
+          "nombre": "Tomate - malla x 500 g",
+          "cantidadSolicitada": 55,
+          "stockTienda": 0,
+          "compraReal": 55,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jpesig7jy",
+          "nombre": "Tomate x unidad",
+          "cantidadSolicitada": 149,
+          "stockTienda": 0,
+          "compraReal": 149,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "s6k0sc9z1",
+          "nombre": "Toronja rosada x unidad",
+          "cantidadSolicitada": 6,
+          "stockTienda": 0,
+          "compraReal": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "0kv0tpmtk",
+          "nombre": "Tuna verde - malla x 500 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fkmkn9fnv",
+          "nombre": "Uva verde sin pepa - taper x 500 g",
+          "cantidadSolicitada": 61,
+          "stockTienda": 0,
+          "compraReal": 61,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "40ombsmdc",
+          "nombre": "Vainita - bandeja x 250 g",
+          "cantidadSolicitada": 12,
+          "stockTienda": 0,
+          "compraReal": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8uje3oz3n",
+          "nombre": "Yuca blanca x unidad",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "xxu94zngx",
+          "nombre": "Zanahoria x unidad",
+          "cantidadSolicitada": 84,
+          "stockTienda": 0,
+          "compraReal": 84,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "9cbepsjte",
+          "nombre": "Zapallo italiano x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fu4rr538m",
+          "nombre": "Zapallo Macre x unidad",
+          "cantidadSolicitada": 25,
+          "stockTienda": 0,
+          "compraReal": 25,
+          "unidadVenta": "und"
+        }
+      ],
+      "estado": "EN_MERCADO"
+    },
+    {
+      "id": "OC-202605111735",
+      "fecha": "11/5/2026, 12:35:40 p. m.",
+      "excelFiles": [
+        "OC Campos 26-03-2026.xls",
+        "OC Rappi Sabado 07- 03- 26.xlsx"
+      ],
+      "itemsCount": 89,
+      "totalUnidades": 2576,
+      "creadoPor": "Edmundo",
+      "items": [
+        {
+          "id": "0uhy8pe3k",
+          "nombre": "Acelga - bolsa x 300 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "b7nours6u",
+          "nombre": "Aguaymanto - taper x 250 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "0en1usupx",
+          "nombre": "Ají amarillo x unidad",
+          "cantidadSolicitada": 72,
+          "stockTienda": 0,
+          "compraReal": 72,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "o8192t8su",
+          "nombre": "Ají limo - bandeja x 100 g",
+          "cantidadSolicitada": 7,
+          "stockTienda": 0,
+          "compraReal": 7,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "sybgih2qp",
+          "nombre": "Ajo entero - bandeja x 250 g",
+          "cantidadSolicitada": 10,
+          "stockTienda": 0,
+          "compraReal": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "sh5isemeo",
+          "nombre": "Ajo pelado - bolsa x 250 g",
+          "cantidadSolicitada": 6,
+          "stockTienda": 0,
+          "compraReal": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jt6x084b5",
+          "nombre": "Albahaca x atado",
+          "cantidadSolicitada": 28,
+          "stockTienda": 0,
+          "compraReal": 28,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3ikmqj8yx",
+          "nombre": "Alcachofa x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "byclzjmxw",
+          "nombre": "Apio x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4vt8kd23a",
+          "nombre": "Arándano - taper x 250 g",
+          "cantidadSolicitada": 34,
+          "stockTienda": 0,
+          "compraReal": 34,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "cv31n0gzf",
+          "nombre": "Arveja - bandeja x 250 g",
+          "cantidadSolicitada": 4,
+          "stockTienda": 0,
+          "compraReal": 4,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "454uklqx6",
+          "nombre": "Arveja desvainada - bandeja x 150 g",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "uf7gqcj0d",
+          "nombre": "Betarraga x atado",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "e2m962ix5",
+          "nombre": "Brócoli - bandeja x 250 g",
+          "cantidadSolicitada": 27,
+          "stockTienda": 0,
+          "compraReal": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2a6gm454j",
+          "nombre": "Brócoli florete - bandeja x 250 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "x56cul6b3",
+          "nombre": "Camote amarillo - malla x 1 kg",
+          "cantidadSolicitada": 42,
+          "stockTienda": 0,
+          "compraReal": 42,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3djvb5pcj",
+          "nombre": "Cebolla blanca - malla x 500 g",
+          "cantidadSolicitada": 32,
+          "stockTienda": 0,
+          "compraReal": 32,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jlwwdoiq1",
+          "nombre": "Cebolla china x atado",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ob1l10epq",
+          "nombre": "Cebolla roja - malla x 500 g",
+          "cantidadSolicitada": 40,
+          "stockTienda": 0,
+          "compraReal": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7ix98dt0h",
+          "nombre": "Choclo desgranado - bandeja x 100 g",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "50grvx941",
+          "nombre": "Choclo x unidad",
+          "cantidadSolicitada": 48,
+          "stockTienda": 0,
+          "compraReal": 48,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "w8vzpli5t",
+          "nombre": "Cilantro - atado",
+          "cantidadSolicitada": 33,
+          "stockTienda": 0,
+          "compraReal": 33,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "knb11xjcj",
+          "nombre": "Col china - 1/2 Unid",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7y79ue1k8",
+          "nombre": "Col corazón - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "y956dgn8e",
+          "nombre": "Col crespa - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ln3s7p19q",
+          "nombre": "Col morada - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "i74rd9h6v",
+          "nombre": "Durazno x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8lcy4ukal",
+          "nombre": "Esparrago x unidad",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4v5gb0td6",
+          "nombre": "Espinaca - bolsa x 500 g",
+          "cantidadSolicitada": 17,
+          "stockTienda": 0,
+          "compraReal": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8lg7v36ov",
+          "nombre": "Fresa - taper x 500 g",
+          "cantidadSolicitada": 62,
+          "stockTienda": 0,
+          "compraReal": 62,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "59ghxcyfk",
+          "nombre": "Granadilla - malla x 500 g",
+          "cantidadSolicitada": 35,
+          "stockTienda": 0,
+          "compraReal": 35,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wsul2sdwt",
+          "nombre": "Hierba albahaca x atado",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "sugoj7kdi",
+          "nombre": "Hierbabuena x atado",
+          "cantidadSolicitada": 5,
+          "stockTienda": 0,
+          "compraReal": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "le099xcjj",
+          "nombre": "Hierbaluisa x atado",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "cefjnglub",
+          "nombre": "Kion - malla x 250 g",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "9fua8ny1o",
+          "nombre": "Kiwi x unidad",
+          "cantidadSolicitada": 19,
+          "stockTienda": 0,
+          "compraReal": 19,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ge522y35n",
+          "nombre": "Lechuga americana x unidad",
+          "cantidadSolicitada": 31,
+          "stockTienda": 0,
+          "compraReal": 31,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ps0hzjlq7",
+          "nombre": "Lechuga crespa x unidad",
+          "cantidadSolicitada": 30,
+          "stockTienda": 0,
+          "compraReal": 30,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3r7mgm6yv",
+          "nombre": "Limon - malla x 500 g",
+          "cantidadSolicitada": 269,
+          "stockTienda": 0,
+          "compraReal": 269,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "gwy8j8d0a",
+          "nombre": "Lucuma x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "gyse6720o",
+          "nombre": "Mandarina sin pepa - malla x 500 g",
+          "cantidadSolicitada": 59,
+          "stockTienda": 0,
+          "compraReal": 59,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "5lz76xipl",
+          "nombre": "Mango Edward x unidad",
+          "cantidadSolicitada": 26,
+          "stockTienda": 0,
+          "compraReal": 26,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7vwj3fm0z",
+          "nombre": "Mango Haden x unidad",
+          "cantidadSolicitada": 10,
+          "stockTienda": 0,
+          "compraReal": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7thqbln8f",
+          "nombre": "Manzana de agua - malla x 500 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "x2gwk4tuh",
+          "nombre": "Manzana delicia x unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ictueyv7b",
+          "nombre": "Manzana israel x unidad",
+          "cantidadSolicitada": 5,
+          "stockTienda": 0,
+          "compraReal": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ebebeseqw",
+          "nombre": "Manzana roja x unidad",
+          "cantidadSolicitada": 15,
+          "stockTienda": 0,
+          "compraReal": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "cfrju0xid",
+          "nombre": "Manzana royal gala x unidad",
+          "cantidadSolicitada": 36,
+          "stockTienda": 0,
+          "compraReal": 36,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7rq551ssg",
+          "nombre": "Manzana verde x unidad",
+          "cantidadSolicitada": 40,
+          "stockTienda": 0,
+          "compraReal": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jtltmy2zt",
+          "nombre": "Maracuya x unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "xdx9e4enl",
+          "nombre": "Melocotón x unidad",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wthspmq6x",
+          "nombre": "Melon coquito x unidad",
+          "cantidadSolicitada": 9,
+          "stockTienda": 0,
+          "compraReal": 9,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "n3veizzk7",
+          "nombre": "Naranja mesa x unidad",
+          "cantidadSolicitada": 27,
+          "stockTienda": 0,
+          "compraReal": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "bt00kl87d",
+          "nombre": "Naranja para jugo - malla x 1 kg",
+          "cantidadSolicitada": 51,
+          "stockTienda": 0,
+          "compraReal": 51,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "e0y48jcer",
+          "nombre": "Palta fuerte sazón x unidad",
+          "cantidadSolicitada": 314,
+          "stockTienda": 0,
+          "compraReal": 314,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "y1ipr13fx",
+          "nombre": "Palta fuerte verde - bandeja x 500 g",
+          "cantidadSolicitada": 5,
+          "stockTienda": 0,
+          "compraReal": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pvhm3oxb3",
+          "nombre": "Palta hass x unidad",
+          "cantidadSolicitada": 39,
+          "stockTienda": 0,
+          "compraReal": 39,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "veneyo2co",
+          "nombre": "Papa amarilla ambo - malla x 1 kg",
+          "cantidadSolicitada": 69,
+          "stockTienda": 0,
+          "compraReal": 69,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vce1t2bzt",
+          "nombre": "Papa amarilla peruanita - malla x 500 g",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wrsnpmx8y",
+          "nombre": "Papa blanca yungay - malla x 1 kg",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wsj772myi",
+          "nombre": "Papa canchan rosada - malla x 1 kg",
+          "cantidadSolicitada": 12,
+          "stockTienda": 0,
+          "compraReal": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "04rgynt9w",
+          "nombre": "Papa cocktail peruanita - malla x 500 g",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6abmeodpf",
+          "nombre": "Papa huayro - malla x 1 kg",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1enuvqx6u",
+          "nombre": "Papaya x unidad",
+          "cantidadSolicitada": 29,
+          "stockTienda": 0,
+          "compraReal": 29,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "t8a2qhr7k",
+          "nombre": "Pepino x unidad",
+          "cantidadSolicitada": 56,
+          "stockTienda": 0,
+          "compraReal": 56,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "i3bkwq5vs",
+          "nombre": "Pera x unidad",
+          "cantidadSolicitada": 15,
+          "stockTienda": 0,
+          "compraReal": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fw2i25rwt",
+          "nombre": "Perejil x atado",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ud34d4z71",
+          "nombre": "Pimiento de colores bandeja x 3 ud",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "v2fdxkg3s",
+          "nombre": "Pimiento Moron x  unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2w537vlyc",
+          "nombre": "Pimiento Morón x unidad",
+          "cantidadSolicitada": 7,
+          "stockTienda": 0,
+          "compraReal": 7,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "hvmt9uh7b",
+          "nombre": "Piña golden x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "caarxjcta",
+          "nombre": "Pitahaya amarilla x unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "iqrm2d64u",
+          "nombre": "Platano bellaco x unidad",
+          "cantidadSolicitada": 17,
+          "stockTienda": 0,
+          "compraReal": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ujqw7ol2n",
+          "nombre": "Platano bizcocho - bandeja x 400 g",
+          "cantidadSolicitada": 44,
+          "stockTienda": 0,
+          "compraReal": 44,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "r1ptecq2e",
+          "nombre": "Platano isla x unidad",
+          "cantidadSolicitada": 14,
+          "stockTienda": 0,
+          "compraReal": 14,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "9c8z17lxc",
+          "nombre": "Plátano seda orgánico x 5 unidades",
+          "cantidadSolicitada": 159,
+          "stockTienda": 0,
+          "compraReal": 159,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "0i4osw9hr",
+          "nombre": "Poro x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "64z5hr1ze",
+          "nombre": "Rocoto - bandeja x 3 unid",
+          "cantidadSolicitada": 8,
+          "stockTienda": 0,
+          "compraReal": 8,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ficnoet2a",
+          "nombre": "Romero x atado",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vovtqmrtq",
+          "nombre": "Tomate - malla x 500 g",
+          "cantidadSolicitada": 55,
+          "stockTienda": 0,
+          "compraReal": 55,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "dz56o9w9q",
+          "nombre": "Tomate x unidad",
+          "cantidadSolicitada": 149,
+          "stockTienda": 0,
+          "compraReal": 149,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vuasgipw0",
+          "nombre": "Toronja rosada x unidad",
+          "cantidadSolicitada": 6,
+          "stockTienda": 0,
+          "compraReal": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "k4obgsgk9",
+          "nombre": "Tuna verde - malla x 500 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7r8emmxbk",
+          "nombre": "Uva verde sin pepa - taper x 500 g",
+          "cantidadSolicitada": 61,
+          "stockTienda": 0,
+          "compraReal": 61,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "i6eni9zyi",
+          "nombre": "Vainita - bandeja x 250 g",
+          "cantidadSolicitada": 12,
+          "stockTienda": 0,
+          "compraReal": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "d3tig8y0v",
+          "nombre": "Yuca blanca x unidad",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2pdel5uuu",
+          "nombre": "Zanahoria x unidad",
+          "cantidadSolicitada": 84,
+          "stockTienda": 0,
+          "compraReal": 84,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "yjry7o1b9",
+          "nombre": "Zapallo italiano x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3ko07xocz",
+          "nombre": "Zapallo Macre x unidad",
+          "cantidadSolicitada": 25,
+          "stockTienda": 0,
+          "compraReal": 25,
+          "unidadVenta": "und"
+        }
+      ],
+      "estado": "EN_MERCADO"
+    },
+    {
+      "id": "OC-202605071815",
+      "fecha": "7/5/2026, 1:15:05 p. m.",
+      "excelFiles": [
+        "OC Tienda Campos 26-03-2026.xls",
+        "OC Rappi Sabado 07- 03- 26.xlsx"
+      ],
+      "itemsCount": 93,
+      "totalUnidades": 2568,
+      "creadoPor": "Edmundo",
+      "items": [
+        {
+          "id": "bycmnw7wf",
+          "nombre": "Acelga - bolsa x 300 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wauiy9wmc",
+          "nombre": "Aguaymanto - taper x 250 g",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "pfode5pq5",
+          "nombre": "Ají amarillo x unidad",
+          "cantidadSolicitada": 72,
+          "stockTienda": 0,
+          "compraReal": 72,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "l06up8ie9",
+          "nombre": "Ají limo - bandeja x 100 g",
+          "cantidadSolicitada": 7,
+          "stockTienda": 0,
+          "compraReal": 7,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "o5gt6w8ve",
+          "nombre": "Ajo entero - bandeja x 250 g",
+          "cantidadSolicitada": 10,
+          "stockTienda": 0,
+          "compraReal": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6bpjggemt",
+          "nombre": "Ajo pelado - bolsa x 250 g",
+          "cantidadSolicitada": 6,
+          "stockTienda": 0,
+          "compraReal": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "s6fkywqb8",
+          "nombre": "Albahaca x atado",
+          "cantidadSolicitada": 28,
+          "stockTienda": 0,
+          "compraReal": 28,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "w90oq6v10",
+          "nombre": "Alcachofa x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1sawgefbc",
+          "nombre": "Apio x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3n9v2r40s",
+          "nombre": "Arándano - taper x 250 g",
+          "cantidadSolicitada": 34,
+          "stockTienda": 0,
+          "compraReal": 34,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "bhzkw24gh",
+          "nombre": "Arandano taper x 250 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "muov8swvc",
+          "nombre": "Arveja - bandeja x 250 g",
+          "cantidadSolicitada": 4,
+          "stockTienda": 0,
+          "compraReal": 4,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "giajuzu8e",
+          "nombre": "Arveja desvainada - bandeja x 150 g",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "tb6m6ucws",
+          "nombre": "Betarraga x atado",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "0bwtptycw",
+          "nombre": "Brócoli - bandeja x 250 g",
+          "cantidadSolicitada": 27,
+          "stockTienda": 0,
+          "compraReal": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qwwxcq84n",
+          "nombre": "Brócoli florete - bandeja x 250 g",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "i2xf0yqcv",
+          "nombre": "Camote amarillo - malla x 1 kg",
+          "cantidadSolicitada": 42,
+          "stockTienda": 0,
+          "compraReal": 42,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "18xm0w0mt",
+          "nombre": "Cebolla blanca - malla x 500 g",
+          "cantidadSolicitada": 32,
+          "stockTienda": 0,
+          "compraReal": 32,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "b42j9493i",
+          "nombre": "Cebolla china x atado",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "t0mgvih24",
+          "nombre": "Cebolla roja - malla x 500 g",
+          "cantidadSolicitada": 40,
+          "stockTienda": 0,
+          "compraReal": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ro5dcfdl9",
+          "nombre": "Choclo desgranado - bandeja x 100 g",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "imy3fj1x8",
+          "nombre": "Choclo x unidad",
+          "cantidadSolicitada": 48,
+          "stockTienda": 0,
+          "compraReal": 48,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "5yipw6etz",
+          "nombre": "Cilantro - atado",
+          "cantidadSolicitada": 33,
+          "stockTienda": 0,
+          "compraReal": 33,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "b5r7zm24i",
+          "nombre": "Col china - 1/2 Unid",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jndz5hb6w",
+          "nombre": "Col corazón - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2ecxp69lb",
+          "nombre": "Col crespa - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "09vnceurk",
+          "nombre": "Col morada - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jzskmfmjj",
+          "nombre": "Durazno x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "97ykdkro1",
+          "nombre": "Esparrago x unidad",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6k9ag49d4",
+          "nombre": "Espinaca - bolsa x 500 g",
+          "cantidadSolicitada": 17,
+          "stockTienda": 0,
+          "compraReal": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1kjcropmt",
+          "nombre": "Fresa - taper x 500 g",
+          "cantidadSolicitada": 64,
+          "stockTienda": 0,
+          "compraReal": 64,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3l615xrio",
+          "nombre": "Granadilla - malla x 500 g",
+          "cantidadSolicitada": 35,
+          "stockTienda": 0,
+          "compraReal": 35,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "riv2aeyh3",
+          "nombre": "Hierba albahaca x atado",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "9geudcmhk",
+          "nombre": "Hierbabuena x atado",
+          "cantidadSolicitada": 5,
+          "stockTienda": 0,
+          "compraReal": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "60z5j7dyl",
+          "nombre": "Hierbaluisa x atado",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "yeq0opi7m",
+          "nombre": "Kion - malla x 250 g",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2b1j3rxes",
+          "nombre": "Kiwi x unidad",
+          "cantidadSolicitada": 19,
+          "stockTienda": 0,
+          "compraReal": 19,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "me3rsxeoh",
+          "nombre": "Lechuga americana x unidad",
+          "cantidadSolicitada": 31,
+          "stockTienda": 0,
+          "compraReal": 31,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "yiknkpeiw",
+          "nombre": "Lechuga crespa x unidad",
+          "cantidadSolicitada": 30,
+          "stockTienda": 0,
+          "compraReal": 30,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "gfvha7dix",
+          "nombre": "Limon - malla x 500 g",
+          "cantidadSolicitada": 269,
+          "stockTienda": 0,
+          "compraReal": 269,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ytrkjohyx",
+          "nombre": "Lucuma x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fwh7zgv2j",
+          "nombre": "Mandarina sin pepa - malla x 500 g",
+          "cantidadSolicitada": 59,
+          "stockTienda": 0,
+          "compraReal": 59,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "quqk951uu",
+          "nombre": "Mango Edward x unidad",
+          "cantidadSolicitada": 26,
+          "stockTienda": 0,
+          "compraReal": 26,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3ey28vezs",
+          "nombre": "Mango Haden x unidad",
+          "cantidadSolicitada": 10,
+          "stockTienda": 0,
+          "compraReal": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "kv266r6hj",
+          "nombre": "Manzana de agua - malla x 500 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "0csj77sie",
+          "nombre": "Manzana delicia x unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fwrimd8l5",
+          "nombre": "Manzana israel x unidad",
+          "cantidadSolicitada": 5,
+          "stockTienda": 0,
+          "compraReal": 5,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "jf74grub2",
+          "nombre": "Manzana roja x unidad",
+          "cantidadSolicitada": 15,
+          "stockTienda": 0,
+          "compraReal": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "tn4lxn4ex",
+          "nombre": "Manzana royal gala x unidad",
+          "cantidadSolicitada": 36,
+          "stockTienda": 0,
+          "compraReal": 36,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "c816tmnxq",
+          "nombre": "Manzana verde x bandeja 500 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "32wy91zdl",
+          "nombre": "Manzana verde x unidad",
+          "cantidadSolicitada": 40,
+          "stockTienda": 0,
+          "compraReal": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "xflipz3cc",
+          "nombre": "Maracuya x unidad",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "yia9phcu5",
+          "nombre": "Melocotón x unidad",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fe7t1locr",
+          "nombre": "Melon coquito x unidad",
+          "cantidadSolicitada": 9,
+          "stockTienda": 0,
+          "compraReal": 9,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "l792n5l42",
+          "nombre": "Naranja mesa x unidad",
+          "cantidadSolicitada": 27,
+          "stockTienda": 0,
+          "compraReal": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2v8uzu3lv",
+          "nombre": "Naranja para jugo - malla x 1 kg",
+          "cantidadSolicitada": 51,
+          "stockTienda": 0,
+          "compraReal": 51,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4mrys0akd",
+          "nombre": "Palta fuerte sazón x unidad",
+          "cantidadSolicitada": 314,
+          "stockTienda": 0,
+          "compraReal": 314,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8iwx6rrl8",
+          "nombre": "Palta fuerte verde - bandeja x 500 g",
+          "cantidadSolicitada": 8,
+          "stockTienda": 0,
+          "compraReal": 8,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "q23h4a8uo",
+          "nombre": "Palta hass x unidad",
+          "cantidadSolicitada": 39,
+          "stockTienda": 0,
+          "compraReal": 39,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "zd0lp9xqx",
+          "nombre": "Papa amarilla ambo - malla x 1 kg",
+          "cantidadSolicitada": 69,
+          "stockTienda": 0,
+          "compraReal": 69,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "zvparixxk",
+          "nombre": "Papa amarilla peruanita - malla x 500 g",
+          "cantidadSolicitada": 20,
+          "stockTienda": 0,
+          "compraReal": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "rwgbouek9",
+          "nombre": "Papa blanca yungay - malla x 1 kg",
+          "cantidadSolicitada": 20,
+          "stockTienda": 45,
+          "compraReal": 0,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "z7m9z6pnu",
+          "nombre": "Papa canchan rosada - malla x 1 kg",
+          "cantidadSolicitada": 12,
+          "stockTienda": 0,
+          "compraReal": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "84pm29qn6",
+          "nombre": "Papa cocktail peruanita - malla x 500 g",
+          "cantidadSolicitada": 11,
+          "stockTienda": 0,
+          "compraReal": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "89sjhe4az",
+          "nombre": "Papa huayro - malla x 1 kg",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "squrltufu",
+          "nombre": "Papaya x unidad",
+          "cantidadSolicitada": 29,
+          "stockTienda": 0,
+          "compraReal": 29,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "gf38l9uw4",
+          "nombre": "Pepino x unidad",
+          "cantidadSolicitada": 56,
+          "stockTienda": 0,
+          "compraReal": 56,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "cin45j7i6",
+          "nombre": "Pera x unidad",
+          "cantidadSolicitada": 15,
+          "stockTienda": 0,
+          "compraReal": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "eh3eebo5t",
+          "nombre": "Perejil x atado",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wzo6unp5y",
+          "nombre": "Pimiento de colores bandeja x 3 ud",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "yfuvncsf7",
+          "nombre": "Pimiento Moron x  unidad",
+          "cantidadSolicitada": 13,
+          "stockTienda": 0,
+          "compraReal": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "cyl4l14cb",
+          "nombre": "Pimiento Morón x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2n0s830yd",
+          "nombre": "Piña golden x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pck1picon",
+          "nombre": "Pitahaya amarilla x unidad",
+          "cantidadSolicitada": 17,
+          "stockTienda": 0,
+          "compraReal": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8rp06igxm",
+          "nombre": "Platano bellaco x unidad",
+          "cantidadSolicitada": 17,
+          "stockTienda": 0,
+          "compraReal": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ijo0jzh3l",
+          "nombre": "Platano bizcocho - bandeja x 400 g",
+          "cantidadSolicitada": 44,
+          "stockTienda": 0,
+          "compraReal": 44,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "v21ryrxes",
+          "nombre": "Plátano bizcocho - bandeja x 400 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4cruiff3d",
+          "nombre": "Platano isla x unidad",
+          "cantidadSolicitada": 14,
+          "stockTienda": 0,
+          "compraReal": 14,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "x4of94llk",
+          "nombre": "Plátano seda orgánico x 5 unidades",
+          "cantidadSolicitada": 159,
+          "stockTienda": 0,
+          "compraReal": 159,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "edt5sjsrr",
+          "nombre": "Poro x unidad",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3qade2rfi",
+          "nombre": "Rocoto - bandeja x 3 unid",
+          "cantidadSolicitada": 8,
+          "stockTienda": 0,
+          "compraReal": 8,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "uw7gbvtby",
+          "nombre": "Romero x atado",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "92p7n9uc0",
+          "nombre": "Tomate - malla x 500 g",
+          "cantidadSolicitada": 53,
+          "stockTienda": 0,
+          "compraReal": 53,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ove9o0706",
+          "nombre": "Tomate x unidad",
+          "cantidadSolicitada": 149,
+          "stockTienda": 0,
+          "compraReal": 149,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "0mj8uc476",
+          "nombre": "Toronja rosada x unidad",
+          "cantidadSolicitada": 6,
+          "stockTienda": 0,
+          "compraReal": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "p6yrgmqhz",
+          "nombre": "Tuna verde - malla x 500 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vrlokrfqr",
+          "nombre": "Uva verde sin pepa - bandeja x 500 g",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "der6v63al",
+          "nombre": "Uva verde sin pepa - taper x 500 g",
+          "cantidadSolicitada": 61,
+          "stockTienda": 0,
+          "compraReal": 61,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "09pqhx2jd",
+          "nombre": "Vainita - bandeja x 250 g",
+          "cantidadSolicitada": 12,
+          "stockTienda": 0,
+          "compraReal": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "n12oomk7a",
+          "nombre": "Yuca blanca x unidad",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "snmeyo6rz",
+          "nombre": "Zanahoria x unidad",
+          "cantidadSolicitada": 84,
+          "stockTienda": 0,
+          "compraReal": 84,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pufuevd8l",
+          "nombre": "Zapallo italiano x unidad",
+          "cantidadSolicitada": 21,
+          "stockTienda": 0,
+          "compraReal": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "5wln0lkwo",
+          "nombre": "Zapallo Macre x unidad",
+          "cantidadSolicitada": 22,
+          "stockTienda": 0,
+          "compraReal": 22,
+          "unidadVenta": "und"
+        }
+      ],
+      "estado": "EN_MERCADO"
+    },
+    {
+      "id": "OC-202605071806",
+      "fecha": "7/5/2026, 1:06:17 p. m.",
+      "excelFiles": [
+        "OC Tienda Campos 26-03-2026.xls"
+      ],
+      "itemsCount": 16,
+      "totalUnidades": 31,
+      "creadoPor": "Edmundo",
+      "items": [
+        {
+          "id": "wuwaqsv6q",
+          "nombre": "ACELGA - BOLSA X 300 G",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qocwr1ydf",
+          "nombre": "AGUAYMANTO - TAPER X 250 G",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "fw3ot9qln",
+          "nombre": "ARANDANO TAPER X 250 G",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "n5stkr2qb",
+          "nombre": "BRÓCOLI FLORETE - BANDEJA X 250 G",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "5bgvjawip",
+          "nombre": "FRESA - TAPER X 500 G",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "n6fej92sy",
+          "nombre": "HIERBA ALBAHACA X ATADO",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "rzfr56hln",
+          "nombre": "MANZANA VERDE X BANDEJA 500 G",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "kfnfj79il",
+          "nombre": "MARACUYA X UNIDAD",
+          "cantidadSolicitada": 7,
+          "stockTienda": 0,
+          "compraReal": 7,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6mzfnpq8e",
+          "nombre": "PALTA FUERTE VERDE - BANDEJA X 500 G",
+          "cantidadSolicitada": 3,
+          "stockTienda": 0,
+          "compraReal": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "mf9i74q1a",
+          "nombre": "PIMIENTO DE COLORES BANDEJA X 3 UD",
+          "cantidadSolicitada": 2,
+          "stockTienda": 0,
+          "compraReal": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "mi1vadh9n",
+          "nombre": "PIMIENTO MORÓN X UNIDAD",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qmu4et1sg",
+          "nombre": "PITAHAYA AMARILLA X UNIDAD",
+          "cantidadSolicitada": 4,
+          "stockTienda": 0,
+          "compraReal": 4,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "bcqixgc8z",
+          "nombre": "PLÁTANO BIZCOCHO - BANDEJA X 400 G",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "u1u3i49w2",
+          "nombre": "TOMATE - MALLA X 500 G",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "lqmmwocvg",
+          "nombre": "UVA VERDE SIN PEPA - BANDEJA X 500 G",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "sj31q9lgv",
+          "nombre": "ZAPALLO MACRE X UNIDAD",
+          "cantidadSolicitada": 1,
+          "stockTienda": 0,
+          "compraReal": 1,
+          "unidadVenta": "und"
+        }
+      ],
+      "estado": "EN_MERCADO"
+    },
+    {
+      "id": "OC-202605071800",
+      "fecha": "7/5/2026, 1:00:55 p. m.",
+      "excelFiles": [
+        "OC Rappi Sabado 07- 03- 26.xlsx",
+        "OC Tienda Campos 26-03-2026.xls"
+      ],
+      "itemsCount": 91,
+      "totalUnidades": 2568,
+      "creadoPor": "Edmundo",
+      "items": [
+        {
+          "id": "0zgwon3jh",
+          "nombre": "Acelga",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "by5wvfg8o",
+          "nombre": "Aguaymanto - taper x 250 g",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "v9inaej4s",
+          "nombre": "Ají amarillo x unidad",
+          "cantidadSolicitada": 72,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "h40bsts61",
+          "nombre": "Ají limo - bandeja x 100 g",
+          "cantidadSolicitada": 7,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "07hmtxicq",
+          "nombre": "Ajo entero - bandeja x 250 g",
+          "cantidadSolicitada": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "c6di845hw",
+          "nombre": "Ajo pelado - bolsa x 250 g",
+          "cantidadSolicitada": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "trkgugzdu",
+          "nombre": "Albahaca x atado",
+          "cantidadSolicitada": 28,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "13h71gm54",
+          "nombre": "Alcachofa x unidad",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "21kz1c8xs",
+          "nombre": "Apio x unidad",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8n8iar237",
+          "nombre": "Arándano - taper x 250 g",
+          "cantidadSolicitada": 34,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pf5nx372g",
+          "nombre": "Arandano taper",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ra8m5r22k",
+          "nombre": "Arveja - bandeja x 250 g",
+          "cantidadSolicitada": 4,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "mzl0zdkgk",
+          "nombre": "Arveja desvainada - bandeja x 150 g",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vcf9g3rad",
+          "nombre": "Betarraga x atado",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "utjsdv2b4",
+          "nombre": "Brócoli - bandeja x 250 g",
+          "cantidadSolicitada": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "uyrzvki4l",
+          "nombre": "Brócoli florete",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "prf6lcy1n",
+          "nombre": "Camote amarillo - malla x 1 kg",
+          "cantidadSolicitada": 42,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "r0l0sbs03",
+          "nombre": "Cebolla blanca - malla x 500 g",
+          "cantidadSolicitada": 32,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "5e9c4qgkf",
+          "nombre": "Cebolla china x atado",
+          "cantidadSolicitada": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8l82ki8qy",
+          "nombre": "Cebolla roja - malla x 500 g",
+          "cantidadSolicitada": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "oww8hy4k7",
+          "nombre": "Choclo desgranado - bandeja x 100 g",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "tmslsi5tt",
+          "nombre": "Choclo x unidad",
+          "cantidadSolicitada": 48,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7wvt93n86",
+          "nombre": "Cilantro - atado",
+          "cantidadSolicitada": 33,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "103nuew3t",
+          "nombre": "Col china - 1/2 Unid",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "gyya2qy7e",
+          "nombre": "Col corazón - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "agvxx4gy2",
+          "nombre": "Col crespa - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "73eswwbdx",
+          "nombre": "Col morada - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "cq3ii4qhn",
+          "nombre": "Durazno x unidad",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fsosbt1mm",
+          "nombre": "Esparrago x unidad",
+          "cantidadSolicitada": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "b691wxp4j",
+          "nombre": "Espinaca - bolsa x 500 g",
+          "cantidadSolicitada": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8dragqzc2",
+          "nombre": "Fresa - taper x 500 g",
+          "cantidadSolicitada": 64,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4xmavzgcr",
+          "nombre": "Granadilla - malla x 500 g",
+          "cantidadSolicitada": 35,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ep680a17d",
+          "nombre": "Hierba albahaca",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "gr27cy4wa",
+          "nombre": "Hierbabuena x atado",
+          "cantidadSolicitada": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7b8gxs5ax",
+          "nombre": "Hierbaluisa x atado",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "lqd64kuh5",
+          "nombre": "Kion - malla x 250 g",
+          "cantidadSolicitada": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "rxlbksq1b",
+          "nombre": "Kiwi x unidad",
+          "cantidadSolicitada": 19,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "lv09lrebw",
+          "nombre": "Lechuga americana x unidad",
+          "cantidadSolicitada": 31,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4ek9a3skz",
+          "nombre": "Lechuga crespa x unidad",
+          "cantidadSolicitada": 30,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "rzfxcq7h8",
+          "nombre": "Limon - malla x 500 g",
+          "cantidadSolicitada": 269,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pe0a8t4gm",
+          "nombre": "Lucuma x unidad",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "umeyncc25",
+          "nombre": "Mandarina sin pepa - malla x 500 g",
+          "cantidadSolicitada": 59,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "74opn4b7x",
+          "nombre": "Mango Edward x unidad",
+          "cantidadSolicitada": 26,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qkp4k6p7j",
+          "nombre": "Mango Haden x unidad",
+          "cantidadSolicitada": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1svpj4rz3",
+          "nombre": "Manzana de agua - malla x 500 g",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "w2e7gq9ie",
+          "nombre": "Manzana delicia x unidad",
+          "cantidadSolicitada": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "52loqyhi7",
+          "nombre": "Manzana israel x unidad",
+          "cantidadSolicitada": 5,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "9tbxa5vhh",
+          "nombre": "Manzana roja x unidad",
+          "cantidadSolicitada": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "m4y7fewvp",
+          "nombre": "Manzana royal gala x unidad",
+          "cantidadSolicitada": 36,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "aadhqtca0",
+          "nombre": "Manzana verde x bandeja 500 g",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "5o0xpq6sz",
+          "nombre": "Manzana verde x unidad",
+          "cantidadSolicitada": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "144wziknb",
+          "nombre": "Maracuya x unidad",
+          "cantidadSolicitada": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "k5bwwe6w7",
+          "nombre": "Melocotón x unidad",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vgsyk4ndk",
+          "nombre": "Melon coquito x unidad",
+          "cantidadSolicitada": 9,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4nsx7wm0n",
+          "nombre": "Naranja mesa x unidad",
+          "cantidadSolicitada": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7ldvvqr4c",
+          "nombre": "Naranja para jugo - malla x 1 kg",
+          "cantidadSolicitada": 51,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ypq98x0m1",
+          "nombre": "Palta fuerte sazón x unidad",
+          "cantidadSolicitada": 314,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "75hj2kdks",
+          "nombre": "Palta fuerte verde - bandeja x 500 g",
+          "cantidadSolicitada": 8,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "sc19bophq",
+          "nombre": "Palta hass x unidad",
+          "cantidadSolicitada": 39,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "s3sjybib6",
+          "nombre": "Papa amarilla ambo - malla x 1 kg",
+          "cantidadSolicitada": 69,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wkk4ajizy",
+          "nombre": "Papa amarilla peruanita - malla x 500 g",
+          "cantidadSolicitada": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "0jt1bfktu",
+          "nombre": "Papa canchan rosada - malla x 1 kg",
+          "cantidadSolicitada": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "rn86f4tsv",
+          "nombre": "Papa cocktail peruanita - malla x 500 g",
+          "cantidadSolicitada": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "j2s7u9fac",
+          "nombre": "Papa huayro - malla x 1 kg",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6h7ct64xo",
+          "nombre": "Papaya x unidad",
+          "cantidadSolicitada": 29,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "bruu3l97d",
+          "nombre": "Pepino x unidad",
+          "cantidadSolicitada": 56,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fynlv1ixo",
+          "nombre": "Pera x unidad",
+          "cantidadSolicitada": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qx8ha9lzt",
+          "nombre": "Perejil x atado",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ngcf8cydv",
+          "nombre": "Pimiento de colores bandejaud",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ylq0alzwt",
+          "nombre": "Pimiento Morón",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "rmwrkzsvf",
+          "nombre": "Pimiento Moron x  unidad",
+          "cantidadSolicitada": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1f5bmwstz",
+          "nombre": "Piña golden x unidad",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pro648o2u",
+          "nombre": "Pitahaya amarilla x unidad",
+          "cantidadSolicitada": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "q6kyt59xl",
+          "nombre": "Platano bellaco x unidad",
+          "cantidadSolicitada": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "cejpbe6jb",
+          "nombre": "Plátano bizcocho",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "r9w67tejx",
+          "nombre": "Platano bizcocho - bandeja x 400 g",
+          "cantidadSolicitada": 44,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "yd2xys3ee",
+          "nombre": "Platano isla x unidad",
+          "cantidadSolicitada": 14,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ix0cilvu1",
+          "nombre": "Plátano seda orgánico x 5 unidades",
+          "cantidadSolicitada": 159,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2mb0r0eze",
+          "nombre": "Poro x unidad",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "n9kt4s4bj",
+          "nombre": "Rocoto - bandeja x 3 unid",
+          "cantidadSolicitada": 8,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "kkbocozkl",
+          "nombre": "Romero x atado",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "x7bdmmi5b",
+          "nombre": "Tomate x unidad",
+          "cantidadSolicitada": 202,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "kulaepw4z",
+          "nombre": "Toronja rosada x unidad",
+          "cantidadSolicitada": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "kcs15jt6y",
+          "nombre": "Tuna verde - malla x 500 g",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "nw9aycir0",
+          "nombre": "Uva verde sin pepa - taper x 500 g",
+          "cantidadSolicitada": 62,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "z9zmk0v1n",
+          "nombre": "Vainita - bandeja x 250 g",
+          "cantidadSolicitada": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qr7fg9dcc",
+          "nombre": "Yuca blanca x unidad",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "avkfg5b7z",
+          "nombre": "Zanahoria x unidad",
+          "cantidadSolicitada": 84,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "v8mnewiam",
+          "nombre": "Zapallo italiano x unidad",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qvjip07rz",
+          "nombre": "Zapallo Macre x unidad",
+          "cantidadSolicitada": 22,
+          "unidadVenta": "und"
+        }
+      ],
+      "estado": "EN_MERCADO"
+    },
+    {
+      "id": "OC-202605071735",
+      "fecha": "7/5/2026, 12:35:49 p. m.",
+      "excelFiles": [
+        "OC Rappi Sabado 07- 03- 26.xlsx",
+        "OC Tienda Campos 26-03-2026.xls"
+      ],
+      "itemsCount": 91,
+      "totalUnidades": 2568,
+      "creadoPor": "Edmundo",
+      "items": [
+        {
+          "id": "h2s7i17ks",
+          "nombre": "Acelga",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "uzs59z827",
+          "nombre": "Aguaymanto",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "5qciwou74",
+          "nombre": "Ají amarillo",
+          "cantidadSolicitada": 72,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "4h4k2ypx9",
+          "nombre": "Ají limo",
+          "cantidadSolicitada": 7,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ghjvwwnyq",
+          "nombre": "Ajo entero",
+          "cantidadSolicitada": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "xmh83zro1",
+          "nombre": "Ajo pelado",
+          "cantidadSolicitada": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6o4l4tpyu",
+          "nombre": "Albahaca",
+          "cantidadSolicitada": 28,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "dqt1hx143",
+          "nombre": "Alcachofa",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "r6t7w99t7",
+          "nombre": "Apio",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "eo5myw2wh",
+          "nombre": "Arándano",
+          "cantidadSolicitada": 34,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "su0cpijnd",
+          "nombre": "Arandano taper",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "npc1zw40i",
+          "nombre": "Arveja",
+          "cantidadSolicitada": 4,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4maeiljut",
+          "nombre": "Arveja desvainada",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4xi6z97tb",
+          "nombre": "Betarraga",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3sgbhivg3",
+          "nombre": "Brócoli",
+          "cantidadSolicitada": 27,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "kk3gxq2f9",
+          "nombre": "Brócoli florete",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jxtrgzkm7",
+          "nombre": "Camote amarillo",
+          "cantidadSolicitada": 42,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "rplnriokk",
+          "nombre": "Cebolla blanca",
+          "cantidadSolicitada": 32,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "t0z6frbhd",
+          "nombre": "Cebolla china",
+          "cantidadSolicitada": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "32wuzfmc0",
+          "nombre": "Cebolla roja",
+          "cantidadSolicitada": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "mw18dwpps",
+          "nombre": "Choclo",
+          "cantidadSolicitada": 48,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ag8qb5g9c",
+          "nombre": "Choclo desgranado",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8p41m0ym5",
+          "nombre": "Cilantro",
+          "cantidadSolicitada": 33,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ljyxmhxe2",
+          "nombre": "Col china - 1/2 Unid",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ddey3v5r4",
+          "nombre": "Col corazón - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "yfonsu07n",
+          "nombre": "Col crespa - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "av8tjgefr",
+          "nombre": "Col morada - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fimhys8uw",
+          "nombre": "Durazno",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "xeq4mgaj8",
+          "nombre": "Esparrago",
+          "cantidadSolicitada": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "24jhzugvx",
+          "nombre": "Espinaca",
+          "cantidadSolicitada": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8r07tw13k",
+          "nombre": "Fresa",
+          "cantidadSolicitada": 64,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ckm1ypd3g",
+          "nombre": "Granadilla",
+          "cantidadSolicitada": 35,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "tltrusl7a",
+          "nombre": "Hierba albahaca",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7vunnvmys",
+          "nombre": "Hierbabuena",
+          "cantidadSolicitada": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "atbro6tsl",
+          "nombre": "Hierbaluisa",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "zm8lber8t",
+          "nombre": "Kion",
+          "cantidadSolicitada": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "lm6cbdfte",
+          "nombre": "Kiwi",
+          "cantidadSolicitada": 19,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "xjrp3ezi6",
+          "nombre": "Lechuga americana",
+          "cantidadSolicitada": 31,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "af6tm7uks",
+          "nombre": "Lechuga crespa",
+          "cantidadSolicitada": 30,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4rc10618k",
+          "nombre": "Limon",
+          "cantidadSolicitada": 269,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "z3xryi78q",
+          "nombre": "Lucuma",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "q1w6bhcls",
+          "nombre": "Mandarina sin pepa",
+          "cantidadSolicitada": 59,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "o9q8n8wg2",
+          "nombre": "Mango Edward",
+          "cantidadSolicitada": 26,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wbvu6birv",
+          "nombre": "Mango Haden",
+          "cantidadSolicitada": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fs33fny9m",
+          "nombre": "Manzana de agua",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ugudy8nd9",
+          "nombre": "Manzana delicia",
+          "cantidadSolicitada": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "s4rkt9g5j",
+          "nombre": "Manzana israel",
+          "cantidadSolicitada": 5,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "0vbpdt856",
+          "nombre": "Manzana roja",
+          "cantidadSolicitada": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "yxxkfbbai",
+          "nombre": "Manzana royal gala",
+          "cantidadSolicitada": 36,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "lgghgfdvx",
+          "nombre": "Manzana verde",
+          "cantidadSolicitada": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "gd9w8cmkb",
+          "nombre": "Manzana verde x bandeja 500 g",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "nl7ta85xt",
+          "nombre": "Maracuya",
+          "cantidadSolicitada": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "sh6k8drs8",
+          "nombre": "Melocotón",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ajysdyltc",
+          "nombre": "Melon coquito",
+          "cantidadSolicitada": 9,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ab15i6tqq",
+          "nombre": "Naranja mesa",
+          "cantidadSolicitada": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "k1bth1zb0",
+          "nombre": "Naranja para jugo",
+          "cantidadSolicitada": 51,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "9xvvbujwd",
+          "nombre": "Palta fuerte sazón",
+          "cantidadSolicitada": 314,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8dtf30ri0",
+          "nombre": "Palta fuerte verde",
+          "cantidadSolicitada": 8,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ls968kaz8",
+          "nombre": "Palta hass",
+          "cantidadSolicitada": 39,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8a57dmcow",
+          "nombre": "Papa amarilla ambo",
+          "cantidadSolicitada": 69,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "g7iyongdn",
+          "nombre": "Papa amarilla peruanita",
+          "cantidadSolicitada": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "brp2hzbbs",
+          "nombre": "Papa canchan rosada",
+          "cantidadSolicitada": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "dkmcj3iyc",
+          "nombre": "Papa cocktail peruanita",
+          "cantidadSolicitada": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "m2jcqhbcx",
+          "nombre": "Papa huayro",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "mwu6o36gh",
+          "nombre": "Papaya",
+          "cantidadSolicitada": 29,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "5g9zq6ga9",
+          "nombre": "Pepino",
+          "cantidadSolicitada": 56,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7z0ueoce6",
+          "nombre": "Pera",
+          "cantidadSolicitada": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "77qb0wfr1",
+          "nombre": "Perejil",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "w7vdlmk9x",
+          "nombre": "Pimiento de colores bandejaud",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "girw1n52a",
+          "nombre": "Pimiento Moron",
+          "cantidadSolicitada": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "q6gidbtur",
+          "nombre": "Pimiento Morón",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3h8xw797j",
+          "nombre": "Piña golden",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8gvg2rm9w",
+          "nombre": "Pitahaya amarilla",
+          "cantidadSolicitada": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "z1diqujeh",
+          "nombre": "Platano bellaco",
+          "cantidadSolicitada": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "x066y6iy0",
+          "nombre": "Platano bizcocho",
+          "cantidadSolicitada": 44,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "mz3pfsq9c",
+          "nombre": "Plátano bizcocho",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "s1fkb55y3",
+          "nombre": "Platano isla",
+          "cantidadSolicitada": 14,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4jfvpbwbr",
+          "nombre": "Plátano seda orgánico",
+          "cantidadSolicitada": 159,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "586wixt4g",
+          "nombre": "Poro",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "q0yi36hkm",
+          "nombre": "Rocotounid",
+          "cantidadSolicitada": 8,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1vgki3e2l",
+          "nombre": "Romero",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "k3be9onkt",
+          "nombre": "Tomate",
+          "cantidadSolicitada": 202,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "lbid3k5wq",
+          "nombre": "Toronja rosada",
+          "cantidadSolicitada": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "t4hpgv45z",
+          "nombre": "Tuna verde",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2b6xrfm45",
+          "nombre": "Uva verde sin pepa",
+          "cantidadSolicitada": 62,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "5zvuemi8x",
+          "nombre": "Vainita",
+          "cantidadSolicitada": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "gmep70iha",
+          "nombre": "Yuca blanca",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "803tjo8pv",
+          "nombre": "Zanahoria",
+          "cantidadSolicitada": 84,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ra2g47o8d",
+          "nombre": "Zapallo italiano",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4ndu5gog4",
+          "nombre": "Zapallo Macre",
+          "cantidadSolicitada": 22,
+          "unidadVenta": "und"
+        }
+      ],
+      "estado": "EN_MERCADO"
+    },
+    {
+      "id": "OC-202605071734",
+      "fecha": "7/5/2026, 12:34:24 p. m.",
+      "excelFiles": [
+        "OC Rappi Sabado 07- 03- 26.xlsx",
+        "OC Tienda Campos 26-03-2026.xls"
+      ],
+      "itemsCount": 91,
+      "totalUnidades": 2568,
+      "creadoPor": "Edmundo",
+      "items": [
+        {
+          "id": "iciu1q725",
+          "nombre": "Acelga",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6hckyas41",
+          "nombre": "Aguaymanto",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "8xywuj1ic",
+          "nombre": "Ají amarillo",
+          "cantidadSolicitada": 72,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "cwscfntgf",
+          "nombre": "Ají limo",
+          "cantidadSolicitada": 7,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ozsmqtl0i",
+          "nombre": "Ajo entero",
+          "cantidadSolicitada": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7pcr6v061",
+          "nombre": "Ajo pelado",
+          "cantidadSolicitada": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qdblvqp92",
+          "nombre": "Albahaca",
+          "cantidadSolicitada": 28,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "8whbeaqj3",
+          "nombre": "Alcachofa",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ncnvhstuz",
+          "nombre": "Apio",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "chm4utpmp",
+          "nombre": "Arándano",
+          "cantidadSolicitada": 34,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "5iwkuc8e7",
+          "nombre": "Arandano taper",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ubispphk4",
+          "nombre": "Arveja",
+          "cantidadSolicitada": 4,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jwca9csuw",
+          "nombre": "Arveja desvainada",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qs52x13m3",
+          "nombre": "Betarraga",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vw2fq5sf3",
+          "nombre": "Brócoli",
+          "cantidadSolicitada": 27,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "qmu4hoabe",
+          "nombre": "Brócoli florete",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "r2fja3sr3",
+          "nombre": "Camote amarillo",
+          "cantidadSolicitada": 42,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "et0uk0dw0",
+          "nombre": "Cebolla blanca",
+          "cantidadSolicitada": 32,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "f0cirvpxb",
+          "nombre": "Cebolla china",
+          "cantidadSolicitada": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "j9v7je283",
+          "nombre": "Cebolla roja",
+          "cantidadSolicitada": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ge0gld0hu",
+          "nombre": "Choclo",
+          "cantidadSolicitada": 48,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "rj3le3ngo",
+          "nombre": "Choclo desgranado",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "rxdei0dev",
+          "nombre": "Cilantro",
+          "cantidadSolicitada": 33,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "que9rfy13",
+          "nombre": "Col china - 1/2 Unid",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wx404dfrc",
+          "nombre": "Col corazón - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "r9wqsic5z",
+          "nombre": "Col crespa - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vjxh029dn",
+          "nombre": "Col morada - 1/2 Unid",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1ccfvtgjy",
+          "nombre": "Durazno",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "r2jkmw1k5",
+          "nombre": "Esparrago",
+          "cantidadSolicitada": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "y2i99v3d4",
+          "nombre": "Espinaca",
+          "cantidadSolicitada": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "gisosx054",
+          "nombre": "Fresa",
+          "cantidadSolicitada": 64,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "apcbq0b03",
+          "nombre": "Granadilla",
+          "cantidadSolicitada": 35,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "h258fq1tl",
+          "nombre": "Hierba albahaca",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "n4nm7laue",
+          "nombre": "Hierbabuena",
+          "cantidadSolicitada": 5,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "6xhxhrqb3",
+          "nombre": "Hierbaluisa",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "jush890pw",
+          "nombre": "Kion",
+          "cantidadSolicitada": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "wql7gg0t4",
+          "nombre": "Kiwi",
+          "cantidadSolicitada": 19,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "qqd7iaida",
+          "nombre": "Lechuga americana",
+          "cantidadSolicitada": 31,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "5g3xp0j48",
+          "nombre": "Lechuga crespa",
+          "cantidadSolicitada": 30,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "hzdelk31t",
+          "nombre": "Limon",
+          "cantidadSolicitada": 269,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "sm7b6o10v",
+          "nombre": "Lucuma",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "m3nge1ja9",
+          "nombre": "Mandarina sin pepa",
+          "cantidadSolicitada": 59,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "lfao0rp8o",
+          "nombre": "Mango Edward",
+          "cantidadSolicitada": 26,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pl0j86i2r",
+          "nombre": "Mango Haden",
+          "cantidadSolicitada": 10,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "gplahauz3",
+          "nombre": "Manzana de agua",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "k9drlfxn3",
+          "nombre": "Manzana delicia",
+          "cantidadSolicitada": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "hv4rkw889",
+          "nombre": "Manzana israel",
+          "cantidadSolicitada": 5,
+          "unidadVenta": "Kg"
+        },
+        {
+          "id": "k98cm4uc2",
+          "nombre": "Manzana roja",
+          "cantidadSolicitada": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "n0lsgfgeq",
+          "nombre": "Manzana royal gala",
+          "cantidadSolicitada": 36,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "lcyfibwtw",
+          "nombre": "Manzana verde",
+          "cantidadSolicitada": 40,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ggfgo5hjh",
+          "nombre": "Manzana verde x bandeja 500 g",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "nodcjlpqt",
+          "nombre": "Maracuya",
+          "cantidadSolicitada": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "b64xa3j41",
+          "nombre": "Melocotón",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vh6v66ws1",
+          "nombre": "Melon coquito",
+          "cantidadSolicitada": 9,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ptpcqrb87",
+          "nombre": "Naranja mesa",
+          "cantidadSolicitada": 27,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2lrg4ctet",
+          "nombre": "Naranja para jugo",
+          "cantidadSolicitada": 51,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "yece5h1up",
+          "nombre": "Palta fuerte sazón",
+          "cantidadSolicitada": 314,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ghxwg2n2n",
+          "nombre": "Palta fuerte verde",
+          "cantidadSolicitada": 8,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "hzq804mbh",
+          "nombre": "Palta hass",
+          "cantidadSolicitada": 39,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "t864mschs",
+          "nombre": "Papa amarilla ambo",
+          "cantidadSolicitada": 69,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "g3ttbpk7g",
+          "nombre": "Papa amarilla peruanita",
+          "cantidadSolicitada": 20,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "xljaa0gp6",
+          "nombre": "Papa canchan rosada",
+          "cantidadSolicitada": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "1ft0f8hsa",
+          "nombre": "Papa cocktail peruanita",
+          "cantidadSolicitada": 11,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "le6xiimp2",
+          "nombre": "Papa huayro",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "a2e2nqj0c",
+          "nombre": "Papaya",
+          "cantidadSolicitada": 29,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "4z0g6ehxb",
+          "nombre": "Pepino",
+          "cantidadSolicitada": 56,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "0lw7xa5s7",
+          "nombre": "Pera",
+          "cantidadSolicitada": 15,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "i0qk5kasi",
+          "nombre": "Perejil",
+          "cantidadSolicitada": 3,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "20pp68tx2",
+          "nombre": "Pimiento de colores bandejaud",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "k4dmn6g27",
+          "nombre": "Pimiento Moron",
+          "cantidadSolicitada": 13,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2mgp0gz8e",
+          "nombre": "Pimiento Morón",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2zel4w9rx",
+          "nombre": "Piña golden",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "w2bvzph3j",
+          "nombre": "Pitahaya amarilla",
+          "cantidadSolicitada": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "vlonez04q",
+          "nombre": "Platano bellaco",
+          "cantidadSolicitada": 17,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "ywimouaxo",
+          "nombre": "Platano bizcocho",
+          "cantidadSolicitada": 44,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "3stwemgea",
+          "nombre": "Plátano bizcocho",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "sowgduc7t",
+          "nombre": "Platano isla",
+          "cantidadSolicitada": 14,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "svlq5ha2j",
+          "nombre": "Plátano seda orgánico",
+          "cantidadSolicitada": 159,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "7272i5ndk",
+          "nombre": "Poro",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "pytsyuoqm",
+          "nombre": "Rocotounid",
+          "cantidadSolicitada": 8,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "07vf745zd",
+          "nombre": "Romero",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "b12esmz7e",
+          "nombre": "Tomate",
+          "cantidadSolicitada": 202,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "2p433jphy",
+          "nombre": "Toronja rosada",
+          "cantidadSolicitada": 6,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "72zqnvnfk",
+          "nombre": "Tuna verde",
+          "cantidadSolicitada": 1,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "a4otezv5x",
+          "nombre": "Uva verde sin pepa",
+          "cantidadSolicitada": 62,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "fx6993om8",
+          "nombre": "Vainita",
+          "cantidadSolicitada": 12,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "imguka9zc",
+          "nombre": "Yuca blanca",
+          "cantidadSolicitada": 2,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "gk901aasu",
+          "nombre": "Zanahoria",
+          "cantidadSolicitada": 84,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "on5n177q7",
+          "nombre": "Zapallo italiano",
+          "cantidadSolicitada": 21,
+          "unidadVenta": "und"
+        },
+        {
+          "id": "t2px5kv8k",
+          "nombre": "Zapallo Macre",
+          "cantidadSolicitada": 22,
+          "unidadVenta": "und"
+        }
+      ],
+      "estado": "EN_MERCADO"
+    }
+  ]
+}
