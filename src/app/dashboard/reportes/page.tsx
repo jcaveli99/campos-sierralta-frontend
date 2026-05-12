@@ -44,7 +44,7 @@ export default function ReporteGeneral() {
   // Función para agrupar compras de todos los trabajadores desde el Backend
   const fetchAllWorkerPurchases = async () => {
     try {
-      const res = await fetch(`http://localhost:4000/compras?fecha=${fechaSeleccionada}`);
+      const res = await fetch(`https://backent-sierralta.onrender.com/compras?fecha=${fechaSeleccionada}`);
       const serverData = await res.json();
       console.log("Server data received for date", fechaSeleccionada, ":", serverData);
       

@@ -80,7 +80,7 @@ export default function RegistroCompras() {
   const [unidadesCompra, setUnidadesCompra] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/unidades')
+    fetch('https://backent-sierralta.onrender.com/unidades')
       .then(res => res.json())
       .then(data => setUnidadesCompra(data.map((u: any) => u.nombre)))
       .catch(console.error);
@@ -104,8 +104,8 @@ export default function RegistroCompras() {
     const fetchBackendData = async () => {
       try {
         const [resCompras, resAsignaciones] = await Promise.all([
-          fetch(`http://localhost:4000/compras?fecha=${fechaFiltro}`),
-          fetch('http://localhost:4000/usuarios/asignaciones')
+          fetch(`https://backent-sierralta.onrender.com/compras?fecha=${fechaFiltro}`),
+          fetch('https://backent-sierralta.onrender.com/usuarios/asignaciones')
         ]);
         
         const serverData = await resCompras.json();
@@ -249,7 +249,7 @@ export default function RegistroCompras() {
     }];
 
     try {
-      await fetch('http://localhost:4000/compras/sync', { 
+      await fetch('https://backent-sierralta.onrender.com/compras/sync', { 
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload) 
@@ -417,7 +417,7 @@ export default function RegistroCompras() {
     
     // Sync to Server
     try {
-       await fetch('http://localhost:4000/compras/sync', { 
+       await fetch('https://backent-sierralta.onrender.com/compras/sync', { 
          method: 'POST', 
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify(payload) 

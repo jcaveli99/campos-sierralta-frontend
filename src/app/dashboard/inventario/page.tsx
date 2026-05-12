@@ -63,7 +63,7 @@ export default function Inventario() {
   const [unidades, setUnidades] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/unidades')
+    fetch('https://backent-sierralta.onrender.com/unidades')
       .then(res => res.json())
       .then(data => setUnidades(data.map((u: any) => u.nombre)))
       .catch(console.error);
@@ -135,8 +135,8 @@ export default function Inventario() {
   const cargarDatosDia = async (dateStr: string, activeTgt: string) => {
     try {
       const [resInv, resAsignaciones] = await Promise.all([
-        fetch(`http://localhost:4000/inventario?fecha=${dateStr}`),
-        fetch('http://localhost:4000/usuarios/asignaciones')
+        fetch(`https://backent-sierralta.onrender.com/inventario?fecha=${dateStr}`),
+        fetch('https://backent-sierralta.onrender.com/usuarios/asignaciones')
       ]);
       
       const serverData = await resInv.json();
@@ -277,7 +277,7 @@ export default function Inventario() {
     }];
 
     try {
-      await fetch('http://localhost:4000/inventario/sync', { 
+      await fetch('https://backent-sierralta.onrender.com/inventario/sync', { 
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload) 
@@ -309,7 +309,7 @@ export default function Inventario() {
     }));
 
     try {
-       await fetch('http://localhost:4000/inventario/sync', { 
+       await fetch('https://backent-sierralta.onrender.com/inventario/sync', { 
          method: 'POST', 
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify(payload) 

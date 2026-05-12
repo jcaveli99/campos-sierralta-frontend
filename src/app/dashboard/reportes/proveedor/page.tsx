@@ -65,7 +65,7 @@ export default function ReporteProveedor() {
 
     try {
       const results = await Promise.all(
-        dates.map(fecha => fetch(`http://localhost:4000/compras?fecha=${fecha}`).then(res => res.json()))
+        dates.map(fecha => fetch(`https://backent-sierralta.onrender.com/compras?fecha=${fecha}`).then(res => res.json()))
       );
 
       results.forEach((serverData, idx) => {

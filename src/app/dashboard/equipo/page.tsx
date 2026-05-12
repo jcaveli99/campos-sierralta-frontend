@@ -26,7 +26,7 @@ export default function EquipoConfig() {
     // Cargar asignaciones reales desde PostgreSQL
     const fetchAsignaciones = async () => {
       try {
-        const res = await fetch('http://localhost:4000/usuarios/asignaciones');
+        const res = await fetch('https://backent-sierralta.onrender.com/usuarios/asignaciones');
         const data = await res.json();
         if (data && Object.keys(data).length > 0) {
           setAssignments(data);
@@ -50,7 +50,7 @@ export default function EquipoConfig() {
 
   const saveAssignments = async () => {
     try {
-      await fetch('http://localhost:4000/usuarios/asignaciones', {
+      await fetch('https://backent-sierralta.onrender.com/usuarios/asignaciones', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(assignments)

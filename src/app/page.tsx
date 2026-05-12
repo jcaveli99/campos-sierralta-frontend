@@ -20,7 +20,7 @@ export default function Login() {
     const formattedUsername = cleanUsername.charAt(0).toUpperCase() + cleanUsername.slice(1).toLowerCase();
 
     try {
-      const res = await fetch("http://localhost:4000/usuarios/login", {
+      const res = await fetch("https://backent-sierralta.onrender.com/usuarios/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre: formattedUsername, pass: password }),
