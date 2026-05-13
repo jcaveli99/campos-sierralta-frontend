@@ -21,6 +21,8 @@ import * as XLSX from "xlsx-js-style";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backent-sierralta.onrender.com';
+
 interface ConfirmedOrder {
   id: string;
   fecha: string;
@@ -39,11 +41,9 @@ export default function HistorialOrdenes() {
 
   const syncHistory = async () => {
     try {
-      const res = await fetch('/api/sync');
-      const db = await res.json();
-      if (db.orden_compra_historial) {
-        setOrdenes(db.orden_compra_historial);
-      }
+      const res = await fetch(`${API_URL}/ordenes`);
+      const data = await res.json();
+      setOrdenes(data);
     } catch (e) {
       console.error("Sync error:", e);
     }

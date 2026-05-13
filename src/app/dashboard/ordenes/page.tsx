@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backent-sierralta.onrender.com';
 import * as XLSX from "xlsx";
 import { 
   Upload, FileSpreadsheet, Calculator, CheckCircle2, 
@@ -374,11 +376,6 @@ export default function OrdenesCompra() {
       unidadVenta: row.unidad || "Unid"
     }));
 
-    // Preparar entrada de historial para simulación compartida
-    const res = await fetch('/api/sync');
-    const db = await res.json();
-    const historial = db.orden_compra_historial || [];
-    
     const newEntry = {
       id: `OC-${new Date().toISOString().replace(/[-:T]/g, '').slice(0, 12)}`,
       fecha: new Date().toLocaleString(),
@@ -390,18 +387,24 @@ export default function OrdenesCompra() {
       estado: "EN_MERCADO"
     };
 
-    const updatedHistorial = [newEntry, ...historial];
-    
-    // Limpiar estados compartidos después de finalizar
-    await syncData({ 
-      orden_compra_historial: updatedHistorial,
-      shared_excel_sets: [],
-      shared_consolidated_data: [],
-      shared_verificacion_stock: []
-    });
-
-    localStorage.setItem("orden_compra_actual", JSON.stringify(productosAComprar));
-    setShowModal(true);
+    try {
+      const res = await fetch(`${API_URL}/ordenes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newEntry)
+      });
+      
+      if (!res.ok) {
+        const err = await res.json();
+        alert(`Error al guardar orden: ${err.message || 'Error desconocido'}`);
+      } else {
+        localStorage.setItem("orden_compra_actual", JSON.stringify(productosAComprar));
+        setShowModal(true);
+      }
+    } catch(e) {
+      console.error("Error al guardar orden", e);
+      alert("Error de conexión al guardar orden.");
+    }
   };
 
   return (
