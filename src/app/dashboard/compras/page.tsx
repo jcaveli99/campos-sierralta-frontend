@@ -58,9 +58,16 @@ const getOperativeDate = () => {
   if (hour < 2 || (hour === 2 && minute < 50)) {
     const yesterday = new Date(now);
     yesterday.setDate(now.getDate() - 1);
-    return yesterday.toISOString().split("T")[0];
+    const yYear = yesterday.getFullYear();
+    const yMonth = String(yesterday.getMonth() + 1).padStart(2, '0');
+    const yDay = String(yesterday.getDate()).padStart(2, '0');
+    return `${yYear}-${yMonth}-${yDay}`;
   }
-  return now.toISOString().split("T")[0];
+  
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 };
 
 export default function RegistroCompras() {
