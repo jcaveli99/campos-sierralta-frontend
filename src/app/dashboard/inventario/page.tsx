@@ -59,6 +59,7 @@ export default function Inventario() {
   const [fechaFiltro, setFechaFiltro] = useState<string>(getOperativeDate());
   const [selectedWorkerView, setSelectedWorkerView] = useState<string>("Daniel");
   const [prorrogaTime, setProrrogaTime] = useState<number>(0);
+  const [users, setUsers] = useState<any[]>([]); // New state for users
   
   // Variables de Bloqueo Temporal
   const [isLockedPhase, setIsLockedPhase] = useState(false);
@@ -141,6 +142,7 @@ export default function Inventario() {
       const serverData = await resInv.json();
       const asignacionesDict = await resAsignaciones.json();
       const usersData = await resUsers.json();
+      setUsers(usersData);
       
       const currentUser = usersData.find((u: any) => u.nombre.toLowerCase() === activeTgt.toLowerCase());
       if (currentUser && currentUser.prorroga_hasta) {
@@ -195,17 +197,26 @@ export default function Inventario() {
   };
 
   const grantTime = async (minutes: number) => {
-    const rawExt = localStorage.getItem("workers_extra_time");
-    const extObj = rawExt ? JSON.parse(rawExt) : {};
-    extObj[selectedWorkerView] = Date.now() + (minutes * 60000);
-    localStorage.setItem("workers_extra_time", JSON.stringify(extObj));
-    
-    try {
-       await fetch('/api/sync', { method: 'POST', body: JSON.stringify({ "workers_extra_time": extObj }) });
-    } catch(e) {}
+    const user = users.find(u => u.nombre.toLowerCase() === selectedWorkerView.toLowerCase());
+    if (!user) {
+      alert("No se encontró el usuario en la base de datos.");
+      return;
+    }
 
-    alert(`Otorgados ${minutes} mins a ${selectedWorkerView}.`);
-    window.location.reload(); 
+    try {
+      const res = await fetch(`${API_URL}/usuarios/${user.id}/prorroga`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ minutos: minutes })
+      });
+      
+      if (!res.ok) throw new Error("Error en servidor");
+
+      alert(`Se ha otorgado ${minutes} minutos adicionales a ${selectedWorkerView}.`);
+      window.location.reload(); 
+    } catch (e) {
+      alert("Error al guardar prórroga en el backend.");
+    }
   };
 
   const eliminarAsignacion = async (idToRemove: string, productName: string) => {

@@ -69,6 +69,7 @@ export default function RegistroCompras() {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState<string | null>(null);
   const [prorrogaTime, setProrrogaTime] = useState<number>(0);
+  const [users, setUsers] = useState<any[]>([]); // New state for users
   const [userName, setUserName] = useState<string>("Trabajador");
   const [fechaFiltro, setFechaFiltro] = useState<string>(getOperativeDate());
 
@@ -115,6 +116,7 @@ export default function RegistroCompras() {
         const serverData = await resCompras.json();
         const asignacionesDict = await resAsignaciones.json();
         const usersData = await resUsers.json();
+        setUsers(usersData);
         
         const currentUser = usersData.find((u: any) => u.nombre.toLowerCase() === targetWorker.toLowerCase());
         if (currentUser && currentUser.prorroga_hasta) {
@@ -267,21 +269,27 @@ export default function RegistroCompras() {
       console.error("Error auto-saving item", e);
       alert("Error de conexión al guardar el item.");
     }
-  };
-
   const grantTime = async (minutes: number) => {
-    const rawExt = localStorage.getItem("workers_extra_time");
-    const extObj = rawExt ? JSON.parse(rawExt) : {};
-    extObj[selectedWorkerView] = Date.now() + (minutes * 60000);
-    localStorage.setItem("workers_extra_time", JSON.stringify(extObj));
-    
-    // Sync to Server
-    try {
-       await fetch('/api/sync', { method: 'POST', body: JSON.stringify({ "workers_extra_time": extObj }) });
-    } catch(e) {}
+    const user = users.find(u => u.nombre.toLowerCase() === selectedWorkerView.toLowerCase());
+    if (!user) {
+      alert("No se encontró el usuario en la base de datos.");
+      return;
+    }
 
-    alert(`Otorgados ${minutes} mins a ${selectedWorkerView}.`);
-    window.location.reload(); // Quick refresh to update status
+    try {
+      const res = await fetch(`${API_URL}/usuarios/${user.id}/prorroga`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ minutos: minutes })
+      });
+      
+      if (!res.ok) throw new Error("Error en servidor");
+
+      alert(`Se ha otorgado ${minutes} minutos adicionales a ${selectedWorkerView}.`);
+      window.location.reload();
+    } catch (e) {
+      alert("Error al guardar prórroga en el backend.");
+    }
   };
 
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>, itemId: string) => {
