@@ -21,15 +21,22 @@ export default function EquipoConfig() {
   const [assignments, setAssignments] = useState<Record<string, string[]>>({});
   const [extensions, setExtensions] = useState<Record<string, number>>({});
   const [selectedWorker, setSelectedWorker] = useState<string>(WORKERS[0]);
+  const [users, setUsers] = useState<any[]>([]); // New state for users
 
   useEffect(() => {
     setRole(localStorage.getItem("user_role")?.toLowerCase() || "trabajador");
     
-    // Cargar asignaciones reales desde PostgreSQL
     const fetchAsignaciones = async () => {
       try {
-        const res = await fetch(`${API_URL}/usuarios/asignaciones`);
-        const data = await res.json();
+        const [resAsig, resUsers] = await Promise.all([
+          fetch(`${API_URL}/usuarios/asignaciones`),
+          fetch(`${API_URL}/usuarios`)
+        ]);
+        
+        const data = await resAsig.json();
+        const usersData = await resUsers.json();
+        setUsers(usersData);
+
         if (data && Object.keys(data).length > 0) {
           setAssignments(data);
         } else {
@@ -74,20 +81,39 @@ export default function EquipoConfig() {
     });
   };
 
-  const grantTime = (minutes: number) => {
-    const now = Date.now();
-    const expiry = now + (minutes * 60000);
-    const updated = { ...extensions, [selectedWorker]: expiry };
-    setExtensions(updated);
-    localStorage.setItem("workers_extra_time", JSON.stringify(updated));
-    alert(`Se ha otorgado ${minutes} minutos adicionales a ${selectedWorker}.`);
+  const grantTime = async (minutes: number) => {
+    const user = users.find(u => u.nombre === selectedWorker);
+    if (!user) {
+      alert("No se encontró el usuario en la base de datos.");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/usuarios/${user.id}/prorroga`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ minutos: minutes })
+      });
+      
+      if (!res.ok) throw new Error("Error en servidor");
+
+      alert(`Se ha otorgado ${minutes} minutos adicionales a ${selectedWorker}.`);
+    } catch (e) {
+      alert("Error al guardar prórroga en el backend.");
+    }
   };
 
-  const clearTime = () => {
-    const updated = { ...extensions };
-    delete updated[selectedWorker];
-    setExtensions(updated);
-    localStorage.setItem("workers_extra_time", JSON.stringify(updated));
+  const clearTime = async () => {
+    const user = users.find(u => u.nombre === selectedWorker);
+    if (!user) return;
+
+    try {
+      await fetch(`${API_URL}/usuarios/${user.id}/prorroga`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ minutos: 0 }) // 0 means clear
+      });
+    } catch (e) {}
   };
 
 

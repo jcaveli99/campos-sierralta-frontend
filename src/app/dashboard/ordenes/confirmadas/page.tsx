@@ -25,12 +25,12 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backent-sierralta.on
 
 interface ConfirmedOrder {
   id: string;
-  fecha: string;
-  excelFiles: string[];
-  itemsCount: number;
-  totalUnidades: number;
-  creadoPor: string;
-  items: any[];
+  fecha_creacion: string;
+  archivos: { nombre_archivo: string }[];
+  items_count: number;
+  total_unidades: number;
+  creador: { nombre: string };
+  detalles: any[];
   estado: string;
 }
 
@@ -64,11 +64,11 @@ export default function HistorialOrdenes() {
   }, []);
 
   const exportarExcel = (order: ConfirmedOrder) => {
-    const productos = order.items || [];
+    const productos = order.detalles || [];
     const ws_data = [["PRODUCTO", "PEDIDO", "STOCK", "A COMPRAR"]];
 
-    productos.forEach((prod: any) => {
-      ws_data.push([prod.nombre, prod.cantidadSolicitada, prod.stockTienda || 0, prod.compraReal || 0]);
+    productos.forEach((det: any) => {
+      ws_data.push([det.producto?.nombre || "N/A", det.cantidad_solicitada, det.stock_tienda || 0, det.compra_real || 0]);
     });
 
     const ws = XLSX.utils.aoa_to_sheet(ws_data);
@@ -108,18 +108,18 @@ export default function HistorialOrdenes() {
     doc.text(`ORDEN DE COMPRA: ${order.id}`, 40, 40);
     
     doc.setFontSize(7); doc.setFont("helvetica", "normal"); doc.setTextColor(0, 0, 0);
-    doc.text(`Fecha de Emisión: ${order.fecha}`, 40, 55);
-    doc.text(`Generado Por: ${order.creadoPor}`, 40, 65);
-    doc.text(`Archivos Consolidados: ${order.excelFiles.join(", ")}`, 40, 75);
+    doc.text(`Fecha de Emisión: ${new Date(order.fecha_creacion).toLocaleString()}`, 40, 55);
+    doc.text(`Generado Por: ${order.creador?.nombre || "N/A"}`, 40, 65);
+    doc.text(`Archivos Consolidados: ${(order.archivos || []).map(a => a.nombre_archivo).join(", ")}`, 40, 75);
     
     doc.setLineWidth(1); doc.setDrawColor(255, 140, 0); doc.line(40, 85, 550, 85);
 
     const tableColumn = ["PRODUCTO", "PEDIDO", "STOCK", "A COMPRAR"];
-    const tableRows = (order.items || []).map((prod: any) => [
-      prod.nombre, 
-      prod.cantidadSolicitada.toString(),
-      (prod.stockTienda || 0).toString(),
-      (prod.compraReal || 0).toString()
+    const tableRows = (order.detalles || []).map((det: any) => [
+      det.producto?.nombre || "N/A", 
+      (det.cantidad_solicitada || 0).toString(),
+      (det.stock_tienda || 0).toString(),
+      (det.compra_real || 0).toString()
     ]);
 
     autoTable(doc, {
@@ -178,19 +178,19 @@ export default function HistorialOrdenes() {
                     <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                        <Calendar size={16} color="var(--primary)" />
                        <div>
-                          <div style={{ fontWeight: 800, fontSize: "12px" }}>{oc.fecha}</div>
+                          <div style={{ fontWeight: 800, fontSize: "12px" }}>{new Date(oc.fecha_creacion).toLocaleString()}</div>
                           <div style={{ fontSize: "10px", color: "var(--primary)", fontWeight: 700 }}>
                             <Layers size={10} style={{ display: "inline", marginRight: "4px" }}/>
-                            {oc.excelFiles.length} órdenes subidas
+                            {oc.archivos?.length || 0} órdenes subidas
                           </div>
                        </div>
                     </div>
                   </td>
                   <td>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
-                      {oc.excelFiles.map((file, idx) => (
+                      {(oc.archivos || []).map((file, idx) => (
                         <span key={idx} style={{ fontSize: "10px", backgroundColor: "#f1f5f9", padding: "2px 8px", borderRadius: "4px", border: "1px solid #e2e8f0", color: "#475569" }}>
-                          {file}
+                          {file.nombre_archivo}
                         </span>
                       ))}
                     </div>
@@ -198,7 +198,7 @@ export default function HistorialOrdenes() {
                   <td>
                     <div style={{ display: "flex", alignItems: "center", gap: "6px", fontWeight: 700, fontSize: "12px" }}>
                       <UserIcon size={14} color="var(--text-muted)" />
-                      {oc.creadoPor}
+                      {oc.creador?.nombre || "N/A"}
                     </div>
                   </td>
                   <td>

@@ -58,6 +58,7 @@ export default function Inventario() {
   const [mounted, setMounted] = useState(false);
   const [fechaFiltro, setFechaFiltro] = useState<string>(getOperativeDate());
   const [selectedWorkerView, setSelectedWorkerView] = useState<string>("Daniel");
+  const [prorrogaTime, setProrrogaTime] = useState<number>(0);
   
   // Variables de Bloqueo Temporal
   const [isLockedPhase, setIsLockedPhase] = useState(false);
@@ -92,12 +93,7 @@ export default function Inventario() {
       const horaActual = now.getHours();
       let enRango = horaActual >= 3 && horaActual < 15; // 3 AM a 3 PM
 
-      let prorroga = 0;
-      const storedExt = localStorage.getItem("workers_extra_time");
-      if (storedExt) {
-         const extObj = JSON.parse(storedExt);
-         if (extObj[loadTarget]) prorroga = extObj[loadTarget];
-      }
+      let prorroga = prorrogaTime || 0;
 
       let msg = "";
       if (now.getTime() < prorroga) {
@@ -136,13 +132,20 @@ export default function Inventario() {
 
   const cargarDatosDia = async (dateStr: string, activeTgt: string) => {
     try {
-      const [resInv, resAsignaciones] = await Promise.all([
+      const [resInv, resAsignaciones, resUsers] = await Promise.all([
         fetch(`${API_URL}/inventario?fecha=${dateStr}`),
-        fetch(`${API_URL}/usuarios/asignaciones`)
+        fetch(`${API_URL}/usuarios/asignaciones`),
+        fetch(`${API_URL}/usuarios`)
       ]);
       
       const serverData = await resInv.json();
       const asignacionesDict = await resAsignaciones.json();
+      const usersData = await resUsers.json();
+      
+      const currentUser = usersData.find((u: any) => u.nombre.toLowerCase() === activeTgt.toLowerCase());
+      if (currentUser && currentUser.prorroga_hasta) {
+        setProrrogaTime(new Date(currentUser.prorroga_hasta).getTime());
+      }
       
       // Búsqueda insensible a mayúsculas/minúsculas
       const assignedProducts = Object.entries(asignacionesDict).find(

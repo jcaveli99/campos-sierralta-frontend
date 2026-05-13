@@ -68,6 +68,7 @@ export default function RegistroCompras() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState<string | null>(null);
+  const [prorrogaTime, setProrrogaTime] = useState<number>(0);
   const [userName, setUserName] = useState<string>("Trabajador");
   const [fechaFiltro, setFechaFiltro] = useState<string>(getOperativeDate());
 
@@ -105,13 +106,20 @@ export default function RegistroCompras() {
     // Obtener asignaciones y datos desde el Backend NestJS
     const fetchBackendData = async () => {
       try {
-        const [resCompras, resAsignaciones] = await Promise.all([
+        const [resCompras, resAsignaciones, resUsers] = await Promise.all([
           fetch(`${API_URL}/compras?fecha=${fechaFiltro}`),
-          fetch(`${API_URL}/usuarios/asignaciones`)
+          fetch(`${API_URL}/usuarios/asignaciones`),
+          fetch(`${API_URL}/usuarios`)
         ]);
         
         const serverData = await resCompras.json();
         const asignacionesDict = await resAsignaciones.json();
+        const usersData = await resUsers.json();
+        
+        const currentUser = usersData.find((u: any) => u.nombre.toLowerCase() === targetWorker.toLowerCase());
+        if (currentUser && currentUser.prorroga_hasta) {
+          setProrrogaTime(new Date(currentUser.prorroga_hasta).getTime());
+        }
         
         // Búsqueda insensible a mayúsculas/minúsculas
         const assignedProducts = Object.entries(asignacionesDict).find(
@@ -181,12 +189,7 @@ export default function RegistroCompras() {
       const horaActual = now.getHours();
       let enRango = horaActual >= 3 && horaActual < 15; // 3 AM a 3 PM
       
-      let prorroga = 0;
-      const storedExt = localStorage.getItem("workers_extra_time");
-      if (storedExt) {
-         const extObj = JSON.parse(storedExt);
-         if (extObj[targetWorker]) prorroga = extObj[targetWorker];
-      }
+      let prorroga = prorrogaTime || 0;
 
       let statusMsg = "";
       if (now.getTime() < prorroga) {
