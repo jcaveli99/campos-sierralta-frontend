@@ -269,6 +269,8 @@ export default function RegistroCompras() {
       console.error("Error auto-saving item", e);
       alert("Error de conexión al guardar el item.");
     }
+  };
+
   const grantTime = async (minutes: number) => {
     const user = users.find(u => u.nombre.toLowerCase() === selectedWorkerView.toLowerCase());
     if (!user) {
