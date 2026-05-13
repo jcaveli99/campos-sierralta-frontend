@@ -136,7 +136,7 @@ export default function Inventario() {
       clearInterval(interval);
       clearInterval(syncInterval);
     };
-  }, [selectedWorkerView, fechaFiltro]);
+  }, [selectedWorkerView, fechaFiltro, prorrogaTime]);
 
   const cargarDatosDia = async (dateStr: string, activeTgt: string) => {
     try {

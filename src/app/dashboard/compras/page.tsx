@@ -228,7 +228,7 @@ export default function RegistroCompras() {
       clearInterval(interval);
       clearInterval(syncInterval);
     };
-  }, [selectedWorkerView, fechaFiltro]);
+  }, [selectedWorkerView, fechaFiltro, prorrogaTime]);
 
   const updateItem = (id: string, field: keyof ProductRecord, value: any) => {
     setAllItems(prevItems => prevItems.map(item => {
